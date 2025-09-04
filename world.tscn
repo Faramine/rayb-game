@@ -7,5 +7,20 @@
 
 [node name="Room_base" parent="." instance=ExtResource("1_fj7yv")]
 
+[node name="Room_base2" parent="." instance=ExtResource("1_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26.5)
+
+[node name="Room_base3" parent="." instance=ExtResource("1_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -26.5)
+
+[node name="Room_base4" parent="." instance=ExtResource("1_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 0, 0)
+
+[node name="Room_base5" parent="." instance=ExtResource("1_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.5, 0, 0)
+
 [node name="Player_controller" parent="." instance=ExtResource("2_tlwt5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00728, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.45827, -0.831615, 0.313696, 0.598812, 0.549694, 0.582461, -0.656821, -0.0790793, 0.749889, 0, 9.17929, 0)
