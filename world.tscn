@@ -1,26 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://b70a4g5oogicp"]
 
-[ext_resource type="PackedScene" uid="uid://i001x1ob48oq" path="res://room_base.tscn" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
 
 [node name="World" type="Node3D"]
-
-[node name="Room_base" parent="." instance=ExtResource("1_fj7yv")]
-
-[node name="Room_base2" parent="." instance=ExtResource("1_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26.5)
-
-[node name="Room_base3" parent="." instance=ExtResource("1_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -26.5)
-
-[node name="Room_base4" parent="." instance=ExtResource("1_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 0, 0)
-
-[node name="Room_base5" parent="." instance=ExtResource("1_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.5, 0, 0)
+script = ExtResource("1_tlwt5")
 
 [node name="Player_controller" parent="." instance=ExtResource("2_tlwt5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00728, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.45827, -0.831615, 0.313696, 0.598812, 0.549694, 0.582461, -0.656821, -0.0790793, 0.749889, 0, 9.17929, 0)
+transform = Transform3D(-0.937933, 0.100651, 0.331889, 0.292937, -0.282365, 0.913487, 0.185657, 0.954012, 0.235355, 0, 9.17929, -5.5155)
+light_energy = 0.3
+light_indirect_energy = 50.0
+shadow_enabled = true
+shadow_opacity = 0.5
+shadow_blur = 0.5
+sky_mode = 1

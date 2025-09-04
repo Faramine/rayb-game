@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=9 format=3 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://camera_3d.gd" id="1_lvefo"]
@@ -12,6 +12,12 @@
 albedo_color = Color(0, 0.933333, 0, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f0yg5"]
+
+[sub_resource type="Environment" id="Environment_va7e3"]
+background_mode = 1
+ambient_light_source = 3
+ambient_light_color = Color(0.867917, 0.827773, 1, 1)
+ambient_light_energy = 0.1
 
 [node name="Player_controller" type="Node3D"]
 script = ExtResource("1_va7e3")
@@ -34,6 +40,7 @@ shape = SubResource("CapsuleShape3D_f0yg5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 12.5, 12.5, 0)
+environment = SubResource("Environment_va7e3")
 projection = 1
 size = 25.0
 script = ExtResource("1_lvefo")

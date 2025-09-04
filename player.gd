@@ -4,6 +4,7 @@ var velocity = Vector3()
 var v0 = Vector3()
 var speed = 10
 var dash_speed = 100
+var dash_time = 0
 var dashpos = Vector3()
 var movable = true
 var hidden = false
@@ -32,10 +33,12 @@ func _process(delta):
 			velocity.x += -1
 		velocity = velocity.normalized() * speed * delta
 	else:
+		dash_time += delta 
 		pos = position
 		pos.y = 0
-		if (pos-dashpos).length() < 1:
+		if (pos-dashpos).length() < 0.5 || dash_time >0.3:
 			movable = true
+			dash_time = 0
 		else:
 			velocity = (dashpos - position).normalized() * dash_speed * delta
 	
