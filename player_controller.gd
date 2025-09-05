@@ -25,7 +25,7 @@ func get_mouse_world_pos(mouse: Vector2):
 	params.to = end
 	var result = space.intersect_ray(params)
 	if !result.is_empty():
-		if result.get("collider").get_parent() == current_room:
+		if result.get("collider").owner == current_room:
 			player.dash(result.get("position"))
 			print(result)
 
