@@ -45,4 +45,5 @@ projection = 1
 size = 25.0
 script = ExtResource("1_lvefo")
 
+[connection signal="area_entered" from="Player/Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Player/Area3D" to="Camera3D" method="_on_area_3d_area_entered"]
