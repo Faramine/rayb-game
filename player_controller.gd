@@ -18,6 +18,10 @@ func _process(delta: float) -> void:
 		else:
 			cursor.visible = false
 
+func move_vector() -> Vector3:
+	var v_input = Input.get_vector("move_up", "move_down", "move_right", "move_left")
+	return Vector3(v_input.x, 0, v_input.y)
+	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		mouse = event.position
