@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+@onready var armature = $Armature  # Character armature
+
 @onready var controller = $".."
 
 @export var speed = 15
@@ -12,15 +14,35 @@ var movable = true
 var click_position = Vector2()
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+# Animation variables --------------------
+const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
 
 func dash(dashpos: Vector3):
 	movable = false
 	self.dashpos = dashpos
 	dashpos.y = 0
 
-func _process(delta):	
+func _process(delta):
 	if movable:
 		input_move(delta)
+		if Input.is_action_pressed("move_right"):
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, PI, lerp_smoothstep);
+		if Input.is_action_pressed("move_left"):
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, 0.0, lerp_smoothstep);
+
+		if Input.is_action_pressed("move_down"):
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, PI/2.0, lerp_smoothstep);
+
+		if Input.is_action_pressed("move_up"):
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, -PI/2.0, lerp_smoothstep);
 	else:
 		dash_time += delta
 		dashpos.y = position.y
@@ -31,10 +53,8 @@ func _process(delta):
 			velocity = Vector3.ZERO
 		else:
 			velocity = (dashpos - position).normalized() * dash_speed
-#	move_and_collide(velocity)
 	if not is_on_floor():
 		velocity.y -= gravity
-
 	move_and_slide()
 
 func input_move(delta):

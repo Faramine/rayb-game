@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dn345f1wob2fs"
+path.s3tc="res://.godot/imported/character_Plane Layer.png-07c80dd138d9bdaadbfda8e67c48c897.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "e2d1e0d15a904e9b9eea7cc2f3808a3e"
+}
+
+[deps]
+
+source_file="res://assets/characters/character_Plane Layer.png"
+dest_files=["res://.godot/imported/character_Plane Layer.png-07c80dd138d9bdaadbfda8e67c48c897.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
