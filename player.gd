@@ -1,5 +1,9 @@
 extends RigidBody3D
 
+@onready var armature = $Armature  # Character armature
+
+const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
+
 var velocity = Vector3()
 var speed = 10
 var acceleration : float
@@ -22,12 +26,30 @@ func _process(delta):
 	if movable:
 		if Input.is_action_pressed("move_right"):
 			velocity.z += -1
+			
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, PI, lerp_smoothstep);
 		if Input.is_action_pressed("move_left"):
 			velocity.z += 1
+			
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, 0.0, lerp_smoothstep);
+
 		if Input.is_action_pressed("move_down"):
 			velocity.x += 1
+			
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, PI/2.0, lerp_smoothstep);
+
 		if Input.is_action_pressed("move_up"):
 			velocity.x += -1
+			
+			# TODO: change to non-hardcoded, normalized vector alternative
+			# Smoothly sets the player model direction
+			armature.rotation.y = lerp_angle(armature.rotation.y, -PI/2.0, lerp_smoothstep);
 		velocity = velocity.normalized() * speed * delta
 	else:
 		dash_time += delta 
