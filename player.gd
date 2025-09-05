@@ -1,14 +1,12 @@
 extends RigidBody3D
 
 var velocity = Vector3()
-var v0 = Vector3()
 var speed = 10
+var acceleration : float
 var dash_speed = 100
 var dash_time = 0
 var dashpos = Vector3()
 var movable = true
-var hidden = false
-
 var click_position = Vector2()
 
 func dash(dashpos: Vector3):
@@ -18,18 +16,17 @@ func dash(dashpos: Vector3):
 	
 
 func _process(delta):
-	
 	velocity = Vector3()
 	var pos = Vector3()
 	
 	if movable:
-		if Input.is_action_pressed("ui_right"):
+		if Input.is_action_pressed("move_right"):
 			velocity.z += -1
-		if Input.is_action_pressed("ui_left"):
+		if Input.is_action_pressed("move_left"):
 			velocity.z += 1
-		if Input.is_action_pressed("ui_down"):
+		if Input.is_action_pressed("move_down"):
 			velocity.x += 1
-		if Input.is_action_pressed("ui_up"):
+		if Input.is_action_pressed("move_up"):
 			velocity.x += -1
 		velocity = velocity.normalized() * speed * delta
 	else:
