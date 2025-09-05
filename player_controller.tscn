@@ -38,7 +38,6 @@ mesh = SubResource("CylinderMesh_6nbh1")
 skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-motion_mode = 1
 script = ExtResource("1_f0yg5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]

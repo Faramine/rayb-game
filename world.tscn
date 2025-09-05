@@ -7,7 +7,7 @@
 script = ExtResource("1_tlwt5")
 
 [node name="Player_controller" parent="." instance=ExtResource("2_tlwt5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.937933, 0.100651, 0.331889, 0.292937, -0.282365, 0.913487, 0.185657, 0.954012, 0.235355, 0, 9.17929, -5.5155)
