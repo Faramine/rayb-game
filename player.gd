@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 @onready var controller = $".."
 
-@export var speed = 7
+@export var speed = 15
 @export var friction : float = 13
 var acceleration : Vector3 = Vector3.ZERO
 var dash_speed = 100
@@ -41,7 +41,7 @@ func input_move(delta):
 func input_move2(delta):
 	var direction = controller.move_vector()
 	if direction:
-		acceleration = direction * speed/100
+		acceleration = direction * speed * delta
 	else:
 		acceleration.x = lerp(acceleration.x, 0.0, delta * friction)
 		acceleration.z = lerp(acceleration.z, 0.0, delta * friction)
