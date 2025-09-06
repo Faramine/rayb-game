@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody3D
 
 @onready var armature = $Armature;  # Character armature
@@ -7,7 +8,6 @@ extends CharacterBody3D
 
 @export var speed = 15
 @export var friction : float = 13
-var acceleration : Vector3 = Vector3.ZERO
 var dash_speed = 150
 var dash_time = 0
 var dashpos = Vector3()
@@ -25,7 +25,6 @@ func dash(dashpos: Vector3):
 	dashpos.y = 0
 
 func _process(delta):
-	
 	if movable:
 		input_move(delta)
 	else:
@@ -56,7 +55,7 @@ func input_move(delta):
 		animationTree["parameters/conditions/is_walking"] = true;
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
-		velocity.x = lerp(velocity.x, 0.0, delta * friction);
-		velocity.z = lerp(velocity.z, 0.0, delta * friction);
+		velocity.x = lerp(velocity.x, 0.0, delta * 13);
+		velocity.z = lerp(velocity.z, 0.0, delta * 13);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;

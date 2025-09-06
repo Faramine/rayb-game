@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 		if event.pressed == false and event.button_index == MOUSE_BUTTON_LEFT:
 			if cursor_pos:
 				player.dash(cursor_pos)
-			
+
 func get_mouse_world_pos(mouse: Vector2):
 	var space = get_world_3d().direct_space_state
 	var start = get_viewport().get_camera_3d().project_ray_origin(mouse)

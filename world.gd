@@ -1,9 +1,12 @@
+class_name World
 extends Node3D
 
-var rooms = Dictionary()
+@onready var player : Player = $Player_controller.get_node("Player")
+var rooms : Dictionary = Dictionary()
 var room_list = Array()
 var room_start
 var map = Array()
+var active_room : Room
 @export var map_size = 11
 var map_center = map_size/2
 
@@ -25,7 +28,7 @@ func generate_map() -> void:
 	var room_scene = load("res://room_base.tscn")
 	
 	var list
-	var new_room
+	var new_room : Room
 	
 	var map_closed = false
 	var map_opened = false
@@ -75,8 +78,15 @@ func generate_map() -> void:
 		new_room.position.x = 26.5 * (k[0]-map_center)
 		new_room.position.z = 26.5 * (k[1]-map_center)
 		new_room.coords = k
+		new_room.set_world(self)
 		rooms.set(k, new_room)
 		add_child(new_room)
 		
 func change_room(coords):
 	get_node("Map/Map_element/Map_control").change_room(coords)
+	activate_room(rooms.get(coords))
+	
+func activate_room(next_room : Room):
+	if(self.active_room): self.active_room.deactivate_room()
+	next_room.activate_room()
+	self.active_room = next_room

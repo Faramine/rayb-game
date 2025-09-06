@@ -26,6 +26,8 @@ project/assembly_name="rayb-game"
 [global_group]
 
 Camera_zone=""
+Enemy=""
+Room=""
 
 [input]
 
