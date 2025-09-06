@@ -4,8 +4,8 @@ var rooms = Dictionary()
 var room_list = Array()
 var room_start
 var map = Array()
-var map_size = 11
-var map_center = 5
+@export var map_size = 11
+var map_center = map_size/2
 
 func _init() -> void:
 	map.resize(map_size)
@@ -18,6 +18,7 @@ func _init() -> void:
 func _ready() -> void:
 	var room
 	generate_map()
+	get_node("Map/Map_element/Map_control").display_map(map)
 
 func generate_map() -> void:
 	
@@ -73,7 +74,9 @@ func generate_map() -> void:
 		new_room = room_scene.instantiate()
 		new_room.position.x = 26.5 * (k[0]-map_center)
 		new_room.position.z = 26.5 * (k[1]-map_center)
-		new_room.neighbors[1] = true
+		new_room.coords = k
 		rooms.set(k, new_room)
 		add_child(new_room)
 		
+func change_room(coords):
+	get_node("Map/Map_element/Map_control").change_room(coords)
