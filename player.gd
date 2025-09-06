@@ -55,7 +55,7 @@ func input_move(delta):
 		animationTree["parameters/conditions/is_walking"] = true;
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
-		velocity.x = lerp(velocity.x, 0.0, delta * 13);
-		velocity.z = lerp(velocity.z, 0.0, delta * 13);
+		velocity.x = lerp(velocity.x, 0.0, delta * friction);
+		velocity.z = lerp(velocity.z, 0.0, delta * friction);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
