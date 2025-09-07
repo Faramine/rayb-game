@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b70a4g5oogicp"]
 
-[ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://world.gd" id="1_tlwt5"]
+[ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://map.tscn" id="3_tlwt5"]
 [ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="4_aqk2v"]

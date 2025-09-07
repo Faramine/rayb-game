@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://i001x1ob48oq"]
 
-[ext_resource type="Script" uid="uid://5o5tyt3njhv5" path="res://room_base.gd" id="1_k3jq5"]
-[ext_resource type="Script" uid="uid://b3a2d7nsv5eum" path="res://enemy_base.gd" id="2_iexj0"]
+[ext_resource type="Script" uid="uid://5o5tyt3njhv5" path="res://scripts/room_base.gd" id="1_k3jq5"]
+[ext_resource type="Script" uid="uid://b3a2d7nsv5eum" path="res://scripts/enemy_base.gd" id="2_iexj0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c8or3"]
 size = Vector3(25, 25, 25)
