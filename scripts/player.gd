@@ -1,10 +1,12 @@
 class_name Player
 extends CharacterBody3D
 
+@export var world : World
+
 @onready var armature = $Armature;  # Character armature
 @onready var animationTree = $AnimationTree;
 
-@onready var controller = $".."
+@onready var controller = $Player_controller
 
 @export var speed = 15
 @export var friction : float = 13
@@ -59,3 +61,7 @@ func input_move(delta):
 		velocity.z = lerp(velocity.z, 0.0, delta * friction);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
+
+func _on_area_entered(area: Area3D) -> void:
+	if area.is_in_group("Camera_zone"):
+		world.change_room(area.owner.coords)

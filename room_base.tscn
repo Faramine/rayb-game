@@ -12,19 +12,19 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Arr
 agent_radius = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8or3"]
-albedo_color = Color(0.223529, 0.415686, 1, 1)
+albedo_color = Color(0.124497, 0.1222, 0.26, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3jq5"]
-albedo_color = Color(1, 0.411765, 0.0509804, 1)
+albedo_color = Color(0.167007, 0.1638, 0.26, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iexj0"]
-albedo_color = Color(1, 0.411765, 0.0509804, 1)
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfgdg"]
-albedo_color = Color(0.223529, 0.698039, 0.054902, 1)
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4afj"]
-albedo_color = Color(0.133333, 0.0980392, 1, 1)
+albedo_color = Color(0.234867, 0.234, 0.26, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikc70"]
 albedo_color = Color(1, 0.300051, 0.236805, 1)

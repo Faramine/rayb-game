@@ -1,6 +1,7 @@
 class_name Room
 extends Node3D
 
+@onready var camera_posistion : Vector3 = $Camera_pos.global_position
 var coords = [0,0]
 var world : World
 var is_active : bool = false
