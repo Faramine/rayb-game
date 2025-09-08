@@ -2,6 +2,7 @@ class_name Room
 extends Node3D
 
 @onready var camera_posistion : Vector3 = $Camera_pos.global_position
+@onready var ceiling : CSGBox3D = $Ceiling
 var coords = [0,0]
 var world : World
 var is_active : bool = false
@@ -13,10 +14,12 @@ func set_world(world : World):
 
 func activate_room():
 	is_active = true
+	ceiling.visible = false
 	print("activate : " + str(coords))
 
 func deactivate_room():
 	is_active = false
+	ceiling.visible = true
 	print("deactivate : " + str(coords))
 
 func _process(delta: float) -> void:
