@@ -1,54 +1,53 @@
 class_name Player
 extends CharacterBody3D
-
+# Nodes #
 @export var world : World
-
-@onready var armature = $Armature;  # Character armature
+@onready var armature = $Armature;
 @onready var animationTree = $AnimationTree;
-
 @onready var controller = $Player_controller
-
+@onready var dash_cooldown : Timer = $DashCooldown
+# Player properties #
 @export var speed = 15
 @export var friction : float = 13
 var dash_speed = 150
 var dash_time = 0
-var dashpos = Vector3()
-var dashDirection = Vector3();
-var movable = true
-var click_position = Vector2()
-
+var dash_target_pos = Vector3()
+var is_dashing = false
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-# Animation variables --------------------
 const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
 
-func dash(dashpos: Vector3):
-	movable = false
-	self.dashpos = dashpos
-	dashpos.y = 0
-
 func _process(delta):
-	if movable:
-		input_move(delta)
+	if is_dashing:
+		process_dash(delta)
 	else:
-		dash_time += delta
-		dashpos.y = position.y
-		animationTree["parameters/conditions/is_dashing"] = true;
-		if (position-dashpos).length() < 0.5 || dash_time >0.3:
-			# Si le dash est fini
-			movable = true
-			dash_time = 0
-			velocity = Vector3.ZERO
-			animationTree["parameters/conditions/is_dashing"] = false;
-		else:
-			dashDirection = (dashpos - position).normalized();
-			armature.rotation.y = lerp_angle(armature.rotation.y, dashDirection.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
-			velocity = dashDirection * dash_speed;
-			
+		process_move(delta)
 	if not is_on_floor():
 		velocity.y -= gravity
 	move_and_slide()
 
-func input_move(delta):
+func dash(dash_target_pos: Vector3):
+	if dash_cooldown.is_stopped():
+		is_dashing = true
+		dash_target_pos.y = 0
+		self.dash_target_pos = dash_target_pos
+		dash_cooldown.start()
+	
+func process_dash(delta):
+	dash_time += delta
+	dash_target_pos.y = position.y
+	animationTree["parameters/conditions/is_dashing"] = true;
+	if (position-dash_target_pos).length() < 0.5 || dash_time >0.3:
+		# Si le dash est fini
+		is_dashing = false
+		dash_time = 0
+		velocity = Vector3.ZERO
+		animationTree["parameters/conditions/is_dashing"] = false;
+	else:
+		var dash_direction = (dash_target_pos - position).normalized();
+		armature.rotation.y = lerp_angle(armature.rotation.y, dash_direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
+		velocity = dash_direction * dash_speed;
+
+func process_move(delta):
 	var direction = controller.move_vector()
 	if direction:
 		velocity.x = direction.x * speed
