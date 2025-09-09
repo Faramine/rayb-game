@@ -830,7 +830,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(4.25857e-23, -1.6323, -7.86797e-09)
+bones/0/position = Vector3(-9.37271e-23, -1.60975, -7.67094e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.20936e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -879,35 +879,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.32212, -2.51648, 1.37169)
+bones/7/position = Vector3(-1.31349, -2.49749, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.8682, -2.49872, -0.862469)
+bones/8/position = Vector3(-1.84189, -2.47806, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(-0.028489, -2.50842, -2.12247)
+bones/9/position = Vector3(-0.0214278, -2.48811, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.86417, -2.51263, -0.862469)
+bones/10/position = Vector3(1.86072, -2.49295, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.03225, -2.51262, 1.47753)
+bones/11/position = Vector3(1.02718, -2.49295, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -943,5 +943,9 @@ skeleton = NodePath("../..")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 4.0
 omni_attenuation = 2.0
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
