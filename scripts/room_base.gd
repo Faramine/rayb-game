@@ -24,9 +24,9 @@ func deactivate_room():
 
 func _process(delta: float) -> void:
 	if(is_active):
-		var target_position : Vector3
-		target_position = self.world.player.global_transform.origin + self.world.player.velocity * 0.3
 		for enemy in enemies:
+			var distance = enemy.global_position.distance_to(self.world.player.global_position)
+			var target_position = self.world.player.global_transform.origin + self.world.player.velocity * distance/30
 			enemy.target_position(target_position)
 	else:
 		for enemy in enemies:
