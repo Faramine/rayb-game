@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://dye7apdp65ohn"]
+
+[ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://god_ray.gdshader" id="1_vs3mb"]
+[ext_resource type="Texture2D" path="res://assets/textures/cc.png" id="1_vxnym"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vs3mb"]
+lightmap_size_hint = Vector2i(79, 152)
+top_radius = 0.355
+bottom_radius = 2.48
+height = 24.772
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="Gradient" id="Gradient_jfl6h"]
+offsets = PackedFloat32Array(0, 0.655738, 0.778689, 0.959016, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.778947, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gwsfw"]
+gradient = SubResource("Gradient_jfl6h")
+
+[sub_resource type="Gradient" id="Gradient_vs3mb"]
+offsets = PackedFloat32Array(0, 0.92623)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3esn3"]
+noise_type = 3
+seed = 1
+frequency = 0.0426
+fractal_weighted_strength = 0.09
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jfl6h"]
+color_ramp = SubResource("Gradient_vs3mb")
+noise = SubResource("FastNoiseLite_3esn3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxw7f"]
+render_priority = 0
+shader = ExtResource("1_vs3mb")
+shader_parameter/noise = SubResource("NoiseTexture2D_jfl6h")
+shader_parameter/gradient = SubResource("GradientTexture2D_gwsfw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3esn3"]
+size = Vector3(3, 10, 3)
+
+[node name="GodRay" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 12.5, 0)
+mesh = SubResource("CylinderMesh_vs3mb")
+surface_material_override/0 = SubResource("ShaderMaterial_lxw7f")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+light_energy = 1000.0
+light_volumetric_fog_energy = 0.0
+light_projector = ExtResource("1_vxnym")
+spot_range = 5.982
+spot_attenuation = 1.08
+spot_angle = 30.27
+spot_angle_attenuation = 0.233259
+
+[node name="Area3D" type="Area3D" parent="." groups=["Godray"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("BoxShape3D_3esn3")
