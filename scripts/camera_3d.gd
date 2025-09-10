@@ -1,4 +1,4 @@
-class_name Lakitu
+class_name Camera
 extends Camera3D
 
 var target_position = Vector3()

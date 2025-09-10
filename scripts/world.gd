@@ -5,7 +5,7 @@ extends Node3D
 @export var generator : MapGen
 
 @onready var player : Player = $Player
-@onready var lakitu : Lakitu = $Lakitu
+@onready var camera : Camera = $Camera
 
 # Dictionnaire Coord/Room
 var rooms : Dictionary = Dictionary() #room
@@ -18,7 +18,7 @@ func _ready() -> void:
 func change_room(coords):
 	minimap.change_room(coords)
 	activate_room(rooms.get(coords))
-	lakitu.track(active_room.camera_posistion)
+	camera.track(active_room.camera_posistion)
 	
 func activate_room(next_room : Room):
 	if(self.active_room): self.active_room.deactivate_room()

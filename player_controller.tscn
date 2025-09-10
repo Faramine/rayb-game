@@ -1,8 +1,9 @@
-[gd_scene load_steps=38 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=46 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="2_6nbh1"]
+[ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
@@ -803,6 +804,48 @@ top_radius = 0.2
 bottom_radius = 0.0
 height = 1.0
 
+[sub_resource type="Gradient" id="Gradient_halkx"]
+offsets = PackedFloat32Array(0, 0.52381)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_halkx"]
+gradient = SubResource("Gradient_halkx")
+
+[sub_resource type="Curve" id="Curve_halkx"]
+_data = [Vector2(0, 0.280899), 0.0, 0.0, 0, 0, Vector2(1, 0.820225), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4garc"]
+curve = SubResource("Curve_halkx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4garc"]
+emission_shape_offset = Vector3(0, 1, 0)
+emission_shape_scale = Vector3(5, 3, 5)
+emission_shape = 2
+emission_sphere_radius = 1.0
+radial_velocity_min = -20.0
+radial_velocity_max = -20.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_4garc")
+color_ramp = SubResource("GradientTexture1D_halkx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyd3o"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("5_halkx")
+albedo_texture_msdf = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 10.0
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_oamho"]
+material = SubResource("StandardMaterial3D_lyd3o")
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_f0yg5")
 
@@ -830,7 +873,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(-9.37271e-23, -1.60975, -7.67094e-09)
+bones/0/position = Vector3(4.88669e-23, -1.68805, -8.35519e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.20936e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -879,35 +922,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.31349, -2.49749, 1.37169)
+bones/7/position = Vector3(-1.25702, -2.56351, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.84189, -2.47806, -0.862469)
+bones/8/position = Vector3(-1.8618, -2.55896, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(-0.0214278, -2.48811, -2.12247)
+bones/9/position = Vector3(-0.00106612, -2.56138, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.86072, -2.49295, -0.862469)
+bones/10/position = Vector3(1.83789, -2.56245, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.02718, -2.49295, 1.47753)
+bones/11/position = Vector3(1.12023, -2.56258, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -948,4 +991,15 @@ omni_attenuation = 2.0
 wait_time = 2.0
 one_shot = true
 
+[node name="DashRecoverParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 50
+lifetime = 0.2
+one_shot = true
+fixed_fps = 120
+visibility_aabb = AABB(-5, -2, -5, 10, 6, 10)
+process_material = SubResource("ParticleProcessMaterial_4garc")
+draw_pass_1 = SubResource("QuadMesh_oamho")
+
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

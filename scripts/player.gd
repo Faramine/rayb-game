@@ -42,10 +42,28 @@ func process_dash(delta):
 		dash_time = 0
 		velocity = Vector3.ZERO
 		animationTree["parameters/conditions/is_dashing"] = false;
+		end_dash_juice()
 	else:
 		var dash_direction = (dash_target_pos - position).normalized();
 		armature.rotation.y = lerp_angle(armature.rotation.y, dash_direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
 		velocity = dash_direction * dash_speed;
+
+func end_dash_juice():
+	$OmniLight3D.light_energy = 0
+	var tween = create_tween()
+	tween.set_ease(tween.EASE_OUT)
+	tween.tween_property($OmniLight3D, "light_energy", 1, dash_cooldown.wait_time)
+	tween.play()
+	await get_tree().create_timer(dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25).timeout
+	$DashRecoverParticles.emitting = true
+
+func recover_dash_juice():
+	var tween = create_tween()
+	tween.tween_property($OmniLight3D, "light_energy", 30, 0.05)
+	tween.parallel().tween_property($OmniLight3D, "omni_range", 10, 0.05)
+	tween.tween_property($OmniLight3D, "light_energy", 1, 0.1)
+	tween.parallel().tween_property($OmniLight3D, "omni_range", 4, 0.1)
+	tween.play()
 
 func process_move(delta):
 	var direction = controller.move_vector()
@@ -64,3 +82,6 @@ func process_move(delta):
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):
 		world.change_room(area.owner.coords)
+
+func _on_dash_cooldown_timeout() -> void:
+	recover_dash_juice()

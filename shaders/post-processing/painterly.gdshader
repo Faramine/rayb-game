@@ -22,11 +22,11 @@ vec4 blendOver(vec4 a, vec4 b) {
 void fragment() {
 	vec2 uv = SCREEN_UV;
 	vec4 screen_color = texture(SCREEN_TEXTURE, uv);
-	
+
 	vec2 movement_factor = movement_direction * movement_speed * TIME;
-	
+
 	//uv += noise_value * VIEWPORT_SIZE * strength;
-	
+
 	vec4 colorSum = vec4(0.0,0.0,0.0,0.0);
 	int passNumber = 3;
 	float strength = 0.008;
@@ -40,7 +40,7 @@ void fragment() {
 		sample.a *= 0.1;
 		colorSum = blendOver(colorSum,sample);
 	}
-	
+
 	//ALBEDO = texture(SCREEN_TEXTURE, uv).xyz;
 	ALBEDO = colorSum.xyz;
 }
