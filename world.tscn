@@ -67,7 +67,6 @@ shadow_blur = 0.5
 sky_mode = 1
 
 [node name="Map" parent="." instance=ExtResource("3_tlwt5")]
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83863, -2.59033)
