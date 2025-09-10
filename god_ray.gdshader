@@ -17,7 +17,7 @@ void fragment() {
 	uva2.x = UV.y;
 	uva2.y = 1.0;
 	
-	ALPHA = max(texture(noise, uva).a - texture(gradient, uva2).a, 0.2);
+	ALPHA = (max(texture(noise, uva).a - texture(gradient, uva2).a, 0.2) )/ 2.0;
 }
 
 //void light() {

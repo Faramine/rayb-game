@@ -3,6 +3,7 @@ extends Node3D
 
 @onready var camera_posistion : Vector3 = $Camera_pos.global_position
 @onready var ceiling : CSGBox3D = $Ceiling
+@onready var godray = $GodRay
 var coords = [0,0]
 var world : World
 var is_active : bool = false
@@ -15,11 +16,13 @@ func set_world(world : World):
 func activate_room():
 	is_active = true
 	ceiling.visible = false
+	godray.visible = true
 	print("activate : " + str(coords))
 
 func deactivate_room():
 	is_active = false
 	ceiling.visible = true
+	godray.visible = false
 	print("deactivate : " + str(coords))
 
 func _process(delta: float) -> void:
