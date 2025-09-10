@@ -59,6 +59,11 @@ func end_dash_juice():
 	tween.play()
 	await get_tree().create_timer(dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25).timeout
 	$DashRecoverParticles.restart()
+	var tween_cape = create_tween()
+	tween_cape.set_ease(tween.EASE_OUT)
+	tween_cape.tween_property($Armature/Skeleton3D/Cylinder_002.get_active_material(0),
+	 "emission", Color.WHITE, 0.5)
+	tween_cape.play()
 
 func recover_dash_juice():
 	$Armature/Skeleton3D/Cylinder_002.get_active_material(0).emission = Color.WHITE
