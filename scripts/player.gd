@@ -30,7 +30,6 @@ func dash(dash_target_pos: Vector3):
 		is_dashing = true
 		dash_target_pos.y = 0
 		self.dash_target_pos = dash_target_pos
-		dash_cooldown.start()
 	
 func process_dash(delta):
 	dash_time += delta
@@ -49,6 +48,7 @@ func process_dash(delta):
 		velocity = dash_direction * dash_speed;
 
 func end_dash_juice():
+	dash_cooldown.start()
 	$OmniLight3D.light_energy = 0
 	var tween = create_tween()
 	tween.set_ease(tween.EASE_OUT)
