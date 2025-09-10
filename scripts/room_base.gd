@@ -10,6 +10,9 @@ var is_active : bool = false
 
 @onready var enemies : Array[Enemy] = [$Enemy]
 
+func _ready():
+	ceiling.visible = true
+
 func set_world(world : World):
 	self.world = world
 

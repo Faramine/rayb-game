@@ -56,10 +56,12 @@ height = 0.2
 script = ExtResource("1_k3jq5")
 
 [node name="GodRay" parent="." instance=ExtResource("4_ikc70")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.37218, 0, -7.68582)
 visible = false
 
 [node name="Ceiling" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+visible = false
 size = Vector3(25, 0.1, 25)
 material = SubResource("StandardMaterial3D_5pr5m")
 

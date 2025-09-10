@@ -30,7 +30,9 @@ func dash(dash_target_pos: Vector3):
 		is_dashing = true
 		dash_target_pos.y = 0
 		self.dash_target_pos = dash_target_pos
-		dash_cooldown.start()
+		$DashParticles.global_position = self.global_position
+		$DashParticles.restart()
+		$Armature/Skeleton3D/Cylinder_002.get_active_material(0).emission = Color.from_rgba8(100,100,100)
 	
 func process_dash(delta):
 	dash_time += delta
@@ -49,15 +51,17 @@ func process_dash(delta):
 		velocity = dash_direction * dash_speed;
 
 func end_dash_juice():
+	dash_cooldown.start()
 	$OmniLight3D.light_energy = 0
 	var tween = create_tween()
 	tween.set_ease(tween.EASE_OUT)
 	tween.tween_property($OmniLight3D, "light_energy", 1, dash_cooldown.wait_time)
 	tween.play()
 	await get_tree().create_timer(dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25).timeout
-	$DashRecoverParticles.emitting = true
+	$DashRecoverParticles.restart()
 
 func recover_dash_juice():
+	$Armature/Skeleton3D/Cylinder_002.get_active_material(0).emission = Color.WHITE
 	var tween = create_tween()
 	tween.tween_property($OmniLight3D, "light_energy", 30, 0.05)
 	tween.parallel().tween_property($OmniLight3D, "omni_range", 10, 0.05)

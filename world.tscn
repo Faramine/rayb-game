@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=12 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
@@ -6,19 +6,6 @@
 [ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dwbse"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-
-[sub_resource type="Sky" id="Sky_pkg7o"]
-sky_material = SubResource("ProceduralSkyMaterial_dwbse")
-
-[sub_resource type="Environment" id="Environment_gbfbk"]
-background_mode = 2
-sky = SubResource("Sky_pkg7o")
-tonemap_mode = 2
-glow_enabled = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_036b0"]
 flip_faces = true
@@ -49,9 +36,6 @@ glow_enabled = true
 script = ExtResource("1_tlwt5")
 minimap = NodePath("Map")
 generator = NodePath("GeneratorBase")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_gbfbk")
 
 [node name="Player" parent="." node_paths=PackedStringArray("world") instance=ExtResource("2_tlwt5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

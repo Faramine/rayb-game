@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dye7apdp65ohn"]
 
-[ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://god_ray.gdshader" id="1_vs3mb"]
+[ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_vs3mb"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vs3mb"]
 lightmap_size_hint = Vector2i(79, 152)
