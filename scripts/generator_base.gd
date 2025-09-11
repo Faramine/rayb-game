@@ -68,5 +68,7 @@ func generate_map(world : World) -> Dictionary:
 		new_room.set_world(world)
 		rooms.set(k, new_room)
 		add_child(new_room)
+		for r in room_list:
+			new_room.open_wall(r)
 	
 	return rooms
