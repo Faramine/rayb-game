@@ -12,11 +12,11 @@ void fragment() {
 	vec2 uva = UV;
 	uva.x += TIME/100.0;
 	uva.y = TIME/100.0;
-	
+
 	vec2 uva2 = UV;
 	uva2.x = UV.y;
 	uva2.y = 1.0;
-	
+
 	ALPHA = (max(texture(noise, uva).a - texture(gradient, uva2).a, 0.2) )/ 2.0;
 }
 
