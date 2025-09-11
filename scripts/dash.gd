@@ -59,6 +59,7 @@ func recover_dash_juice():
 	tween.tween_property($"../OmniLight3D", "light_energy", 1, 0.1)
 	tween.parallel().tween_property($"../OmniLight3D", "omni_range", 4, 0.1)
 	tween.play()
+	player.world.camera.add_trauma(0.15)
 
 func _on_dash_cooldown_timeout() -> void:
 	recover_dash_juice()
