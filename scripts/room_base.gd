@@ -6,6 +6,14 @@ extends Node3D
 @onready var godray = $GodRay
 @onready var walldown1 = $NavigationRegion3D/Wall_down
 @onready var walldown2 = $NavigationRegion3D/Wall_down2
+@onready var doorUp = $NavigationRegion3D/Door_up
+@onready var doorDown = $NavigationRegion3D/Door_down
+@onready var doorLeft = $NavigationRegion3D/Door_left
+@onready var doorRight = $NavigationRegion3D/Door_right
+@onready var doorMatUp = $NavigationRegion3D/Doormat_up
+@onready var doorMatDown = $NavigationRegion3D/Doormat_down
+@onready var doorMatLeft = $NavigationRegion3D/Doormat_left
+@onready var doorMatRight = $NavigationRegion3D/Doormat_right
 
 var coords = [0,0]
 var world : World
@@ -51,3 +59,23 @@ func deactivate_room():
 	self.visible = false
 	for enemy in enemies:
 		enemy.on_room_deactivated()
+
+func open_wall(coords : Array):
+	if self.coords[0] == coords[0]:
+		if self.coords[1]+1 == coords[1]:
+			doorLeft.visible = false
+			doorMatLeft.visible = true
+			doorLeft.set_collision_layer_value(1,false)
+		elif self.coords[1]-1 == coords[1]:
+			doorRight.visible = false
+			doorMatRight.visible = true
+			doorRight.set_collision_layer_value(1,false)
+	elif self.coords[1] == coords[1]:
+		if self.coords[0]-1 == coords[0]:
+			doorUp.visible = false
+			doorMatUp.visible = true
+			doorUp.set_collision_layer_value(1,false)
+		elif self.coords[0]+1 == coords[0]:
+			doorDown.visible = false
+			doorMatDown.visible = true
+			doorDown.set_collision_layer_value(1,false)
