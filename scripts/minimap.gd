@@ -8,7 +8,6 @@ var current_room = [0,0]
 var map_size = 5
 
 func change_room(room: Array):
-	print(current_room)
 	current_room = room
 	target = Vector2()
 	target.x = (current_room[1])*21 - mapcontrol.size.x/2 + 240

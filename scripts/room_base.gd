@@ -10,15 +10,27 @@ extends Node3D
 var coords = [0,0]
 var world : World
 var is_active : bool = false
-
-@onready var enemies : Array[Enemy] = [$Enemy]
+var enemy_dummy_scene : PackedScene = load("res://enemy_dummy.tscn")
+@onready var enemies : Array[Enemy] = []
 
 func _ready():
 	ceiling.visible = true
 	self.visible = false
-
+	if(randi()%2==0): debug_spawn_dummy()
+	if(randi()%2==0): debug_spawn_dummy(Vector3(-5,0,-5))
+	
 func set_world(world : World):
 	self.world = world
+
+func debug_spawn_dummy(offset = Vector3.ZERO):
+	var enemy_dummy : Enemy = enemy_dummy_scene.instantiate()
+	add_child(enemy_dummy)
+	var spawn_pos = $EnemySpawnPoint.global_position
+	spawn_pos += offset
+	enemy_dummy.global_position = spawn_pos
+	enemy_dummy.set_spawn( spawn_pos )
+	enemy_dummy.player = world.player
+	enemies.append(enemy_dummy)
 
 func activate_room():
 	is_active = true
@@ -27,7 +39,8 @@ func activate_room():
 	walldown1.material.albedo_color.a = 0.5
 	walldown2.material.albedo_color.a = 0.5
 	self.visible = true
-	print("activate : " + str(coords))
+	for enemy in enemies:
+		enemy.on_room_activated()
 
 func deactivate_room():
 	is_active = false
@@ -36,14 +49,5 @@ func deactivate_room():
 	walldown1.material.albedo_color.a = 1.0
 	walldown2.material.albedo_color.a = 1.0
 	self.visible = false
-	print("deactivate : " + str(coords))
-
-func _process(delta: float) -> void:
-	if(is_active):
-		for enemy in enemies:
-			var distance = enemy.global_position.distance_to(self.world.player.global_position)
-			var target_position = self.world.player.global_transform.origin + self.world.player.velocity * distance/30
-			enemy.target_position(target_position)
-	else:
-		for enemy in enemies:
-			enemy.back_to_spawnpoint()
+	for enemy in enemies:
+		enemy.on_room_deactivated()

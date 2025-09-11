@@ -23,6 +23,7 @@ func _process(delta):
 
 func dash(dash_target_pos: Vector3):
 	dash_ability.dash(dash_target_pos)
+	print(dash_target_pos)
 
 func process_move(delta):
 	var direction = controller.move_vector()
