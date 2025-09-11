@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=13 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
@@ -31,6 +31,12 @@ ambient_light_source = 3
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_energy = 0.1
 glow_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dwbse"]
+noise_type = 0
+frequency = 0.05
+fractal_octaves = 4
+fractal_gain = 0.8
 
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
@@ -66,6 +72,7 @@ fov = 20.0
 size = 25.0
 near = 0.017
 script = ExtResource("5_036b0")
+noise = SubResource("FastNoiseLite_dwbse")
 
 [node name="GeneratorBase" type="Node" parent="."]
 script = ExtResource("6_dwbse")

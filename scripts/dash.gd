@@ -17,6 +17,7 @@ func dash(dash_target_pos: Vector3):
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
 		$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
+		player.world.camera.add_trauma(0.25)
 	
 func process_dash(delta):
 	dash_time += delta
