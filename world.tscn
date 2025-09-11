@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=18 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://map.tscn" id="3_tlwt5"]
 [ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
+[ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_036b0"]
@@ -25,8 +26,21 @@ shader_parameter/uv_scaling = 2.05
 shader_parameter/movement_direction = Vector2(1, 1)
 shader_parameter/movement_speed = 0.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pkg7o"]
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_gbfbk"]
+noise = SubResource("FastNoiseLite_pkg7o")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbfbk"]
+shader = ExtResource("5_pkg7o")
+shader_parameter/noise = SubResource("NoiseTexture3D_gbfbk")
+
+[sub_resource type="Sky" id="Sky_ioo17"]
+sky_material = SubResource("ShaderMaterial_gbfbk")
+
 [sub_resource type="Environment" id="Environment_dwbse"]
 background_mode = 1
+sky = SubResource("Sky_ioo17")
 ambient_light_source = 3
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_energy = 0.1
