@@ -51,7 +51,7 @@ albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
 albedo_texture = ExtResource("3_t4afj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4afj"]
-albedo_color = Color(0.234867, 0.234, 0.26, 1)
+albedo_color = Color(0.21616, 0.1736, 0.28, 1)
 
 [node name="Room_base" type="Node3D" groups=["Room"]]
 script = ExtResource("1_k3jq5")
