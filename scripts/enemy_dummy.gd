@@ -13,6 +13,9 @@ func _process(delta):
 		follow_player()
 	move_and_slide()
 
+#func _ready():
+	#self.speed = 5
+
 func follow_player():
 	var distance = self.global_position.distance_to(self.player.global_position)
 	var target_position = self.player.global_transform.origin + self.player.velocity * distance/30
@@ -22,7 +25,8 @@ func follow_player():
 func on_room_activated():
 	super.on_room_activated()
 	await get_tree().create_timer(0.3).timeout
-	state = STATE_FOLLOW
+	if(room.is_active):
+		state = STATE_FOLLOW
 
 func on_room_deactivated():
 	super.on_room_deactivated()

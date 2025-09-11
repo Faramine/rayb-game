@@ -1065,5 +1065,9 @@ draw_pass_1 = SubResource("QuadMesh_2x3ds")
 wait_time = 2.0
 one_shot = true
 
+[node name="PrejuiceTimer" type="Timer" parent="Dash"]
+one_shot = true
+
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="timeout" from="Dash/DashCooldown" to="Dash" method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="Dash/PrejuiceTimer" to="Dash" method="_on_prejuice_timer_timeout"]

@@ -13,8 +13,10 @@ albedo_color = Color(1, 1, 0, 0.364706)
 material = SubResource("StandardMaterial3D_1pjdv")
 height = 0.2
 
-[node name="AbstractEnemy" type="CharacterBody3D"]
+[node name="AbstractEnemy" type="CharacterBody3D" node_paths=PackedStringArray("nav", "target_node")]
 script = ExtResource("1_4u0n7")
+nav = NodePath("NavigationAgent")
+target_node = NodePath("Target")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_1pjdv")

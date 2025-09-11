@@ -32,13 +32,14 @@ func set_world(world : World):
 
 func debug_spawn_dummy(offset = Vector3.ZERO):
 	var enemy_dummy : Enemy = enemy_dummy_scene.instantiate()
-	add_child(enemy_dummy)
 	var spawn_pos = $EnemySpawnPoint.global_position
 	spawn_pos += offset
 	enemy_dummy.global_position = spawn_pos
 	enemy_dummy.set_spawn( spawn_pos )
+	enemy_dummy.room = self
 	enemy_dummy.player = world.player
 	enemies.append(enemy_dummy)
+	add_child(enemy_dummy)
 
 func activate_room():
 	is_active = true

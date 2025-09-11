@@ -23,7 +23,6 @@ func _process(delta):
 
 func dash(dash_target_pos: Vector3):
 	dash_ability.dash(dash_target_pos)
-	print(dash_target_pos)
 
 func process_move(delta):
 	var direction = controller.move_vector()
@@ -42,3 +41,5 @@ func process_move(delta):
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):
 		world.change_room(area.owner.coords)
+	if area.is_in_group("Godray"):
+		dash_ability.regain_dash()
