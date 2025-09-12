@@ -48,6 +48,10 @@ func end_dash():
 	player.velocity = Vector3.ZERO
 	dash_cooldown.start()
 	end_dash_juice()
+	await get_tree().create_timer(.1).timeout
+	for area in $"../Area3D".get_overlapping_areas():
+		if area.is_in_group("Godray"):
+			regain_dash()
 	
 func end_dash_juice():
 	$"../OmniLight3D".light_energy = 0
