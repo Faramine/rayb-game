@@ -20,17 +20,16 @@ var world : World
 var is_active : bool = false
 var enemy_dummy_scene : PackedScene = load("res://enemy_dummy.tscn")
 @onready var enemies : Array[Enemy] = []
+var nb_enemies = randi()%3
 
 func _ready():
 	ceiling.visible = true
 	self.visible = false
-	if(randi()%2==0): debug_spawn_dummy()
-	if(randi()%2==0): debug_spawn_dummy(Vector3(-5,0,-5))
 	
 func set_world(world : World):
 	self.world = world
 
-func debug_spawn_dummy(offset = Vector3.ZERO):
+func debug_spawn_dummy(offset = Vector3.ZERO) -> Enemy:
 	var enemy_dummy : Enemy = enemy_dummy_scene.instantiate()
 	var spawn_pos = $EnemySpawnPoint.global_position
 	spawn_pos += offset
@@ -40,6 +39,7 @@ func debug_spawn_dummy(offset = Vector3.ZERO):
 	enemy_dummy.player = world.player
 	enemies.append(enemy_dummy)
 	add_child(enemy_dummy)
+	return enemy_dummy
 
 func activate_room():
 	is_active = true
@@ -48,7 +48,8 @@ func activate_room():
 	walldown1.material.albedo_color.a = 0.5
 	walldown2.material.albedo_color.a = 0.5
 	self.visible = true
-	for enemy in enemies:
+	for i in range(0,nb_enemies):
+		var enemy = debug_spawn_dummy(Vector3(-9*i,0,-9*i))
 		enemy.on_room_activated()
 
 func deactivate_room():
@@ -60,6 +61,8 @@ func deactivate_room():
 	self.visible = false
 	for enemy in enemies:
 		enemy.on_room_deactivated()
+		enemy.queue_free()
+	enemies = []
 
 func open_wall(coords : Array):
 	if self.coords[0] == coords[0]:
