@@ -18,6 +18,8 @@ void fragment() {
 	uva2.y = 1.0;
 	
 	ALBEDO = vec3(1.0,1.0,0.85);
+	//fadeformula
+	//ALPHA = (5.0*(UV.y*UV.y))*(max(texture(noise, uva).a - texture(gradient, uva2).a, 0.2) )/ 2.0;
 	ALPHA = (max(texture(noise, uva).a - texture(gradient, uva2).a, 0.2) )/ 2.0;
 }
 

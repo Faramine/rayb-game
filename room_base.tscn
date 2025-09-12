@@ -56,7 +56,7 @@ albedo_color = Color(0.21616, 0.1736, 0.28, 1)
 script = ExtResource("1_k3jq5")
 
 [node name="GodRay" parent="." instance=ExtResource("4_ikc70")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.37218, 0, -7.68582)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.75778, 0, 0.612794)
 visible = false
 
 [node name="Ceiling" type="CSGBox3D" parent="."]

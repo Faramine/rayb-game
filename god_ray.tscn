@@ -37,8 +37,9 @@ shader = ExtResource("1_vs3mb")
 shader_parameter/noise = SubResource("NoiseTexture2D_jfl6h")
 shader_parameter/gradient = SubResource("GradientTexture2D_gwsfw")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3esn3"]
-size = Vector3(3, 10, 3)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vxnym"]
+height = 10.0
+radius = 2.48
 
 [node name="GodRay" type="Node3D"]
 
@@ -52,13 +53,13 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 
 light_color = Color(1, 1, 0.835294, 1)
 light_energy = 1000.0
 light_volumetric_fog_energy = 0.0
-spot_range = 5.982
+spot_range = 10.0
 spot_attenuation = 1.08
-spot_angle = 30.27
+spot_angle = 40.0
 spot_angle_attenuation = 0.233259
 
 [node name="Area3D" type="Area3D" parent="." groups=["Godray"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
-shape = SubResource("BoxShape3D_3esn3")
+shape = SubResource("CylinderShape3D_vxnym")
