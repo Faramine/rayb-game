@@ -8,7 +8,7 @@ extends Node3D
 var is_dashing = false
 var dash_speed = 150
 var dash_time = 0
-var dash_target_pos = Vector3()
+var dash_target_dir = Vector3()
 
 var tween_whitecape : Tween = create_tween()
 var tween_lightboom : Tween = create_tween()
@@ -25,7 +25,7 @@ func dash(dash_target_pos: Vector3):
 		is_dashing = true
 		player.animationTree["parameters/conditions/is_dashing"] = true;
 		dash_target_pos.y = 0
-		self.dash_target_pos = dash_target_pos
+		self.dash_target_dir = (dash_target_pos - player.position).normalized();
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
 		$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
@@ -33,12 +33,11 @@ func dash(dash_target_pos: Vector3):
 	
 func process_dash(delta):
 	dash_time += delta
-	dash_target_pos.y = player.position.y
-	if (player.position-dash_target_pos).length() >= 0.5 && dash_time <= 0.3:
-		var dash_direction = (dash_target_pos - player.position).normalized();
+	if (dash_time <= 0.075):
+		#var dash_direction = (dash_target_pos - player.position).normalized();
 		player.armature.rotation.y = lerp_angle(player.armature.rotation.y,
-		 dash_direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), player.lerp_smoothstep);
-		player.velocity = dash_direction * dash_speed;
+		 dash_target_dir.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), player.lerp_smoothstep);
+		player.velocity = dash_target_dir * dash_speed;
 	else:
 		end_dash()
 
