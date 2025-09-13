@@ -49,6 +49,8 @@ func activate_room():
 	walldown1.material.albedo_color.a = 0.5
 	walldown2.material.albedo_color.a = 0.5
 	self.visible = true
+	if world.start_room.coords == coords:
+		return
 	for i in range(0,nb_enemies):
 		var enemy = debug_spawn_dummy(Vector3(-9*i,0,-9*i))
 		enemy.on_room_activated()
