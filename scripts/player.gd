@@ -11,6 +11,10 @@ extends CharacterBody3D
 @export var friction : float = 13
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
+var is_in_godray = false
+
+signal godray_entered
+signal godray_exited
 
 func _process(delta):
 	if dash_ability.is_dashing:
@@ -43,3 +47,11 @@ func _on_area_entered(area: Area3D) -> void:
 		world.change_room(area.owner.coords)
 	if area.is_in_group("Godray"):
 		dash_ability.regain_dash()
+		is_in_godray = true
+		godray_entered.emit()
+
+
+func _on_area_3d_area_exited(area: Area3D) -> void:
+	if area.is_in_group("Godray"):
+		is_in_godray = false
+		godray_exited.emit()

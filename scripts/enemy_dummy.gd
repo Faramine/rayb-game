@@ -6,9 +6,14 @@ const STATE_IDLE = 0
 const STATE_FOLLOW = 1
 const STATE_LOAD_ATTACK = 2
 const STATE_LAUNCH_ATTACK = 3
+const STATE_MISLED = 4
 
 var launch_origin : Vector3
 var launch_target : Vector3
+
+func _ready() -> void:
+	player.godray_entered.connect(_on_player_enter_godray)
+	player.godray_exited.connect(_on_player_exit_godray)
 
 func _process(delta):
 	if not is_on_floor():
@@ -23,6 +28,9 @@ func _process(delta):
 		$Target.global_position = launch_target
 		var weight = ($LaunchAttackDuration.wait_time - $LaunchAttackDuration.time_left)/$LaunchAttackDuration.wait_time
 		global_position = lerp(launch_origin, launch_target, weight)
+	if(state == STATE_MISLED):
+		update_target_position(spawn_point)
+		move_toward_target(speed)
 	move_and_slide()
 
 #func _ready():
@@ -78,8 +86,16 @@ func _on_launch_attack_duration_timeout() -> void:
 	velocity = Vector3.ZERO
 	change_state(STATE_IDLE)
 	await get_tree().create_timer(0.3).timeout
-	change_state(STATE_FOLLOW)
+	change_state(STATE_MISLED) if player.is_in_godray else change_state(STATE_FOLLOW)
 	$Target/MeshInstance3D.get_active_material(0).albedo_color = Color.YELLOW
+
+func _on_player_enter_godray():
+	if state == STATE_FOLLOW:
+		change_state(STATE_MISLED)
+
+func _on_player_exit_godray():
+	if state == STATE_MISLED:
+		change_state(STATE_FOLLOW)
 
 func change_state(state):
 	self.state = state
