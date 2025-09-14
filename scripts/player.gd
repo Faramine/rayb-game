@@ -1,52 +1,34 @@
 class_name Player
 extends CharacterBody3D
-
-@onready var armature = $Armature;  # Character armature
+# Nodes #
+@export var world : World
+@onready var armature = $Armature;
 @onready var animationTree = $AnimationTree;
-
-@onready var controller = $".."
-
+@onready var controller = $Player_controller
+@onready var dash_ability : DashAbility = $Dash
+# Player properties #
 @export var speed = 15
 @export var friction : float = 13
-var dash_speed = 150
-var dash_time = 0
-var dashpos = Vector3()
-var dashDirection = Vector3();
-var movable = true
-var click_position = Vector2()
-
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-# Animation variables --------------------
 const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
+var is_in_godray = false
 
-func dash(dashpos: Vector3):
-	movable = false
-	self.dashpos = dashpos
-	dashpos.y = 0
+signal godray_entered
+signal godray_exited
 
 func _process(delta):
-	if movable:
-		input_move(delta)
+	if dash_ability.is_dashing:
+		dash_ability.process_dash(delta)
 	else:
-		dash_time += delta
-		dashpos.y = position.y
-		animationTree["parameters/conditions/is_dashing"] = true;
-		if (position-dashpos).length() < 0.5 || dash_time >0.3:
-			# Si le dash est fini
-			movable = true
-			dash_time = 0
-			velocity = Vector3.ZERO
-			animationTree["parameters/conditions/is_dashing"] = false;
-		else:
-			dashDirection = (dashpos - position).normalized();
-			armature.rotation.y = lerp_angle(armature.rotation.y, dashDirection.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
-			velocity = dashDirection * dash_speed;
-			
+		process_move(delta)
 	if not is_on_floor():
 		velocity.y -= gravity
 	move_and_slide()
 
-func input_move(delta):
+func dash(dash_target_pos: Vector3):
+	dash_ability.dash(dash_target_pos)
+
+func process_move(delta):
 	var direction = controller.move_vector()
 	if direction:
 		velocity.x = direction.x * speed
@@ -59,3 +41,17 @@ func input_move(delta):
 		velocity.z = lerp(velocity.z, 0.0, delta * friction);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
+
+func _on_area_entered(area: Area3D) -> void:
+	if area.is_in_group("Camera_zone"):
+		world.change_room(area.owner.coords)
+	if area.is_in_group("Godray"):
+		dash_ability.regain_dash()
+		is_in_godray = true
+		godray_entered.emit()
+
+
+func _on_area_3d_area_exited(area: Area3D) -> void:
+	if area.is_in_group("Godray"):
+		is_in_godray = false
+		godray_exited.emit()

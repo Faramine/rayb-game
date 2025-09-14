@@ -1,0 +1,107 @@
+[gd_scene load_steps=11 format=3 uid="uid://cathik8bmmo37"]
+
+[ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
+[ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scenes/rooms/elements/interactables/orb.gd" id="1_ytsln"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ytsln"]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5njl"]
+render_priority = 0
+shader = ExtResource("1_m8ccx")
+shader_parameter/frequency = 3.0
+shader_parameter/minimum_light = 0.5
+shader_parameter/intensity = 5.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_m8ccx"]
+flip_faces = true
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m8ccx"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.254902)
+
+[sub_resource type="Animation" id="Animation_ytsln"]
+resource_name = "Orb_floating"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(2, -0.25, 0, 1.46667, 0.000908613, 2.2, -1.46667, -0.00149536, 1.5, 0.00143647, 2, -1.43333, -0.000263929, 0.25, 0),
+"times": PackedFloat32Array(0, 3, 6)
+}
+
+[sub_resource type="Animation" id="Animation_o5njl"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_maamf"]
+resource_name = "Orb_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.1), Vector3(0, 0, -0.1), Vector3(0, 0, 0.1), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_maamf"]
+_data = {
+&"Orb_floating": SubResource("Animation_ytsln"),
+&"Orb_hit": SubResource("Animation_maamf"),
+&"RESET": SubResource("Animation_o5njl")
+}
+
+[node name="Orb" type="Node3D"]
+script = ExtResource("1_ytsln")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ytsln")
+surface_material_override/0 = SubResource("ShaderMaterial_o5njl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+mesh = SubResource("SphereMesh_m8ccx")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_m8ccx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_maamf")
+}

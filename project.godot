@@ -13,11 +13,7 @@ config_version=5
 config/name="rayb-game"
 run/main_scene="uid://b70a4g5oogicp"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
-
-[display]
-
-window/stretch/mode="viewport"
+config/icon="uid://b60o4bjht5gi3"
 
 [dotnet]
 

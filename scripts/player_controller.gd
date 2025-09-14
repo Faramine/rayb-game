@@ -2,14 +2,14 @@ extends Node3D
 
 var mouse = Vector2()
 const DIST = 1000
-var player
+var player : Player
 var cursor
 var cursor_pos
 var current_room
 
 func _ready() -> void:
-	player = get_node("Player")
-	cursor = get_node("Cursor")
+	player = $".."
+	cursor = $Cursor
 	
 func _process(delta: float) -> void:
 		if cursor_pos:
@@ -40,13 +40,7 @@ func get_mouse_world_pos(mouse: Vector2):
 	params.from = start
 	params.to = end
 	var result = space.intersect_ray(params)
-	if !result.is_empty():
-		if result.get("collider").owner.coords == current_room:
+	if !result.is_empty() && player.world.active_room != null:
+		if result.get("collider").owner.coords == player.world.active_room.coords:
 			return result.get("position")
 	return null
-
-
-func _on_area_3d_area_entered(area: Area3D) -> void:
-	if area.is_in_group("Camera_zone"):
-		current_room = area.get_parent().get_parent().coords
-		get_parent().change_room(current_room)

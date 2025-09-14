@@ -1,7 +1,12 @@
 [gd_scene load_steps=15 format=3 uid="uid://i001x1ob48oq"]
 
-[ext_resource type="Script" uid="uid://5o5tyt3njhv5" path="res://room_base.gd" id="1_k3jq5"]
-[ext_resource type="Script" uid="uid://b3a2d7nsv5eum" path="res://enemy_base.gd" id="2_iexj0"]
+[ext_resource type="Script" uid="uid://5o5tyt3njhv5" path="res://scripts/room_base.gd" id="1_k3jq5"]
+[ext_resource type="Texture2D" uid="uid://dkjgv2gx4odvd" path="res://assets/textures/Cobbled_floor.png" id="2_mfgdg"]
+[ext_resource type="Texture2D" uid="uid://ftrm2wya8e21" path="res://assets/textures/stonebrick_floor.png" id="3_t4afj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pr5m"]
+albedo_color = Color(0.06356, 0.0126, 0.14, 1)
+albedo_texture = ExtResource("2_mfgdg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c8or3"]
 size = Vector3(25, 25, 25)
@@ -12,37 +17,45 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Arr
 agent_radius = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8or3"]
-albedo_color = Color(0.223529, 0.415686, 1, 1)
+albedo_color = Color(0.37568, 0.3712, 0.64, 1)
+albedo_texture = ExtResource("2_mfgdg")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3jq5"]
-albedo_color = Color(1, 0.411765, 0.0509804, 1)
+albedo_color = Color(0.167007, 0.1638, 0.26, 1)
+albedo_texture = ExtResource("3_t4afj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iexj0"]
-albedo_color = Color(1, 0.411765, 0.0509804, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfgdg"]
-albedo_color = Color(0.223529, 0.698039, 0.054902, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4afj"]
-albedo_color = Color(0.133333, 0.0980392, 1, 1)
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
+albedo_texture = ExtResource("3_t4afj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikc70"]
-albedo_color = Color(1, 0.300051, 0.236805, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_mfgdg"]
-material = SubResource("StandardMaterial3D_ikc70")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t4afj"]
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
+albedo_texture = ExtResource("3_t4afj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ek5j4"]
-albedo_color = Color(1, 1, 0, 0.364706)
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
+albedo_texture = ExtResource("3_t4afj")
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_5pr5m"]
-material = SubResource("StandardMaterial3D_ek5j4")
-height = 0.2
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76mhi"]
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
+albedo_texture = ExtResource("3_t4afj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfgdg"]
+transparency = 1
+albedo_color = Color(0.168627, 0.164706, 0.258824, 1)
+albedo_texture = ExtResource("3_t4afj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4afj"]
+albedo_color = Color(0.21616, 0.1736, 0.28, 1)
 
 [node name="Room_base" type="Node3D" groups=["Room"]]
 script = ExtResource("1_k3jq5")
+
+[node name="Ceiling" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+visible = false
+size = Vector3(25, 0.1, 25)
+material = SubResource("StandardMaterial3D_5pr5m")
 
 [node name="Camera_pos" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 45, 45, 0)
@@ -76,6 +89,12 @@ use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("StandardMaterial3D_k3jq5")
 
+[node name="Door_left" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12.5)
+use_collision = true
+size = Vector3(3, 4, 1)
+material = SubResource("StandardMaterial3D_k3jq5")
+
 [node name="Wall_right" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -12.5)
 use_collision = true
@@ -88,17 +107,29 @@ use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("StandardMaterial3D_iexj0")
 
+[node name="Door_right" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12.5)
+use_collision = true
+size = Vector3(3, 4, 1)
+material = SubResource("StandardMaterial3D_iexj0")
+
 [node name="Wall_up" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 7)
 use_collision = true
 size = Vector3(1, 4, 11)
-material = SubResource("StandardMaterial3D_mfgdg")
+material = SubResource("StandardMaterial3D_ikc70")
 
 [node name="Wall_up2" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, -7)
 use_collision = true
 size = Vector3(1, 4, 11)
-material = SubResource("StandardMaterial3D_mfgdg")
+material = SubResource("StandardMaterial3D_ek5j4")
+
+[node name="Door_up" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 3)
+material = SubResource("StandardMaterial3D_76mhi")
 
 [node name="Wall_down" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 7)
@@ -112,45 +143,39 @@ use_collision = true
 size = Vector3(1, 4, 11)
 material = SubResource("StandardMaterial3D_mfgdg")
 
+[node name="Door_down" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 3)
+material = SubResource("StandardMaterial3D_mfgdg")
+
 [node name="Doormat_down" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
 [node name="Doormat_left" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
 [node name="Doormat_up" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
 [node name="Doormat_right" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
-[node name="Enemy" type="CharacterBody3D" parent="." groups=["Enemy"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 4)
-script = ExtResource("2_iexj0")
-
-[node name="DebugModel" type="MeshInstance3D" parent="Enemy"]
-mesh = SubResource("CapsuleMesh_mfgdg")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy"]
-shape = SubResource("CapsuleShape3D_t4afj")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Enemy"]
-
-[node name="Target" type="Node3D" parent="Enemy"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.44, 0, -4.055)
-visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy/Target"]
-mesh = SubResource("CylinderMesh_5pr5m")
+[node name="EnemySpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
