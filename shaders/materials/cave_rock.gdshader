@@ -64,7 +64,7 @@ void voronoise(vec2 uv, float columns, float rows, float variance,
 	float minimum_dist_B = 1.0;
 	vec2 minimum_point_B;
 
-	int range = 10;
+	int range = 1;
 	for (int y= -range; y <= range; y++) {
 		for (int x= -range; x <= range; x++) {
 			vec2 neighbor = vec2(float(x),float(y));
@@ -97,15 +97,23 @@ void voronoise(vec2 uv, float columns, float rows, float variance,
 	return;
 }
 
-void rockTexture(in vec2 uv, out vec3 normal, out vec3 displacement, out vec3 albedo, out float alpha){
+void rockLayerTexture(
+	in vec2 uv,
+	in vec2 cell_dimensions,
+	in float frequency,
+	in vec2 height_range,
+	
+	out vec3 normal,
+	out vec3 displacement,
+	out vec3 albedo,
+	out float alpha){
+		
 	float distance_A;
 	vec2 position_A;
 	float distance_B;
 	vec2 position_B;
 
-	float cell_size = 10.0;
-	float cell_ratio = 0.1;
-	voronoise(uv-vec2(-10.0 + TIME,0.8), 0.3, 0.3, 0.8, distance_A, position_A, distance_B, position_B);
+	voronoise(uv-vec2(0.0,0.8), surface_dimensions.x/cell_dimensions.x, surface_dimensions.y/cell_dimensions.y, 0.8, distance_A, position_A, distance_B, position_B);
 
 	float thickness = 0.1;
 	thickness *= fbm(uv*0.5)*2.5;
@@ -113,32 +121,41 @@ void rockTexture(in vec2 uv, out vec3 normal, out vec3 displacement, out vec3 al
 	float thickness_ratio = clamp(random(position_A + position_B),0.0,1.0);
 	//thickness *= thickness_ratio;
 	float diff = abs(distance_B - distance_A);
-	float frequency = 0.5;
 	float is_present = (random(position_A) < frequency)?1.0:0.0;
 	float high_filter = (position_A.y > 0.0)?1.0:0.0;
 	
-	float min_height = 0.0;
-	float max_height = 2.0;
+	float min_height = height_range.x;
+	float max_height = height_range.y;
 	float height_factor = random(position_A);
 	float slope = diff/thickness;
 	slope = clamp(slope,0.0,1.0);
 	float height = height_factor * (max_height-min_height) + min_height;
 	
 	float edge_space_width = 0.05;
-	float edge_space =  (diff < edge_space_width)?1.0:0.0;
+	float edge_space =  clamp((diff - edge_space_width)*20.0 +0.5,0.0,1.0);
+	vec2 edge_xy_normal = normalize(position_B-position_A);
 	
-	float final_height = height * is_present * high_filter * (1.0 - edge_space);
+	float final_height = height * is_present * high_filter * (edge_space);
 	albedo = vec3(diff*is_present);
 	//albedo = vec3(position_A.y);
 	albedo = vec3(0.03,0.03,0.05)*10.0;
 
-	alpha = high_filter;
-	displacement = vec3(final_height+diff*0.5*is_present);
+	if(edge_space > 0.0 && edge_space <= 0.9){
+		normal = vec3(edge_xy_normal.x, edge_xy_normal.y, 0.0);
+	}else if(edge_space > 0.9){
+		normal = vec3(0.0,0.0,1.0);
+	}else{
+		normal = vec3(0.0,0.0,1.0);
+	}
+
+	//albedo = vec3(edge_space);
+	alpha = high_filter * is_present;
+	//displacement = vec3(final_height+diff*0.5*is_present);
+	displacement = vec3(final_height);
 	return;
 	
-	float is_edge = (diff < thickness)?1.0:0.0;
+
 	vec3 voronoi_normal = normalize(vec3(normalize((position_B-position_A)),1.0));
-	normal = (is_edge==1.0)?voronoi_normal:vec3(0.0,0.0,1.0);
 	//displacement = vec3((is_edge==1.0)?diff*vec3(0.0,0.0,0.0):vec3(0.0,0.0,0.1));
 	displacement = vec3(height);
 
@@ -153,6 +170,88 @@ void rockTexture(in vec2 uv, out vec3 normal, out vec3 displacement, out vec3 al
 	//albedo = voronoi_normal;
 	return;
 }
+
+void blendLayers(
+	in vec3 layer_normal,
+	in vec3 layer_displacement,
+	in vec3 layer_albedo,
+	in float layer_alpha,
+	
+	inout vec3 final_normal,
+	inout vec3 final_displacement,
+	inout vec3 final_albedo,
+	inout float final_alpha
+){
+	if(layer_displacement.x > final_displacement.x){
+		final_normal = layer_normal;
+		final_displacement = layer_displacement;
+		final_albedo = layer_albedo;
+		final_alpha = layer_alpha;
+	}
+
+			
+	return;
+}
+
+void rockTexture(in vec2 uv, out vec3 normal,
+	out vec3 displacement,
+	out vec3 albedo,
+	out float alpha){
+		vec3 final_normal;
+		vec3 final_displacement;
+		vec3 final_albedo;
+		float final_alpha;
+		{
+			vec3 layer_normal;
+			vec3 layer_displacement;
+			vec3 layer_albedo;
+			float layer_alpha;
+
+			rockLayerTexture(uv,
+			vec2(10.0,5.0), 0.3, vec2(0.5,0.7),
+			layer_normal, layer_displacement, layer_albedo, layer_alpha);
+			
+			blendLayers(
+				layer_normal,
+				layer_displacement,
+				layer_albedo,
+				layer_alpha,
+				
+				final_normal,
+				final_displacement,
+				final_albedo,
+				final_alpha
+			);
+		}
+		
+		if(true){
+			vec3 layer_normal;
+			vec3 layer_displacement;
+			vec3 layer_albedo;
+			float layer_alpha;
+
+			rockLayerTexture(uv,
+			vec2(10.0,5.0), 1.0, vec2(0.05,0.1),
+			layer_normal, layer_displacement, layer_albedo, layer_alpha);
+			
+			blendLayers(
+				layer_normal,
+				layer_displacement,
+				layer_albedo,
+				layer_alpha,
+				
+				final_normal,
+				final_displacement,
+				final_albedo,
+				final_alpha
+			);
+		}
+		
+		normal = final_normal;
+		displacement = final_displacement;
+		albedo = final_albedo;
+		alpha = final_alpha;
+	}
 
 void vertex() {
 	vec3 normal;
@@ -177,7 +276,7 @@ void fragment() {
 	float alpha = 1.0;
 	vec2 luv = UV*surface_dimensions;
 	rockTexture(luv, normal, displacement, albedo, alpha);
-
+	/*
 	vec3 kernelpos;
 	vec3 deltaXpos;
 	vec3 deltaYpos;
@@ -195,13 +294,13 @@ void fragment() {
 		deltaYpos = vec3(deltaYluv.x,deltaYluv.y,deltaYdisp.x);
 	}
 	kernelpos = vec3(luv.x,luv.y,displacement.x);
-	vec3 computedNormal = normalize(cross(deltaXpos - kernelpos, deltaYpos - kernelpos));
+	vec3 computedNormal = normalize(cross(deltaXpos - kernelpos, deltaYpos - kernelpos));*/
 
 	ALBEDO = albedo;
 	ALPHA = alpha;
-	//ALBEDO = albedo * dot(computedNormal, vec3(0.0,-1.0,0.0));
+	ALBEDO = albedo * dot(normal, normalize(vec3(0.0,-1.0,0.5)));
 	//ALBEDO = computedNormal;
-	NORMAL = computedNormal;
+	NORMAL = normal;
 }
 
 //void light() {
