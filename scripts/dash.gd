@@ -34,9 +34,9 @@ func dash(dash_target_pos: Vector3):
 func process_dash(delta):
 	dash_time += delta
 	if (dash_time <= 0.075):
-		#var dash_direction = (dash_target_pos - player.position).normalized();
-		player.armature.rotation.y = lerp_angle(player.armature.rotation.y,
-		 dash_target_dir.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), player.lerp_smoothstep);
+		player.intent_direction = dash_target_dir
+		player.rotation.y = lerp_angle(player.rotation.y,
+		 dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), player.lerp_smoothstep * delta);
 		player.velocity = dash_target_dir * dash_speed;
 	else:
 		end_dash()
