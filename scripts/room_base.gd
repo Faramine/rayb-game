@@ -3,7 +3,7 @@ extends Node3D
 
 @onready var camera_posistion : Vector3 = $Camera_pos.global_position
 @onready var ceiling : CSGBox3D = $Ceiling
-@onready var godray = $GodRay
+@onready var nav = $NavigationRegion3D
 @onready var walldown1 = $NavigationRegion3D/Wall_down
 @onready var walldown2 = $NavigationRegion3D/Wall_down2
 @onready var doorUp = $NavigationRegion3D/Door_up
@@ -14,6 +14,8 @@ extends Node3D
 @onready var doorMatDown = $NavigationRegion3D/Doormat_down
 @onready var doorMatLeft = $NavigationRegion3D/Doormat_left
 @onready var doorMatRight = $NavigationRegion3D/Doormat_right
+
+var orb_position
 
 var coords = [0,0]
 var world : World
@@ -44,10 +46,11 @@ func debug_spawn_dummy(offset = Vector3.ZERO) -> Enemy:
 func activate_room():
 	is_active = true
 	ceiling.visible = false
-	godray.visible = true
 	walldown1.material.albedo_color.a = 0.5
 	walldown2.material.albedo_color.a = 0.5
 	self.visible = true
+	if world.start_room.coords == coords:
+		return
 	for i in range(0,nb_enemies):
 		var enemy = debug_spawn_dummy(Vector3(-9*i,0,-9*i))
 		enemy.on_room_activated()
@@ -55,7 +58,6 @@ func activate_room():
 func deactivate_room():
 	is_active = false
 	ceiling.visible = true
-	godray.visible = false
 	walldown1.material.albedo_color.a = 1.0
 	walldown2.material.albedo_color.a = 1.0
 	self.visible = false
@@ -83,3 +85,20 @@ func open_wall(coords : Array):
 			doorDown.visible = false
 			doorMatDown.visible = true
 			doorDown.set_collision_layer_value(1,false)
+
+func populate(layout : Room_layout):
+	layout.global_position = self.global_position
+	add_child(layout)
+	
+	layout.remove_child(layout.godrays)
+	layout.remove_child(layout.enemies)
+	layout.remove_child(layout.decor)
+	layout.remove_child(layout.orb_position)
+	layout.remove_child(layout.obstacles)
+	
+	add_child(layout.godrays)
+	add_child(layout.enemies)
+	add_child(layout.decor)
+	add_child(layout.orb_position)
+	orb_position = layout.orb_position.position
+	nav.add_child(layout.obstacles)

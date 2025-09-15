@@ -1,7 +1,7 @@
 shader_type spatial;
 uniform sampler2D noise : repeat_enable;
 uniform sampler2D gradient;
-render_mode unshaded;
+render_mode unshaded, depth_prepass_alpha;
 
 void vertex() {
 	// Called for every vertex the material is visible on.

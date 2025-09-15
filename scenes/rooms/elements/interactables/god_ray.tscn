@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmmq2bxxl4a5v"]
+[gd_scene load_steps=10 format=3 uid="uid://dye7apdp65ohn"]
 
-[ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_vs3mb"]
+[ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vs3mb"]
 lightmap_size_hint = Vector2i(79, 152)
@@ -33,7 +33,7 @@ noise = SubResource("FastNoiseLite_3esn3")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lxw7f"]
 render_priority = 0
-shader = ExtResource("1_vs3mb")
+shader = ExtResource("1_3t4on")
 shader_parameter/noise = SubResource("NoiseTexture2D_jfl6h")
 shader_parameter/gradient = SubResource("GradientTexture2D_gwsfw")
 
@@ -45,6 +45,7 @@ radius = 2.48
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 12.5, 0)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_vs3mb")
 surface_material_override/0 = SubResource("ShaderMaterial_lxw7f")
 

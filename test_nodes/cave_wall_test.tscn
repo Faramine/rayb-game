@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://7v34qiaqmxre"]
+
+[ext_resource type="Shader" uid="uid://ctvfwafs88mtk" path="res://shaders/materials/cave_rock.gdshader" id="1_vrmb7"]
+[ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="2_i3yhe"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i3yhe"]
+size = Vector2(10, 4)
+subdivide_width = 1000
+subdivide_depth = 200
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_luwaa"]
+render_priority = 0
+shader = ExtResource("1_vrmb7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_luwaa"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ca3w1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_036b0"]
+seamless = true
+noise = SubResource("FastNoiseLite_ca3w1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vs6ms"]
+render_priority = 0
+shader = ExtResource("2_i3yhe")
+shader_parameter/NOISE_TEXTURE = SubResource("NoiseTexture2D_036b0")
+shader_parameter/uv_scaling = 2.05
+shader_parameter/movement_direction = Vector2(1, 1)
+shader_parameter/movement_speed = 0.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+mesh = SubResource("PlaneMesh_i3yhe")
+surface_material_override/0 = SubResource("ShaderMaterial_luwaa")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83863, -2.59033)
+visible = false
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_luwaa")
+surface_material_override/0 = SubResource("ShaderMaterial_vs6ms")

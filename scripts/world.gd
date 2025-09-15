@@ -9,10 +9,13 @@ extends Node3D
 
 # Dictionnaire Coord/Room
 var rooms : Dictionary = Dictionary() #room
+var start_room : Room
+var preboss_room : Room
+var boss_room : Room
 var active_room : Room
 
 func _ready() -> void:
-	rooms = generator.generate_map(self)
+	generator.generate_map(self)
 	minimap.display_map(rooms.keys())
 
 func change_room(coords):
