@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=58 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
 [ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="7_oamho"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
 
@@ -893,6 +894,8 @@ size = Vector3(2.5, 1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_oamho"]
 size = Vector3(2.5, 1, 1)
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3eoxc"]
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_f0yg5")
 
@@ -1061,6 +1064,8 @@ one_shot = true
 one_shot = true
 
 [node name="SwordHitbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("7_lyd3o")
 metadata/_custom_type_script = "uid://ct7jbab3yuigr"
 
@@ -1073,7 +1078,17 @@ debug_color = Color(0.7, 0, 0, 1)
 [node name="LeftSwordCollision" type="CollisionShape3D" parent="SwordHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 shape = SubResource("BoxShape3D_oamho")
+disabled = true
 debug_color = Color(0.7, 0, 0, 1)
+
+[node name="HurtBox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("7_oamho")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("CapsuleShape3D_3eoxc")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

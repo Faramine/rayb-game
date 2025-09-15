@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://jwpwxu137g02"]
+[gd_scene load_steps=31 format=3 uid="uid://jwpwxu137g02"]
 
 [ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://abstract_enemy.tscn" id="1_33gkd"]
 [ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_melee.gd" id="2_jnamf"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://qwdwtsl5gir6" path="res://scripts/enemies/melee/launch_attack.gd" id="8_wlrfb"]
 [ext_resource type="Script" uid="uid://cbqs7ajicq3dl" path="res://scripts/enemies/melee/misled.gd" id="9_ubpii"]
 [ext_resource type="Script" uid="uid://poddd41l52c" path="res://scripts/enemies/melee/take_hit.gd" id="10_semhw"]
+[ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="11_txjfy"]
 
 [sub_resource type="Gradient" id="Gradient_jnamf"]
 offsets = PackedFloat32Array(0.518018, 0.644144, 0.779279)
@@ -156,6 +157,9 @@ _data = {
 &"hit": SubResource("Animation_1ob5i")
 }
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ola0k"]
+radius = 3.0
+
 [node name="EnemyMelee" instance=ExtResource("1_33gkd")]
 script = ExtResource("2_jnamf")
 speed = 8
@@ -202,6 +206,8 @@ texture = SubResource("ViewportTexture_semhw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00818825, 0, -0.0250807)
 
 [node name="HurtBox" type="Area3D" parent="." index="6"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("3_1ob5i")
 metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 
@@ -265,6 +271,17 @@ chase_state = NodePath("../Chase")
 [node name="TakeHit" type="Node" parent="StateMachine" index="5" node_paths=PackedStringArray("chase_state")]
 script = ExtResource("10_semhw")
 chase_state = NodePath("../Chase")
+
+[node name="HitBox" type="Area3D" parent="." index="10"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("11_txjfy")
+metadata/_custom_type_script = "uid://ct7jbab3yuigr"
+
+[node name="MeleeAttackCollision" type="CollisionShape3D" parent="HitBox" index="0"]
+shape = SubResource("CylinderShape3D_ola0k")
+disabled = true
+debug_color = Color(0.7, 0, 0, 0.419608)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/TakeHit" method="_on_animation_finished"]
 [connection signal="state_changed" from="StateMachine" to="." method="_on_state_changed"]

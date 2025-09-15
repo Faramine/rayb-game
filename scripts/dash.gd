@@ -15,10 +15,6 @@ var tween_lightboom : Tween = create_tween()
 
 func _ready():
 	prejuice_timer.wait_time = dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25
-	# tween_whitecape
-
-	# tween_lightboom
-
 
 func dash(dash_target_pos: Vector3):
 	if dash_cooldown.is_stopped():

@@ -33,6 +33,8 @@ func _on_launch_attack_duration_timeout() -> void:
 	parent.room.world.camera.add_trauma(0.25)
 	parent.velocity = Vector3.ZERO
 	impact_stun_duration.start()
+	$"../../HitBox/MeleeAttackCollision".disabled = false
 
 func _on_impact_stun_duration_timeout() -> void:
+	$"../../HitBox/MeleeAttackCollision".disabled = true
 	fsm.apply_transition("launch_attack_end")

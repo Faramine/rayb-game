@@ -48,6 +48,14 @@ func process_move(delta):
 		animationTree["parameters/conditions/is_idle"] = true;
 	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
+func take_damage(damage):
+	print("take damage")
+	#var tween_damage = create_tween()
+	#tween_damage.tween_property($"Armature/Skeleton3D/Cylinder_002".get_active_material(0),
+	 #"emission", Color.RED, 0.1)
+	#tween_damage.tween_property($"Armature/Skeleton3D/Cylinder_002".get_active_material(0),
+	 #"emission", Color.WHITE, 0.1)
+
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):
 		world.change_room(area.owner.coords)
