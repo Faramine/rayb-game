@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cllissle706n4" path="res://scripts/dash.gd" id="5_4garc"]
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
-[ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="7_lyd3o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
 
