@@ -8,16 +8,21 @@ var parent : EnemyMelee
 
 func apply_transition(transition) -> State:
 	match transition:
-		"godray_exited":
+		"hit_taken":
 			return chase_state
 	return null
 
 func enter():
-	pass
+	parent.velocity = Vector3.ZERO
+	parent.mesh.scale = Vector3.ONE
+	$"../../AnimationPlayer".play("hit")
 
 func exit():
 	pass
 
 func process(delta: float) -> void:
-	parent.update_target_position(parent.spawn_point)
-	parent.move_toward_target(parent.speed)
+	pass
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "hit":
+		fsm.apply_transition("hit_taken")

@@ -1,10 +1,10 @@
 extends State
 
-@export var load_attack_state : State
-@export var misled_state : State
 var parent : EnemyMelee
 
-signal within_attack_range
+@export var load_attack_state : State
+@export var misled_state : State
+@export var take_hit_state : State
 
 func apply_transition(transition) -> State:
 	match transition:
@@ -12,10 +12,13 @@ func apply_transition(transition) -> State:
 			return load_attack_state
 		"godray_entered":
 			return misled_state
+		"got_hit":
+			return take_hit_state
 	return null
 
 func enter():
-	pass
+	if parent.player.is_in_godray:
+		fsm.apply_transition("godray_entered")
 
 func exit():
 	pass
@@ -33,4 +36,4 @@ func follow_player(speed):
 func check_attack_range(range):
 	var distance = parent.global_position.distance_to(parent.player.global_position)
 	if distance < range:
-		within_attack_range.emit()
+		fsm.apply_transition("within_attack_range")

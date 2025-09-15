@@ -1,17 +1,17 @@
 extends State
 
-@export var chase_state : State
-@export var misled_state : State
-@onready var launch_attack_duration : Timer = $LaunchAttackDuration
-@onready var impact_stun_duration : Timer = $ImpactStunDuration
 var parent : EnemyMelee
 
-signal launch_attack_end
+@export var chase_state : State
+@export var misled_state : State
+
+@onready var launch_attack_duration : Timer = $LaunchAttackDuration
+@onready var impact_stun_duration : Timer = $ImpactStunDuration
 
 func apply_transition(transition) -> State:
 	match transition:
 		"launch_attack_end":
-			return misled_state if parent.player.is_in_godray else chase_state
+			return chase_state
 	return null
 
 func enter():
@@ -35,4 +35,4 @@ func _on_launch_attack_duration_timeout() -> void:
 	impact_stun_duration.start()
 
 func _on_impact_stun_duration_timeout() -> void:
-	launch_attack_end.emit()
+	fsm.apply_transition("launch_attack_end")

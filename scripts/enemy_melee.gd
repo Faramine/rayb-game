@@ -3,13 +3,6 @@ extends Enemy
 
 @onready var state_machine = $StateMachine
 
-var state = STATE_IDLE
-const STATE_IDLE = 0
-const STATE_FOLLOW = 1
-const STATE_LOAD_ATTACK = 2
-const STATE_LAUNCH_ATTACK = 3
-const STATE_MISLED = 4
-
 var launch_origin : Vector3
 var launch_target : Vector3
 
@@ -43,11 +36,6 @@ func _on_player_enter_godray():
 func _on_player_exit_godray():
 	state_machine.apply_transition("godray_exited")
 
-func _on_within_attack_range() -> void:
-	state_machine.apply_transition("within_attack_range")
 
-func _on_load_attack_end() -> void:
-	state_machine.apply_transition("load_attack_end")
-
-func _on_launch_attack_end() -> void:
-	state_machine.apply_transition("launch_attack_end")
+func _on_state_changed(state_name) -> void:
+	$SubViewport/Control/Label.text = state_name

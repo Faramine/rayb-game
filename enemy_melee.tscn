@@ -1,7 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://jwpwxu137g02"]
+[gd_scene load_steps=29 format=3 uid="uid://jwpwxu137g02"]
 
 [ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://abstract_enemy.tscn" id="1_33gkd"]
-[ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_dummy.gd" id="2_jnamf"]
+[ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_melee.gd" id="2_jnamf"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_1ob5i"]
 [ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="4_jqwtn"]
 [ext_resource type="Script" uid="uid://belxaiupe7mb3" path="res://scripts/enemies/melee/idle_state.gd" id="5_t1tt7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cejk0tw6dfnuj" path="res://scripts/enemies/melee/load_attack.gd" id="7_a6dem"]
 [ext_resource type="Script" uid="uid://qwdwtsl5gir6" path="res://scripts/enemies/melee/launch_attack.gd" id="8_wlrfb"]
 [ext_resource type="Script" uid="uid://cbqs7ajicq3dl" path="res://scripts/enemies/melee/misled.gd" id="9_ubpii"]
+[ext_resource type="Script" uid="uid://poddd41l52c" path="res://scripts/enemies/melee/take_hit.gd" id="10_semhw"]
 
 [sub_resource type="Gradient" id="Gradient_jnamf"]
 offsets = PackedFloat32Array(0.518018, 0.644144, 0.779279)
@@ -21,6 +22,9 @@ fill_to = Vector2(0.495726, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jnamf"]
 albedo_texture = SubResource("GradientTexture2D_1ob5i")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_semhw"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jqwtn"]
 
@@ -77,6 +81,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mesh:surface_material_override/0:albedo_texture:gradient:colors")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedColorArray(0.11, 0.033, 0.033, 1, 1, 0.3, 0.3, 1, 0.109804, 0.0313726, 0.0313726, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Mesh:mesh:height")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
 
 [sub_resource type="Animation" id="Animation_t4k0o"]
 resource_name = "attack"
@@ -96,6 +124,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0.523599, 0.261799, 0), Vector3(-0.523599, -0.261799, 0), Vector3(0, 0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mesh:surface_material_override/0:albedo_texture:gradient:colors")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [PackedColorArray(0.11, 0.033, 0.033, 1, 1, 0.3, 0.3, 1, 0.109804, 0.0313726, 0.0313726, 1), PackedColorArray(0.47, 0.047, 0.047, 1, 1, 0.17, 0.17, 1, 0.470588, 0.0470588, 0.0470588, 1), PackedColorArray(0.11, 0.033, 0.033, 1, 1, 0.3, 0.3, 1, 0.109804, 0.0313726, 0.0313726, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Mesh:mesh:height")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 1.254, 2.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t1tt7"]
 _data = {
@@ -111,17 +163,52 @@ speed = 8
 [node name="Mesh" parent="." index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_jnamf")
 
-[node name="Target" parent="." index="3"]
+[node name="SubViewport" type="SubViewport" parent="." index="3"]
+transparent_bg = true
+size = Vector2i(128, 32)
+
+[node name="Control" type="Control" parent="SubViewport" index="0"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SubViewport/Control" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "State"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15638, 0)
+pixel_size = 0.05
+billboard = 1
+texture = SubResource("ViewportTexture_semhw")
+
+[node name="Target" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00818825, 0, -0.0250807)
 
-[node name="HurtBox" type="Area3D" parent="." index="4"]
+[node name="HurtBox" type="Area3D" parent="." index="6"]
 script = ExtResource("3_1ob5i")
 metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" index="0"]
 shape = SubResource("CapsuleShape3D_jqwtn")
 
-[node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="5"]
+[node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="7"]
 emitting = false
 amount = 50
 one_shot = true
@@ -129,27 +216,30 @@ explosiveness = 0.95
 process_material = SubResource("ParticleProcessMaterial_ubpii")
 draw_pass_1 = SubResource("SphereMesh_iy47h")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="6"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="8"]
 libraries = {
 &"": SubResource("AnimationLibrary_t1tt7")
 }
 
-[node name="StateMachine" type="Node" parent="." index="7" node_paths=PackedStringArray("root_state")]
+[node name="StateMachine" type="Node" parent="." index="9" node_paths=PackedStringArray("root_state")]
 script = ExtResource("4_jqwtn")
 root_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" index="0" node_paths=PackedStringArray("chase_state")]
+[node name="Idle" type="Node" parent="StateMachine" index="0" node_paths=PackedStringArray("chase_state", "take_hit_state")]
 script = ExtResource("5_t1tt7")
 chase_state = NodePath("../Chase")
+take_hit_state = NodePath("../TakeHit")
 
-[node name="Chase" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("load_attack_state", "misled_state")]
+[node name="Chase" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("load_attack_state", "misled_state", "take_hit_state")]
 script = ExtResource("6_t4k0o")
 load_attack_state = NodePath("../LoadAttack")
 misled_state = NodePath("../Misled")
+take_hit_state = NodePath("../TakeHit")
 
-[node name="LoadAttack" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("launch_attack_state")]
+[node name="LoadAttack" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("launch_attack_state", "take_hit_state")]
 script = ExtResource("7_a6dem")
 launch_attack_state = NodePath("../LaunchAttack")
+take_hit_state = NodePath("../TakeHit")
 
 [node name="LoadAttackTimer" type="Timer" parent="StateMachine/LoadAttack" index="0"]
 wait_time = 0.1
@@ -172,9 +262,12 @@ one_shot = true
 script = ExtResource("9_ubpii")
 chase_state = NodePath("../Chase")
 
-[connection signal="within_attack_range" from="StateMachine/Chase" to="." method="_on_within_attack_range"]
-[connection signal="load_attack_end" from="StateMachine/LoadAttack" to="." method="_on_load_attack_end"]
+[node name="TakeHit" type="Node" parent="StateMachine" index="5" node_paths=PackedStringArray("chase_state")]
+script = ExtResource("10_semhw")
+chase_state = NodePath("../Chase")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/TakeHit" method="_on_animation_finished"]
+[connection signal="state_changed" from="StateMachine" to="." method="_on_state_changed"]
 [connection signal="timeout" from="StateMachine/LoadAttack/LoadAttackTimer" to="StateMachine/LoadAttack" method="_on_load_attack_timer_timeout"]
-[connection signal="launch_attack_end" from="StateMachine/LaunchAttack" to="." method="_on_launch_attack_end"]
 [connection signal="timeout" from="StateMachine/LaunchAttack/LaunchAttackDuration" to="StateMachine/LaunchAttack" method="_on_launch_attack_duration_timeout"]
 [connection signal="timeout" from="StateMachine/LaunchAttack/ImpactStunDuration" to="StateMachine/LaunchAttack" method="_on_impact_stun_duration_timeout"]

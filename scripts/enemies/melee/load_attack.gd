@@ -1,15 +1,19 @@
 extends State
 
-@onready var load_attack_timer : Timer = $LoadAttackTimer
-@export var launch_attack_state : State
 var parent : EnemyMelee
 
-signal load_attack_end
+@export var launch_attack_state : State
+@export var take_hit_state : State
+
+@onready var load_attack_timer : Timer = $LoadAttackTimer
+var tween_scale : Tween
 
 func apply_transition(transition) -> State:
 	match transition:
 		"load_attack_end":
 			return launch_attack_state
+		"got_hit":
+			return take_hit_state
 	return null
 
 func enter():
@@ -19,15 +23,16 @@ func enter():
 	if( parent.player.velocity.length_squared() > 1 ): parent.launch_target += parent.player.velocity.normalized() * 3
 	parent.velocity = Vector3.ZERO
 	load_attack_timer.start()
-	var tween = create_tween()
-	tween.tween_property(parent.mesh, "scale", Vector3(1.5,1.5,1.5), load_attack_timer.wait_time)
+	tween_scale = create_tween()
+	tween_scale.tween_property(parent.mesh, "scale", Vector3(1.5,1.5,1.5), load_attack_timer.wait_time)
 
 func exit():
 	load_attack_timer.stop()
+	tween_scale.stop()
 
 func process(delta: float) -> void:
 	#$Target.global_position = launch_target
 	pass
 
 func _on_load_attack_timer_timeout() -> void:
-	load_attack_end.emit()
+	fsm.apply_transition("load_attack_end")

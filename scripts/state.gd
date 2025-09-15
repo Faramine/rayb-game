@@ -1,6 +1,8 @@
 class_name State
 extends Node
 
+var fsm : StateMachine
+
 func apply_transition(transition) -> State:
 	return null
 

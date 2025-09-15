@@ -1,13 +1,17 @@
 class_name StateMachine
 extends Node
 
+signal state_changed
+
 @export var root_state : State
 var current_state : State
 var States : Array[State]
 
 func init(parent: Node) -> void:
 	for child in get_children():
-		child.parent = parent
+		var state := child as State
+		state.parent = parent
+		state.fsm = self
 
 func _ready() -> void:
 	current_state = root_state
@@ -22,3 +26,4 @@ func apply_transition(transition):
 	current_state.exit()
 	current_state = new_state
 	current_state.enter()
+	state_changed.emit(current_state.name)
