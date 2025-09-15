@@ -19,10 +19,19 @@ func change_room(room: Array):
 func display_map(room_list: Array):
 	var square
 	for k in room_list:
-		square = ColorRect.new()
-		square.color = Color.GRAY
-		square.size.x = 20
-		square.size.y = 20
-		square.position.x = -k[1] * 21
-		square.position.y = k[0] * 21
-		mapcontrol.add_child(square)
+		place_room(k,Color.GRAY)
+
+func display_special_rooms(start:Array,pre:Array,boss:Array):
+	place_room(start,Color.GREEN)
+	place_room(pre,Color.BLUE)
+	place_room(boss,Color.RED)
+
+func place_room(coords:Array,color:Color):
+	var square
+	square = ColorRect.new()
+	square.color = color
+	square.size.x = 20
+	square.size.y = 20
+	square.position.x = -coords[1] * 21
+	square.position.y = coords[0] * 21
+	mapcontrol.add_child(square)
