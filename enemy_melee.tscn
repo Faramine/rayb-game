@@ -1,0 +1,180 @@
+[gd_scene load_steps=27 format=3 uid="uid://jwpwxu137g02"]
+
+[ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://abstract_enemy.tscn" id="1_33gkd"]
+[ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_dummy.gd" id="2_jnamf"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_1ob5i"]
+[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="4_jqwtn"]
+[ext_resource type="Script" uid="uid://belxaiupe7mb3" path="res://scripts/enemies/melee/idle_state.gd" id="5_t1tt7"]
+[ext_resource type="Script" uid="uid://h2fig86rt56o" path="res://scripts/enemies/melee/chase.gd" id="6_t4k0o"]
+[ext_resource type="Script" uid="uid://cejk0tw6dfnuj" path="res://scripts/enemies/melee/load_attack.gd" id="7_a6dem"]
+[ext_resource type="Script" uid="uid://qwdwtsl5gir6" path="res://scripts/enemies/melee/launch_attack.gd" id="8_wlrfb"]
+[ext_resource type="Script" uid="uid://cbqs7ajicq3dl" path="res://scripts/enemies/melee/misled.gd" id="9_ubpii"]
+
+[sub_resource type="Gradient" id="Gradient_jnamf"]
+offsets = PackedFloat32Array(0.518018, 0.644144, 0.779279)
+colors = PackedColorArray(0.11, 0.033, 0.033, 1, 1, 0.3, 0.3, 1, 0.109804, 0.0313726, 0.0313726, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1ob5i"]
+gradient = SubResource("Gradient_jnamf")
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.495726, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jnamf"]
+albedo_texture = SubResource("GradientTexture2D_1ob5i")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jqwtn"]
+
+[sub_resource type="Gradient" id="Gradient_1ob5i"]
+offsets = PackedFloat32Array(0.0190476, 1)
+colors = PackedColorArray(0.2, 0, 0, 0.509804, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jqwtn"]
+gradient = SubResource("Gradient_1ob5i")
+
+[sub_resource type="Curve" id="Curve_t1tt7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.436441, 0.0674158), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t4k0o"]
+curve = SubResource("Curve_t1tt7")
+
+[sub_resource type="Curve" id="Curve_a6dem"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.516854), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wlrfb"]
+curve = SubResource("Curve_a6dem")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ubpii"]
+emission_shape_scale = Vector3(1, 0.1, 1)
+emission_shape = 2
+emission_sphere_radius = 1.0
+radial_velocity_min = 7.29998
+radial_velocity_max = 7.29998
+radial_velocity_curve = SubResource("CurveTexture_t4k0o")
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_wlrfb")
+color_ramp = SubResource("GradientTexture1D_jqwtn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jptgt"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_iy47h"]
+material = SubResource("StandardMaterial3D_jptgt")
+
+[sub_resource type="Animation" id="Animation_jqwtn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_t4k0o"]
+resource_name = "attack"
+
+[sub_resource type="Animation" id="Animation_1ob5i"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.523599, 0.261799, 0), Vector3(-0.523599, -0.261799, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t1tt7"]
+_data = {
+&"RESET": SubResource("Animation_jqwtn"),
+&"attack": SubResource("Animation_t4k0o"),
+&"hit": SubResource("Animation_1ob5i")
+}
+
+[node name="EnemyMelee" instance=ExtResource("1_33gkd")]
+script = ExtResource("2_jnamf")
+speed = 8
+
+[node name="Mesh" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_jnamf")
+
+[node name="Target" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00818825, 0, -0.0250807)
+
+[node name="HurtBox" type="Area3D" parent="." index="4"]
+script = ExtResource("3_1ob5i")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" index="0"]
+shape = SubResource("CapsuleShape3D_jqwtn")
+
+[node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="5"]
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_ubpii")
+draw_pass_1 = SubResource("SphereMesh_iy47h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="6"]
+libraries = {
+&"": SubResource("AnimationLibrary_t1tt7")
+}
+
+[node name="StateMachine" type="Node" parent="." index="7" node_paths=PackedStringArray("root_state")]
+script = ExtResource("4_jqwtn")
+root_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" index="0" node_paths=PackedStringArray("chase_state")]
+script = ExtResource("5_t1tt7")
+chase_state = NodePath("../Chase")
+
+[node name="Chase" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("load_attack_state", "misled_state")]
+script = ExtResource("6_t4k0o")
+load_attack_state = NodePath("../LoadAttack")
+misled_state = NodePath("../Misled")
+
+[node name="LoadAttack" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("launch_attack_state")]
+script = ExtResource("7_a6dem")
+launch_attack_state = NodePath("../LaunchAttack")
+
+[node name="LoadAttackTimer" type="Timer" parent="StateMachine/LoadAttack" index="0"]
+wait_time = 0.1
+one_shot = true
+
+[node name="LaunchAttack" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("chase_state", "misled_state")]
+script = ExtResource("8_wlrfb")
+chase_state = NodePath("../Chase")
+misled_state = NodePath("../Misled")
+
+[node name="LaunchAttackDuration" type="Timer" parent="StateMachine/LaunchAttack" index="0"]
+wait_time = 0.2
+one_shot = true
+
+[node name="ImpactStunDuration" type="Timer" parent="StateMachine/LaunchAttack" index="1"]
+wait_time = 0.3
+one_shot = true
+
+[node name="Misled" type="Node" parent="StateMachine" index="4" node_paths=PackedStringArray("chase_state")]
+script = ExtResource("9_ubpii")
+chase_state = NodePath("../Chase")
+
+[connection signal="within_attack_range" from="StateMachine/Chase" to="." method="_on_within_attack_range"]
+[connection signal="load_attack_end" from="StateMachine/LoadAttack" to="." method="_on_load_attack_end"]
+[connection signal="timeout" from="StateMachine/LoadAttack/LoadAttackTimer" to="StateMachine/LoadAttack" method="_on_load_attack_timer_timeout"]
+[connection signal="launch_attack_end" from="StateMachine/LaunchAttack" to="." method="_on_launch_attack_end"]
+[connection signal="timeout" from="StateMachine/LaunchAttack/LaunchAttackDuration" to="StateMachine/LaunchAttack" method="_on_launch_attack_duration_timeout"]
+[connection signal="timeout" from="StateMachine/LaunchAttack/ImpactStunDuration" to="StateMachine/LaunchAttack" method="_on_impact_stun_duration_timeout"]

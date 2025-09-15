@@ -1,5 +1,7 @@
-class_name EnemyDummy
+class_name EnemyMelee
 extends Enemy
+
+@onready var state_machine = $StateMachine
 
 var state = STATE_IDLE
 const STATE_IDLE = 0
@@ -11,92 +13,41 @@ const STATE_MISLED = 4
 var launch_origin : Vector3
 var launch_target : Vector3
 
+@onready var mesh = $Mesh
+@onready var animation_player := $AnimationPlayer
+var attack_range = 3
+
 func _ready() -> void:
 	player.godray_entered.connect(_on_player_enter_godray)
 	player.godray_exited.connect(_on_player_exit_godray)
+	state_machine.init(self)
 
 func _process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity
-	if(state == STATE_FOLLOW):
-		follow_player(speed)
-		check_attack_range()
-	if(state == STATE_LOAD_ATTACK):
-		$Target.global_position = launch_target
-		pass
-	if(state == STATE_LAUNCH_ATTACK):
-		$Target.global_position = launch_target
-		var weight = ($LaunchAttackDuration.wait_time - $LaunchAttackDuration.time_left)/$LaunchAttackDuration.wait_time
-		global_position = lerp(launch_origin, launch_target, weight)
-	if(state == STATE_MISLED):
-		update_target_position(spawn_point)
-		move_toward_target(speed)
+	state_machine.process(delta)
 	move_and_slide()
-
-#func _ready():
-	#self.speed = 5
-
-func follow_player(speed):
-	var distance = self.global_position.distance_to(self.player.global_position)
-	var target_position = self.player.global_position + self.player.velocity * distance/30
-	update_target_position(target_position)
-	move_toward_target(speed)
-
-func check_attack_range():
-	var distance = self.global_position.distance_to(self.player.global_position)
-	if distance < 3:
-		change_state(STATE_LOAD_ATTACK)
-		load_attack()
-
-func load_attack():
-	$Target/MeshInstance3D.get_active_material(0).albedo_color = Color.RED
-	launch_origin = global_position
-	launch_target = player.global_position
-	if( player.velocity.length_squared() > 1 ): launch_target += player.velocity.normalized() * 3
-	velocity = Vector3.ZERO
-	$LoadAttackTimer.start()
-	var tween = create_tween()
-	tween.tween_property($Mesh, "scale", Vector3(1.5,1.5,1.5), $LoadAttackTimer.wait_time)
-
-func launch_attack():
-	var tween = create_tween()
-	tween.tween_property($Mesh, "scale", Vector3.ONE, 0.05)
-	change_state(STATE_LAUNCH_ATTACK)
-	$LaunchAttackDuration.start()
 
 func on_room_activated():
 	super.on_room_activated()
 	await get_tree().create_timer(0.3).timeout
 	if(room.is_active):
-		change_state(STATE_FOLLOW)
+		state_machine.apply_transition("activate")
 
-func on_room_deactivated():
-	super.on_room_deactivated()
-	change_state(STATE_IDLE)
-	$LaunchAttackDuration.stop()
-	$LoadAttackTimer.stop()
-	$Mesh.scale = Vector3.ONE
-
-func _on_load_attack_timer_timeout() -> void:
-	launch_attack()
-
-func _on_launch_attack_duration_timeout() -> void:
-	$AttackImpactParticles.restart()
-	room.world.camera.add_trauma(0.25)
-	velocity = Vector3.ZERO
-	change_state(STATE_IDLE)
-	await get_tree().create_timer(0.3).timeout
-	change_state(STATE_MISLED) if player.is_in_godray else change_state(STATE_FOLLOW)
-	$Target/MeshInstance3D.get_active_material(0).albedo_color = Color.YELLOW
+func take_damage(damage):
+	state_machine.apply_transition("got_hit")
 
 func _on_player_enter_godray():
-	if state == STATE_FOLLOW:
-		change_state(STATE_MISLED)
+	state_machine.apply_transition("godray_entered")
 
 func _on_player_exit_godray():
-	if state == STATE_MISLED:
-		change_state(STATE_FOLLOW)
+	state_machine.apply_transition("godray_exited")
 
-func change_state(state):
-	self.state = state
-	
+func _on_within_attack_range() -> void:
+	state_machine.apply_transition("within_attack_range")
+
+func _on_load_attack_end() -> void:
+	state_machine.apply_transition("load_attack_end")
+
+func _on_launch_attack_end() -> void:
+	state_machine.apply_transition("launch_attack_end")

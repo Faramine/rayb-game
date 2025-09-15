@@ -18,7 +18,7 @@ extends Node3D
 var coords = [0,0]
 var world : World
 var is_active : bool = false
-var enemy_dummy_scene : PackedScene = load("res://enemy_dummy.tscn")
+var enemy_dummy_scene : PackedScene = load("res://enemy_melee.tscn")
 @onready var enemies : Array[Enemy] = []
 var nb_enemies = randi()%3
 
@@ -30,16 +30,16 @@ func set_world(world : World):
 	self.world = world
 
 func debug_spawn_dummy(offset = Vector3.ZERO) -> Enemy:
-	var enemy_dummy : Enemy = enemy_dummy_scene.instantiate()
+	var enemy_melee : Enemy = enemy_dummy_scene.instantiate()
 	var spawn_pos = $EnemySpawnPoint.global_position
 	spawn_pos += offset
-	enemy_dummy.global_position = spawn_pos
-	enemy_dummy.set_spawn( spawn_pos )
-	enemy_dummy.room = self
-	enemy_dummy.player = world.player
-	enemies.append(enemy_dummy)
-	add_child(enemy_dummy)
-	return enemy_dummy
+	enemy_melee.global_position = spawn_pos
+	enemy_melee.set_spawn( spawn_pos )
+	enemy_melee.room = self
+	enemy_melee.player = world.player
+	enemies.append(enemy_melee)
+	add_child(enemy_melee)
+	return enemy_melee
 
 func activate_room():
 	is_active = true
