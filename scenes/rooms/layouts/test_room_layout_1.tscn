@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr7lv5qgm4bhc"]
+
+[ext_resource type="PackedScene" uid="uid://3ddnr4pbtihn" path="res://scenes/rooms/layouts/base_room_layout.tscn" id="1_udi7i"]
+[ext_resource type="PackedScene" uid="uid://dye7apdp65ohn" path="res://scenes/rooms/elements/interactables/god_ray.tscn" id="2_7pqdu"]
+
+[node name="test_room_layout_1" instance=ExtResource("1_udi7i")]
+
+[node name="GodRay" parent="God_rays" index="0" instance=ExtResource("2_7pqdu")]

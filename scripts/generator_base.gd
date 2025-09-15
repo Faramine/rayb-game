@@ -4,7 +4,8 @@ extends Node
 @export var map_size = 11
 
 @onready var start_layout = preload("res://scenes/rooms/layouts/start_room_layout_1.tscn")
-@onready var layout = preload("res://scenes/rooms/layouts/base_room_layout.tscn")
+@onready var layout = [preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
+preload("res://scenes/rooms/layouts/test_room_layout_1.tscn")]
 @onready var orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
 
 func generate_map(world : World):
@@ -82,8 +83,12 @@ func generate_map(world : World):
 	
 	world.start_room.populate(start_layout.instantiate())
 	
-	for k in room_list:
-		world.rooms.get(k).populate(layout.instantiate())
+	list = room_list.duplicate()
+	list.erase([preboss[0]-1,preboss[1]])
+	list.erase([map_center,map_center])
+	
+	for k in list:
+		world.rooms.get(k).populate(layout[randi_range(0,layout.size()-1)].instantiate())
 	#placing the orbs
 	list = room_list.duplicate()
 	list.erase(preboss)

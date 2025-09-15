@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, world_vertex_coords, cull_disabled;
+render_mode unshaded, world_vertex_coords;//, cull_disabled;
 uniform float frequency = 3.0;
 uniform float minimum_light = 0.5;
 uniform float intensity = 5.0;
