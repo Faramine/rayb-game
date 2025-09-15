@@ -9,14 +9,17 @@ var current_room
 
 func _ready() -> void:
 	player = $".."
-	cursor = $Cursor
+	cursor = player.world.cursor
 	
 func _process(delta: float) -> void:
-		if cursor_pos:
-			cursor.visible = true
-			cursor.target = cursor_pos
-		else:
-			cursor.visible = false
+	if not cursor: 
+		cursor = player.world.cursor
+		return
+	if cursor_pos:
+		cursor.visible = true
+		cursor.target = cursor_pos
+	else:
+		cursor.visible = false
 
 func move_vector() -> Vector3:
 	var v_input = Input.get_vector("move_up", "move_down", "move_right", "move_left")

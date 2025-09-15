@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=21 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
+[ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -60,6 +61,11 @@ shader_parameter/uv_scaling = 2.05
 shader_parameter/movement_direction = Vector2(1, 1)
 shader_parameter/movement_speed = 0.0
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_ioo17"]
+top_radius = 0.2
+bottom_radius = 0.0
+height = 1.0
+
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
 minimap = NodePath("Map")
@@ -102,3 +108,11 @@ world = NodePath("..")
 
 [node name="GeneratorBase" type="Node" parent="."]
 script = ExtResource("6_dwbse")
+
+[node name="Cursor" type="Node3D" parent="."]
+script = ExtResource("8_gbfbk")
+
+[node name="Debug_Model" type="MeshInstance3D" parent="Cursor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_ioo17")
+skeleton = NodePath("../../Camera")

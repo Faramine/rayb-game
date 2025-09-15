@@ -10,8 +10,9 @@ extends CharacterBody3D
 @export var speed = 15
 @export var friction : float = 13
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-const lerp_smoothstep = 0.5; # Smoothness of the rotation animation on movement direction change
+const lerp_smoothstep = 30; # Smoothness of the rotation animation on movement direction change
 var is_in_godray = false
+var intent_direction = Vector3(0,1,0)
 
 signal godray_entered
 signal godray_exited
@@ -21,6 +22,7 @@ func _process(delta):
 		dash_ability.process_dash(delta)
 	else:
 		process_move(delta)
+		process_rotation(delta)
 	if not is_on_floor():
 		velocity.y -= gravity
 	move_and_slide()
@@ -31,9 +33,10 @@ func dash(dash_target_pos: Vector3):
 func process_move(delta):
 	var direction = controller.move_vector()
 	if direction:
+		intent_direction = direction
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		armature.rotation.y = lerp_angle(armature.rotation.y, direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
+		#armature.global_rotation.y = lerp_angle(armature.rotation.y, direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
 		animationTree["parameters/conditions/is_walking"] = true;
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
@@ -41,6 +44,9 @@ func process_move(delta):
 		velocity.z = lerp(velocity.z, 0.0, delta * friction);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
+
+func process_rotation(delta):
+	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):

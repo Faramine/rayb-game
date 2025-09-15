@@ -1,8 +1,7 @@
-[gd_scene load_steps=57 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=55 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
-[ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="2_6nbh1"]
 [ext_resource type="Script" uid="uid://cllissle706n4" path="res://scripts/dash.gd" id="5_4garc"]
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
@@ -801,11 +800,6 @@ states/Walk/position = Vector2(597, -11)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3eoxc"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_mpocd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_vw112"), "Idle", "Back", SubResource("AnimationNodeStateMachineTransition_um6fn"), "Back", "Idle", SubResource("AnimationNodeStateMachineTransition_2x3ds"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_8frjr"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_j5nl8"), "Back", "Dash", SubResource("AnimationNodeStateMachineTransition_wbsu7"), "Dash", "Back", SubResource("AnimationNodeStateMachineTransition_kgs87"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_u5gqg"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_xyw2u"), "Walk", "Back", SubResource("AnimationNodeStateMachineTransition_63v6x"), "Back", "Walk", SubResource("AnimationNodeStateMachineTransition_g2d2u")]
 graph_offset = Vector2(-24, -15.1312)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_6nbh1"]
-top_radius = 0.2
-bottom_radius = 0.0
-height = 1.0
-
 [sub_resource type="Gradient" id="Gradient_halkx"]
 offsets = PackedFloat32Array(0, 0.52381)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
@@ -1024,15 +1018,6 @@ parameters/conditions/is_walking = false
 
 [node name="Player_controller" type="Node3D" parent="."]
 script = ExtResource("1_va7e3")
-
-[node name="Cursor" type="Node3D" parent="Player_controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26436, 0, 0)
-script = ExtResource("2_6nbh1")
-
-[node name="Debug_Model" type="MeshInstance3D" parent="Player_controller/Cursor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CylinderMesh_6nbh1")
-skeleton = NodePath("../..")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 omni_range = 4.0
