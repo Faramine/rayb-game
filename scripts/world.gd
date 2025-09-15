@@ -17,11 +17,7 @@ var active_room : Room
 
 func _ready() -> void:
 	generator.generate_map(self)
-	var roomlist = rooms.keys().duplicate()
-	roomlist.erase(start_room.coords)
-	roomlist.erase(preboss_room.coords)
-	roomlist.erase(boss_room.coords)
-	minimap.display_map(roomlist)
+	minimap.display_map(rooms.keys())
 	minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
 
 func change_room(coords):
