@@ -30,13 +30,15 @@ func dash(dash_target_pos: Vector3):
 		$DashParticles.restart()
 		$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 		player.world.camera.add_trauma(0.25)
+		player.sword_collisions(true)
 	
 func process_dash(delta):
 	dash_time += delta
 	if (dash_time <= 0.075):
 		player.intent_direction = dash_target_dir
-		player.rotation.y = lerp_angle(player.rotation.y,
-		 dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), player.lerp_smoothstep * delta);
+		#player.rotation.y = lerp_angle(player.rotation.y,
+		 #dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), player.lerp_smoothstep * delta);
+		player.rotation.y = dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0))
 		player.velocity = dash_target_dir * dash_speed;
 	else:
 		end_dash()
@@ -49,6 +51,7 @@ func end_dash():
 	dash_cooldown.start()
 	end_dash_juice()
 	await get_tree().create_timer(.1).timeout
+	player.sword_collisions(false)
 	for area in $"../Area3D".get_overlapping_areas():
 		if area.is_in_group("Godray"):
 			regain_dash()

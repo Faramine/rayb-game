@@ -21,6 +21,12 @@ func _process(delta):
 	state_machine.process(delta)
 	move_and_slide()
 
+#func _physics_process(delta: float) -> void:
+	#if not is_on_floor():
+		#velocity.y -= gravity
+	#state_machine.process(delta)
+	#move_and_slide()
+
 func on_room_activated():
 	super.on_room_activated()
 	await get_tree().create_timer(0.3).timeout

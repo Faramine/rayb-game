@@ -13,6 +13,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const lerp_smoothstep = 30; # Smoothness of the rotation animation on movement direction change
 var is_in_godray = false
 var intent_direction = Vector3(0,1,0)
+var last_position = global_position
 
 signal godray_entered
 signal godray_exited
@@ -22,9 +23,10 @@ func _process(delta):
 		dash_ability.process_dash(delta)
 	else:
 		process_move(delta)
-		process_rotation(delta)
 	if not is_on_floor():
 		velocity.y -= gravity
+	sword_collisions_length()
+	last_position = global_position
 	move_and_slide()
 
 func dash(dash_target_pos: Vector3):
@@ -44,8 +46,6 @@ func process_move(delta):
 		velocity.z = lerp(velocity.z, 0.0, delta * friction);
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
-
-func process_rotation(delta):
 	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
 func _on_area_entered(area: Area3D) -> void:
@@ -61,3 +61,15 @@ func _on_area_3d_area_exited(area: Area3D) -> void:
 	if area.is_in_group("Godray"):
 		is_in_godray = false
 		godray_exited.emit()
+
+func sword_collisions(activate):
+	$SwordHitbox/LeftSwordCollision.disabled = !activate
+	$SwordHitbox/RightSwordCollision.disabled = !activate
+
+func sword_collisions_length():
+	var length = global_position.distance_to(last_position)
+	$SwordHitbox/LeftSwordCollision.shape.size.z = 1 + length
+	$SwordHitbox/LeftSwordCollision.position.z = -length/2
+	$SwordHitbox/RightSwordCollision.shape.size.z = 1 + length
+	$SwordHitbox/RightSwordCollision.position.z = -length/2
+	#$SwordHitbox/RightSwordCollision.disabled = !activate
