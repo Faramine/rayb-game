@@ -5,14 +5,8 @@
 
 [node name="Start_room_layout_1" instance=ExtResource("1_yruwk")]
 
-[node name="GodRay" parent="God_rays" index="0" instance=ExtResource("2_1uijr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8)
-
-[node name="GodRay2" parent="God_rays" index="1" instance=ExtResource("2_1uijr")]
+[node name="GodRay2" parent="God_rays" index="0" instance=ExtResource("2_1uijr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
 
-[node name="GodRay3" parent="God_rays" index="2" instance=ExtResource("2_1uijr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
-
-[node name="GodRay4" parent="God_rays" index="3" instance=ExtResource("2_1uijr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 8)
+[node name="GodRay3" parent="God_rays" index="1" instance=ExtResource("2_1uijr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97914, 0, 8)

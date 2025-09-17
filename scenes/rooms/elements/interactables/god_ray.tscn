@@ -1,66 +1,89 @@
-[gd_scene load_steps=10 format=3 uid="uid://dye7apdp65ohn"]
+[gd_scene load_steps=16 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
+[ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
+[ext_resource type="Texture2D" uid="uid://yjthraqju1ms" path="res://assets/textures/experimental/Texture_test.png" id="2_ijm52"]
+[ext_resource type="Shader" uid="uid://7l4kd51mlo2" path="res://shaders/materials/decal_test.gdshader" id="3_ospo2"]
+[ext_resource type="Script" uid="uid://c11bkvabhn6gi" path="res://mesh_instance_3d.gd" id="4_sykuj"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_vs3mb"]
-lightmap_size_hint = Vector2i(79, 152)
-top_radius = 0.355
-bottom_radius = 2.48
-height = 24.772
-cap_top = false
-cap_bottom = false
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7idm3"]
+render_priority = 0
+shader = ExtResource("1_sykuj")
 
-[sub_resource type="Gradient" id="Gradient_jfl6h"]
-offsets = PackedFloat32Array(0, 0.655738, 0.778689, 0.959016, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 0.803922, 0.780392, 1, 1, 0.729412, 1, 1, 1, 0.768627, 1, 1, 1, 1, 0)
+[sub_resource type="BoxMesh" id="BoxMesh_7idm3"]
+material = SubResource("ShaderMaterial_7idm3")
+size = Vector3(5.5, 25, 5.5)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_gwsfw"]
-gradient = SubResource("Gradient_jfl6h")
+[sub_resource type="Gradient" id="Gradient_ospo2"]
+offsets = PackedFloat32Array(0.896825, 1)
 
-[sub_resource type="Gradient" id="Gradient_vs3mb"]
-offsets = PackedFloat32Array(0, 0.92623)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 0.690196, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3esn3"]
-noise_type = 3
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sykuj"]
+noise_type = 2
 seed = 1
-frequency = 0.0426
-fractal_weighted_strength = 0.09
+frequency = 0.1083
+cellular_return_type = 0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jfl6h"]
-color_ramp = SubResource("Gradient_vs3mb")
-noise = SubResource("FastNoiseLite_3esn3")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7idm3"]
+color_ramp = SubResource("Gradient_ospo2")
+noise = SubResource("FastNoiseLite_sykuj")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxw7f"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sykuj"]
 render_priority = 0
 shader = ExtResource("1_3t4on")
-shader_parameter/noise = SubResource("NoiseTexture2D_jfl6h")
-shader_parameter/gradient = SubResource("GradientTexture2D_gwsfw")
+shader_parameter/gradient = SubResource("NoiseTexture2D_7idm3")
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_vxnym"]
-height = 10.0
-radius = 2.48
+[sub_resource type="BoxMesh" id="BoxMesh_winag"]
+material = SubResource("ShaderMaterial_sykuj")
+size = Vector3(4, 25, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_winag"]
+render_priority = 0
+shader = ExtResource("3_ospo2")
+shader_parameter/decal_texture = ExtResource("2_ijm52")
+shader_parameter/scale_mod = Vector3(0.166667, 0.2, 0.166667)
+shader_parameter/cube_half_size = Vector3(3, 2.5, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x5peg"]
+material = SubResource("ShaderMaterial_winag")
+flip_faces = true
+size = Vector3(6, 5, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ospo2"]
+size = Vector3(5.5, 10, 5.5)
 
 [node name="GodRay" type="Node3D"]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 12.5, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0193071, 12.5, 0)
 cast_shadow = 0
-mesh = SubResource("CylinderMesh_vs3mb")
-surface_material_override/0 = SubResource("ShaderMaterial_lxw7f")
+mesh = SubResource("BoxMesh_7idm3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D2"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_winag")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
+visible = false
 light_color = Color(1, 1, 0.835294, 1)
 light_energy = 300.0
 light_volumetric_fog_energy = 0.0
+light_projector = ExtResource("2_ijm52")
 spot_range = 10.0
 spot_attenuation = 1.08
 spot_angle = 30.0
 spot_angle_attenuation = 0.233259
 
+[node name="ProjectorDecal3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_x5peg")
+script = ExtResource("4_sykuj")
+size = Vector3(6, 5, 6)
+metadata/_custom_type_script = "uid://c11bkvabhn6gi"
+
 [node name="Area3D" type="Area3D" parent="." groups=["Godray"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
-shape = SubResource("CylinderShape3D_vxnym")
+shape = SubResource("BoxShape3D_ospo2")
