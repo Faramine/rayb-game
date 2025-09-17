@@ -4,6 +4,7 @@ var parent : EnemyMelee
 
 @export var chase_state : State
 @export var take_hit_state : State
+@export var dead_state : State
 
 func apply_transition(transition) -> State:
 	match transition:
@@ -11,6 +12,8 @@ func apply_transition(transition) -> State:
 			return chase_state
 		"got_hit":
 			return take_hit_state
+		"dead":
+			return dead_state
 	return null
 
 func enter():

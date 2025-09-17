@@ -39,7 +39,7 @@ func get_mouse_world_pos(mouse: Vector2):
 	var start = get_viewport().get_camera_3d().project_ray_origin(mouse)
 	var end = get_viewport().get_camera_3d().project_position(mouse, DIST)
 	var params = PhysicsRayQueryParameters3D.new()
-	params.collision_mask = 2
+	params.collision_mask = 128
 	params.from = start
 	params.to = end
 	var result = space.intersect_ray(params)

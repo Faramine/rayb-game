@@ -34,6 +34,7 @@ func on_room_activated():
 		state_machine.apply_transition("activate")
 
 func take_damage(damage):
+	$Health.damage_cache = damage
 	state_machine.apply_transition("got_hit")
 
 func _on_player_enter_godray():

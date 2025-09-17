@@ -20,9 +20,12 @@ var orb_position
 var coords = [0,0]
 var world : World
 var is_active : bool = false
-var enemy_dummy_scene : PackedScene = load("res://enemy_melee.tscn")
+var is_cleared : bool = false
+
+var enemy_spawners = []
+var enemy_melee_scene : PackedScene = load("res://enemy_melee.tscn")
 @onready var enemies : Array[Enemy] = []
-var nb_enemies = randi()%3
+var enemies_defeated = 0
 
 func _ready():
 	ceiling.visible = true
@@ -31,17 +34,29 @@ func _ready():
 func set_world(world : World):
 	self.world = world
 
-func debug_spawn_dummy(offset = Vector3.ZERO) -> Enemy:
-	var enemy_melee : Enemy = enemy_dummy_scene.instantiate()
-	var spawn_pos = $EnemySpawnPoint.global_position
-	spawn_pos += offset
-	enemy_melee.global_position = spawn_pos
-	enemy_melee.set_spawn( spawn_pos )
-	enemy_melee.room = self
-	enemy_melee.player = world.player
-	enemies.append(enemy_melee)
-	add_child(enemy_melee)
+func spawn_enemies():
+	if self.is_cleared: return
+	if world.start_room.coords == coords: return
+	for enemy_spawner in enemy_spawners as Array[EnemySpawner]:
+		var enemy : Enemy
+		if enemy_spawner.enemyType == 1:
+			enemy = spawn_enemy_melee()
+		init_enemy(enemy, enemy_spawner)
+		enemies.append(enemy)
+		add_child(enemy)
+		enemy.on_room_activated()
+
+func spawn_enemy_melee() -> Enemy:
+	var enemy_melee : Enemy = enemy_melee_scene.instantiate()
 	return enemy_melee
+
+func init_enemy(enemy : Enemy, enemy_spawner : EnemySpawner):
+	print(enemy_spawner.position)
+	enemy.position = enemy_spawner.position
+	enemy.set_spawn( self.global_position + enemy_spawner.position )
+	enemy.room = self
+	enemy.player = world.player
+	enemy.dead.connect(on_enemy_dies)
 
 func activate_room():
 	is_active = true
@@ -49,11 +64,7 @@ func activate_room():
 	walldown1.material.albedo_color.a = 0.5
 	walldown2.material.albedo_color.a = 0.5
 	self.visible = true
-	if world.start_room.coords == coords:
-		return
-	for i in range(0,nb_enemies):
-		var enemy = debug_spawn_dummy(Vector3(-9*i,0,-9*i))
-		enemy.on_room_activated()
+	spawn_enemies()
 
 func deactivate_room():
 	is_active = false
@@ -65,6 +76,12 @@ func deactivate_room():
 		enemy.on_room_deactivated()
 		enemy.queue_free()
 	enemies = []
+	enemies_defeated = 0
+
+func on_enemy_dies():
+	enemies_defeated += 1
+	if enemies_defeated == enemies.size():
+		self.is_cleared = true
 
 func open_wall(coords : Array):
 	if self.coords[0] == coords[0]:
@@ -91,13 +108,15 @@ func populate(layout : Room_layout):
 	add_child(layout)
 	
 	layout.remove_child(layout.godrays)
-	layout.remove_child(layout.enemies)
 	layout.remove_child(layout.decor)
 	layout.remove_child(layout.orb_position)
 	layout.remove_child(layout.obstacles)
+	layout.remove_child(layout.enemies)
 	
 	add_child(layout.godrays)
 	add_child(layout.enemies)
+	enemy_spawners = layout.enemies.get_children()
+	layout.enemies.visible = false
 	add_child(layout.decor)
 	add_child(layout.orb_position)
 	orb_position = layout.orb_position.position

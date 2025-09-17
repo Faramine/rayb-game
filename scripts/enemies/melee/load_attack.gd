@@ -4,6 +4,7 @@ var parent : EnemyMelee
 
 @export var launch_attack_state : State
 @export var take_hit_state : State
+@export var dead_state : State
 
 @onready var load_attack_timer : Timer = $LoadAttackTimer
 var tween_scale : Tween
@@ -14,6 +15,8 @@ func apply_transition(transition) -> State:
 			return launch_attack_state
 		"got_hit":
 			return take_hit_state
+		"dead":
+			return dead_state
 	return null
 
 func enter():

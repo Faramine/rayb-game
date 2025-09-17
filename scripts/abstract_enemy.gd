@@ -1,6 +1,8 @@
 class_name Enemy
 extends CharacterBody3D
 
+signal dead
+
 @export var nav : NavigationAgent3D
 @export var target_node : Node3D
 var spawn_point : Vector3

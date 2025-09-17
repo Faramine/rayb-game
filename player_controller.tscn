@@ -1,7 +1,8 @@
-[gd_scene load_steps=58 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=59 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
+[ext_resource type="Script" uid="uid://cys45mbytwrfs" path="res://scripts/health.gd" id="2_oamho"]
 [ext_resource type="Script" uid="uid://cllissle706n4" path="res://scripts/dash.gd" id="5_4garc"]
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
@@ -728,6 +729,11 @@ animation = &"Idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oamho"]
 animation = &"Walk"
+use_custom_timeline = true
+timeline_length = 0.4
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3eoxc"]
 advance_mode = 2
@@ -897,7 +903,13 @@ size = Vector3(2.5, 1, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3eoxc"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 133
 script = ExtResource("1_f0yg5")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_oamho")
+metadata/_custom_type_script = "uid://cys45mbytwrfs"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_lvefo")
@@ -1067,6 +1079,7 @@ one_shot = true
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("7_lyd3o")
+damage = 4
 metadata/_custom_type_script = "uid://ct7jbab3yuigr"
 
 [node name="RightSwordCollision" type="CollisionShape3D" parent="SwordHitbox"]
