@@ -7,3 +7,4 @@
 
 [node name="GodRay" parent="God_rays" index="0" instance=ExtResource("2_7pqdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.97048, 0, 7.03489)
+visible = false

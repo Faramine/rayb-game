@@ -1,25 +1,36 @@
-[gd_scene load_steps=13 format=3 uid="uid://dye7apdp65ohn"]
+[gd_scene load_steps=16 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
+[ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
 [ext_resource type="Texture2D" uid="uid://yjthraqju1ms" path="res://assets/textures/experimental/Texture_test.png" id="2_ijm52"]
 [ext_resource type="Shader" uid="uid://7l4kd51mlo2" path="res://shaders/materials/decal_test.gdshader" id="3_ospo2"]
 [ext_resource type="Script" uid="uid://c11bkvabhn6gi" path="res://mesh_instance_3d.gd" id="4_sykuj"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ospo2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7idm3"]
 render_priority = 0
-shader = ExtResource("1_3t4on")
+shader = ExtResource("1_sykuj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_7idm3"]
-material = SubResource("ShaderMaterial_ospo2")
+material = SubResource("ShaderMaterial_7idm3")
 size = Vector3(5.5, 25, 5.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxw7f"]
-render_priority = 0
-shader = ExtResource("1_3t4on")
+[sub_resource type="Gradient" id="Gradient_ospo2"]
+offsets = PackedFloat32Array(0.896825, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sykuj"]
+noise_type = 2
+seed = 1
+frequency = 0.1083
+cellular_return_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7idm3"]
+color_ramp = SubResource("Gradient_ospo2")
+noise = SubResource("FastNoiseLite_sykuj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sykuj"]
 render_priority = 0
 shader = ExtResource("1_3t4on")
+shader_parameter/gradient = SubResource("NoiseTexture2D_7idm3")
 
 [sub_resource type="BoxMesh" id="BoxMesh_winag"]
 material = SubResource("ShaderMaterial_sykuj")
@@ -43,10 +54,9 @@ size = Vector3(5.5, 10, 5.5)
 [node name="GodRay" type="Node3D"]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 12.5, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0193071, 12.5, 0)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_7idm3")
-surface_material_override/0 = SubResource("ShaderMaterial_lxw7f")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D2"]
 cast_shadow = 0
