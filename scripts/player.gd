@@ -2,15 +2,21 @@ class_name Player
 extends CharacterBody3D
 # Nodes #
 @export var world : World
-@onready var armature = $Armature;
-@onready var animationTree = $AnimationTree;
 @onready var controller = $Player_controller
 @onready var dash_ability : DashAbility = $Dash
+# Armature and animation nodes
+@onready var armature = $Armature;
+@onready var skeleton = $Armature/Skeleton3D;
+@onready var animationTree = $AnimationTree;
+@onready var headMarker = $Armature/Head_marker;
+@onready var lookAtModifier = $Armature/Skeleton3D/LookAtModifier3D;
 # Player properties #
 @export var speed = 15
 @export var friction : float = 13
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
 const lerp_smoothstep = 30; # Smoothness of the rotation animation on movement direction change
+
 var is_in_godray = false
 var intent_direction = Vector3(0,1,0)
 var last_position = global_position
@@ -22,7 +28,7 @@ signal godray_exited
 signal dead
 
 func _ready() -> void:
-	self.is_charged = true
+	self.is_charged = true;
 
 func _process(delta):
 	if is_dead: return
@@ -40,7 +46,10 @@ func dash(dash_target_pos: Vector3):
 	dash_ability.dash(dash_target_pos)
 
 func process_move(delta):
-	var direction = controller.move_vector()
+	var direction = controller.move_vector();
+	
+	lookAtModifier.target_node = world.cursor.get_path();
+	
 	if direction:
 		intent_direction = direction
 		velocity.x = direction.x * speed

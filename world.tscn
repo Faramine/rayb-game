@@ -8,7 +8,7 @@
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
-[ext_resource type="Script" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -111,6 +111,7 @@ world = NodePath("..")
 script = ExtResource("6_dwbse")
 
 [node name="Cursor" type="Node3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("8_gbfbk")
 
 [node name="Debug_Model" type="MeshInstance3D" parent="Cursor"]
