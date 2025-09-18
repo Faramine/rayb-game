@@ -37,7 +37,6 @@ ambient_light_source = 1
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.4
-glow_enabled = true
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_dwbse"]
 noise_type = 0
@@ -132,8 +131,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
-[node name="Map" parent="." instance=ExtResource("3_tlwt5")]
-
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
@@ -141,17 +138,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("9_ioo17")
 
+[node name="Map" parent="." instance=ExtResource("3_tlwt5")]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 follow_viewport_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-visible = false
 material = SubResource("ShaderMaterial_ic0uy")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

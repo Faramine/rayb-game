@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://cathik8bmmo37"]
+[gd_scene load_steps=13 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
 [ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scenes/rooms/elements/interactables/orb.gd" id="1_ytsln"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_o5njl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]
 radius = 1.0
@@ -114,10 +115,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_maamf")
 }
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="HurtBox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_o5njl")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="HurtBox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("CapsuleShape3D_ytsln")
-
-[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
