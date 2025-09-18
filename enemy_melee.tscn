@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://jwpwxu137g02"]
+[gd_scene load_steps=36 format=3 uid="uid://jwpwxu137g02"]
 
 [ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://abstract_enemy.tscn" id="1_33gkd"]
 [ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_melee.gd" id="2_jnamf"]
@@ -33,6 +33,8 @@ albedo_texture = SubResource("GradientTexture2D_1ob5i")
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jqwtn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mwbfj"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ola0k"]
 radius = 3.0
@@ -292,7 +294,17 @@ metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" index="0"]
 shape = SubResource("CapsuleShape3D_jqwtn")
 
-[node name="HitBox" type="Area3D" parent="." index="8"]
+[node name="BodyHitBox" type="Area3D" parent="." index="8"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("11_txjfy")
+metadata/_custom_type_script = "uid://ct7jbab3yuigr"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BodyHitBox" index="0"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_mwbfj")
+
+[node name="HitBox" type="Area3D" parent="." index="9"]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("11_txjfy")
@@ -303,7 +315,7 @@ shape = SubResource("CylinderShape3D_ola0k")
 disabled = true
 debug_color = Color(0.7, 0, 0, 1)
 
-[node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="9"]
+[node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="10"]
 emitting = false
 amount = 50
 one_shot = true
@@ -311,12 +323,12 @@ explosiveness = 0.95
 process_material = SubResource("ParticleProcessMaterial_ubpii")
 draw_pass_1 = SubResource("SphereMesh_iy47h")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="10"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="11"]
 libraries = {
 &"": SubResource("AnimationLibrary_t1tt7")
 }
 
-[node name="StateMachine" type="Node" parent="." index="11" node_paths=PackedStringArray("root_state")]
+[node name="StateMachine" type="Node" parent="." index="12" node_paths=PackedStringArray("root_state")]
 script = ExtResource("4_jqwtn")
 root_state = NodePath("Idle")
 
