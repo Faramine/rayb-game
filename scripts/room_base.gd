@@ -61,16 +61,16 @@ func init_enemy(enemy : Enemy, enemy_spawner : EnemySpawner):
 func activate_room():
 	is_active = true
 	ceiling.visible = false
-	walldown1.material.albedo_color.a = 0.5
-	walldown2.material.albedo_color.a = 0.5
+	#walldown1.material.albedo_color.a = 0.5
+	#walldown2.material.albedo_color.a = 0.5
 	self.visible = true
 	spawn_enemies()
 
 func deactivate_room():
 	is_active = false
 	ceiling.visible = true
-	walldown1.material.albedo_color.a = 1.0
-	walldown2.material.albedo_color.a = 1.0
+	#walldown1.material.albedo_color.a = 1.0
+	#walldown2.material.albedo_color.a = 1.0
 	self.visible = false
 	for enemy in enemies:
 		enemy.on_room_deactivated()

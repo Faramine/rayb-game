@@ -30,7 +30,7 @@ shader_parameter/noise = SubResource("NoiseTexture3D_gbfbk")
 sky_material = SubResource("ShaderMaterial_gbfbk")
 
 [sub_resource type="Environment" id="Environment_dwbse"]
-background_mode = 2
+background_mode = 1
 sky = SubResource("Sky_ioo17")
 ambient_light_source = 1
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
@@ -92,7 +92,6 @@ noise = SubResource("FastNoiseLite_dwbse")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
-visible = false
 layers = 2
 cast_shadow = 0
 extra_cull_margin = 16384.0
