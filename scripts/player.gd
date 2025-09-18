@@ -56,7 +56,6 @@ func process_move(delta):
 	var global_bone_pos : Vector3 = skeleton.to_global(local_bone_transform.origin);
 	var lookAt : Vector3 = cursor_pos - global_bone_pos;
 	lookAt = lookAt.normalized();
-	print(lookAt)
 	var lookAtDot : float = lookAt.dot(direction);
 		
 	if direction:
@@ -68,7 +67,6 @@ func process_move(delta):
 			animationTree["parameters/conditions/is_backing"] = false;
 			self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 		else:
-			print("Backing")
 			animationTree["parameters/conditions/is_backing"] = true;
 			animationTree["parameters/conditions/is_walking"] = false;
 			self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,-1),Vector3(0,-1,0)), lerp_smoothstep * delta)
