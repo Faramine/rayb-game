@@ -741,7 +741,7 @@ loop_mode = 1
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mpocd"]
-xfade_time = 0.2
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_walking"
 
@@ -751,10 +751,12 @@ advance_mode = 2
 advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_um6fn"]
+xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"is_backing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2x3ds"]
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_idle"
 
@@ -774,6 +776,7 @@ advance_mode = 2
 advance_condition = &"is_dashing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kgs87"]
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_backing"
 
@@ -788,18 +791,18 @@ advance_mode = 2
 advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_63v6x"]
-xfade_time = 0.5
+xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"is_backing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g2d2u"]
-xfade_time = 0.5
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_walking"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_yqvp8"]
 states/Back/node = SubResource("AnimationNodeAnimation_halkx")
-states/Back/position = Vector2(597, 227)
+states/Back/position = Vector2(566, 194)
 states/Dash/node = SubResource("AnimationNodeAnimation_4garc")
 states/Dash/position = Vector2(712, 108)
 states/End/position = Vector2(895, 108)
@@ -807,9 +810,9 @@ states/Idle/node = SubResource("AnimationNodeAnimation_lyd3o")
 states/Idle/position = Vector2(374, 100)
 states/Start/position = Vector2(202, 100)
 states/Walk/node = SubResource("AnimationNodeAnimation_oamho")
-states/Walk/position = Vector2(597, -11)
+states/Walk/position = Vector2(566, 14)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3eoxc"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_mpocd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_vw112"), "Idle", "Back", SubResource("AnimationNodeStateMachineTransition_um6fn"), "Back", "Idle", SubResource("AnimationNodeStateMachineTransition_2x3ds"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_8frjr"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_j5nl8"), "Back", "Dash", SubResource("AnimationNodeStateMachineTransition_wbsu7"), "Dash", "Back", SubResource("AnimationNodeStateMachineTransition_kgs87"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_u5gqg"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_xyw2u"), "Walk", "Back", SubResource("AnimationNodeStateMachineTransition_63v6x"), "Back", "Walk", SubResource("AnimationNodeStateMachineTransition_g2d2u")]
-graph_offset = Vector2(-24, -15.1312)
+graph_offset = Vector2(-33, -23.131199)
 
 [sub_resource type="Gradient" id="Gradient_halkx"]
 offsets = PackedFloat32Array(0, 0.52381)

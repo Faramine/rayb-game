@@ -17,7 +17,7 @@ extends CharacterBody3D
 @export var friction : float = 13
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-const lerp_smoothstep = 30; # Smoothness of the rotation animation on movement direction change
+const lerp_smoothstep = 10; # Smoothness of the rotation animation on movement direction change
 
 var is_in_godray = false
 var intent_direction = Vector3(0,1,0)
@@ -70,6 +70,7 @@ func process_move(delta):
 			animationTree["parameters/conditions/is_backing"] = true;
 			animationTree["parameters/conditions/is_walking"] = false;
 			self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,-1),Vector3(0,-1,0)), lerp_smoothstep * delta)
+			intent_direction = -intent_direction
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
 		velocity.x = lerp(velocity.x, 0.0, delta * friction);
@@ -77,10 +78,10 @@ func process_move(delta):
 		animationTree["parameters/conditions/is_backing"] = false;
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
-		#self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
+		self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 	
 
-func take_damage(hitbox):
+func take_damage(hitbox : HitBox):
 	if not $DamageCooldown.is_stopped(): return
 	$Health.take_damage(1)
 	if $Health.is_dead():
