@@ -40,8 +40,8 @@ void fragment() {
 	vec4 stencil = texture(decal_texture,NEW_UV);
 	float a = (screen.x + screen.y + screen.z);
 	
-	EMISSION = vec3(1.0);
-	ALBEDO = vec3(0.5)+screen.xyz;
+	EMISSION = vec3(20.0);
+	ALBEDO = vec3(0.5)+vec3(25.0)*screen.xyz;
 	ALPHA = ( cube_half_size.x - abs(test_pos.x) - 0.1) * ( cube_half_size.z - abs(test_pos.z) - 0.1) * 5.0;
 	if(a<0.01||a>2.9)
 		ALPHA= 0.0;
