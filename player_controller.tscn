@@ -1144,6 +1144,10 @@ pixel_size = 0.05
 billboard = 1
 texture = SubResource("ViewportTexture_oamho")
 
+[node name="DamageCooldown" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]
 [connection signal="timeout" from="Dash/DashCooldown" to="Dash" method="_on_dash_cooldown_timeout"]

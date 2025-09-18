@@ -55,6 +55,7 @@ func process_move(delta):
 	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
 func take_damage(damage):
+	if not $DamageCooldown.is_stopped(): return
 	$Health.take_damage(1)
 	if $Health.is_dead():
 		is_dead = true
@@ -70,6 +71,7 @@ func take_damage(damage):
 		$"Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 		dash_ability.dash_cooldown.start()
 		dash_ability.prejuice_timer.start()
+	$DamageCooldown.start()
 	
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):
