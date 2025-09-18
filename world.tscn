@@ -8,8 +8,8 @@
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
-[ext_resource type="Script" path="res://label.gd" id="9_ioo17"]
-[ext_resource type="Shader" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
+[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -37,7 +37,6 @@ ambient_light_source = 1
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.4
-glow_enabled = true
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_dwbse"]
 noise_type = 0
