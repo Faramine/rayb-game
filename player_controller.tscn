@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=61 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
@@ -18,6 +18,8 @@ albedo_color = Color(0, 0.933333, 0, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f0yg5"]
 height = 2.5
+
+[sub_resource type="PrismMesh" id="PrismMesh_oamho"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ox0q3"]
 resource_name = "Cape"
@@ -786,10 +788,12 @@ advance_mode = 2
 advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_63v6x"]
+xfade_time = 0.5
 advance_mode = 2
 advance_condition = &"is_backing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g2d2u"]
+xfade_time = 0.5
 advance_mode = 2
 advance_condition = &"is_walking"
 
@@ -902,6 +906,9 @@ size = Vector3(2.5, 1, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3eoxc"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_oamho"]
+viewport_path = NodePath("SubViewport")
+
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 3
 collision_mask = 133
@@ -909,6 +916,7 @@ script = ExtResource("1_f0yg5")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("2_oamho")
+max_health = 2
 metadata/_custom_type_script = "uid://cys45mbytwrfs"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -930,12 +938,18 @@ shape = SubResource("CapsuleShape3D_f0yg5")
 [node name="Armature" type="Node3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.36, 0)
 
+[node name="Head_marker" type="Marker3D" parent="Armature"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Head_marker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.89595, 0)
+mesh = SubResource("PrismMesh_oamho")
+
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature"]
 bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(4.87335e-23, -1.59028, -7.50078e-09)
+bones/0/position = Vector3(7.0719e-23, -1.63645, -7.90424e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.20936e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -984,41 +998,47 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.29735, -2.48108, 1.37169)
+bones/7/position = Vector3(-1.32206, -2.51998, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.81546, -2.46193, -0.862469)
+bones/8/position = Vector3(-1.87202, -2.50287, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(-0.0133474, -2.47156, -2.12247)
+bones/9/position = Vector3(-0.0295582, -2.5122, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.84879, -2.47638, -0.862469)
+bones/10/position = Vector3(1.86388, -2.51626, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.02889, -2.47638, 1.47753)
+bones/11/position = Vector3(1.03531, -2.51628, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
 [node name="Cylinder_002" type="MeshInstance3D" parent="Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_halkx")
 skin = SubResource("Skin_4garc")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Armature/Skeleton3D"]
+target_node = NodePath("..")
+bone_name = "head"
+bone = 2
+use_secondary_rotation = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 active = false
@@ -1103,6 +1123,46 @@ metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
 shape = SubResource("CapsuleShape3D_3eoxc")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(128, 32)
+
+[node name="Control" type="Control" parent="SubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "State"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpriteState" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15638, 0)
+visible = false
+pixel_size = 0.05
+billboard = 1
+texture = SubResource("ViewportTexture_oamho")
+
+[node name="DamageCooldown" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

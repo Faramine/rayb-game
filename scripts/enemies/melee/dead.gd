@@ -13,7 +13,8 @@ func enter():
 	parent.mesh.scale = Vector3.ONE
 	parent.add_collision_exception_with(parent.player)
 	$"../../AnimationPlayer".play("dead")
-
+	parent.remove_child($"../../BodyHitBox")
+	
 func exit():
 	pass
 

@@ -5,7 +5,7 @@ extends Node
 
 @onready var start_layout = preload("res://scenes/rooms/layouts/start_room_layout_1.tscn")
 @onready var layout = [preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
-preload("res://scenes/rooms/layouts/test_room_layout_1.tscn")]
+preload("res://scenes/rooms/layouts/test_room_layout_1.tscn"), preload("res://scenes/rooms/layouts/test_room_layout_2.tscn")]
 @onready var orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
 
 func generate_map(world : World):

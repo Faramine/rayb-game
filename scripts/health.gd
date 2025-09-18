@@ -9,6 +9,11 @@ var damage_cache = 0
 
 signal out_of_health
 
+func heal(heal):
+	current_health += heal
+	if current_health > max_health:
+		current_health = max_health
+
 func take_damage(damage):
 	last_damage = damage
 	current_health -= damage

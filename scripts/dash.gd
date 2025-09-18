@@ -17,23 +17,25 @@ func _ready():
 	prejuice_timer.wait_time = dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25
 
 func dash(dash_target_pos: Vector3):
-	if dash_cooldown.is_stopped():
+	if dash_cooldown.is_stopped() and player.is_charged:
+		player.is_charged = false
 		is_dashing = true
 		player.animationTree["parameters/conditions/is_dashing"] = true;
 		dash_target_pos.y = 0
 		self.dash_target_dir = (dash_target_pos - player.position).normalized();
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
-		$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 		player.world.camera.add_trauma(0.25)
 		player.sword_collisions(true)
+		var tween_greycape = create_tween()
+		tween_greycape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),
+	 "emission", Color.from_rgba8(100,100,100), 0.1)
+		#$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 	
 func process_dash(delta):
 	dash_time += delta
 	if (dash_time <= 0.075):
 		player.intent_direction = dash_target_dir
-		#player.rotation.y = lerp_angle(player.rotation.y,
-		 #dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), player.lerp_smoothstep * delta);
 		player.rotation.y = dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0))
 		player.velocity = dash_target_dir * dash_speed;
 	else:
@@ -72,14 +74,16 @@ func recover_dash_juice():
 	player.world.camera.add_trauma(0.15)
 
 func regain_dash():
-	if  dash_cooldown.is_stopped() || is_dashing: return
+	if  player.is_charged || is_dashing: return
 	dash_cooldown.stop()
 	prejuice_timer.stop()
 	$"../OmniLight3D".light_energy = 1
 	$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.WHITE
+	player.is_charged = true
 
 func _on_dash_cooldown_timeout() -> void:
 	recover_dash_juice()
+	player.is_charged = true
 
 func _on_prejuice_timer_timeout() -> void:
 	recover_dash_prejuice()

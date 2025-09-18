@@ -13,6 +13,7 @@ var attack_range = 3
 func _ready() -> void:
 	player.godray_entered.connect(_on_player_enter_godray)
 	player.godray_exited.connect(_on_player_exit_godray)
+	player.dead.connect(_on_player_dead)
 	state_machine.init(self)
 
 func _process(delta):
@@ -20,12 +21,6 @@ func _process(delta):
 		velocity.y -= gravity
 	state_machine.process(delta)
 	move_and_slide()
-
-#func _physics_process(delta: float) -> void:
-	#if not is_on_floor():
-		#velocity.y -= gravity
-	#state_machine.process(delta)
-	#move_and_slide()
 
 func on_room_activated():
 	super.on_room_activated()
@@ -43,6 +38,9 @@ func _on_player_enter_godray():
 func _on_player_exit_godray():
 	state_machine.apply_transition("godray_exited")
 
+func _on_player_dead():
+	print("player dead")
+	state_machine.apply_transition("godray_entered")
 
 func _on_state_changed(state_name) -> void:
 	$SubViewport/Control/Label.text = state_name

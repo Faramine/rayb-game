@@ -124,6 +124,7 @@ world = NodePath("..")
 script = ExtResource("6_dwbse")
 
 [node name="Cursor" type="Node3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("8_gbfbk")
 
 [node name="Debug_Model" type="MeshInstance3D" parent="Cursor"]
