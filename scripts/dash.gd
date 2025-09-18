@@ -25,9 +25,12 @@ func dash(dash_target_pos: Vector3):
 		self.dash_target_dir = (dash_target_pos - player.position).normalized();
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
-		$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 		player.world.camera.add_trauma(0.25)
 		player.sword_collisions(true)
+		var tween_greycape = create_tween()
+		tween_greycape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),
+	 "emission", Color.from_rgba8(100,100,100), 0.1)
+		#$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 	
 func process_dash(delta):
 	dash_time += delta
