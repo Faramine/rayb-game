@@ -27,14 +27,14 @@ func exit():
 	pass
 
 func process(delta: float) -> void:
-	follow_player(parent.speed)
+	follow_player(parent.speed, delta)
 	check_attack_range(parent.attack_range)
 
-func follow_player(speed):
+func follow_player(speed, delta):
 	var distance = parent.global_position.distance_to(parent.player.global_position)
 	var target_position = parent.player.global_position + parent.player.velocity * distance/30
 	parent.update_target_position(target_position)
-	parent.move_toward_target(speed)
+	parent.move_toward_target(speed, delta)
 	
 func check_attack_range(range):
 	var distance = parent.global_position.distance_to(parent.player.global_position)

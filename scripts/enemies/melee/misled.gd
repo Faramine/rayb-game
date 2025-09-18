@@ -20,4 +20,4 @@ func exit():
 
 func process(delta: float) -> void:
 	parent.update_target_position(parent.spawn_point)
-	parent.move_toward_target(parent.speed)
+	parent.move_toward_target(parent.speed, delta)

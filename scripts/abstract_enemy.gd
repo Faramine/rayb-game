@@ -21,11 +21,12 @@ func on_room_deactivated():
 	self.global_position = spawn_point
 	velocity = Vector3.ZERO
 
-func move_toward_target(speed):
+func move_toward_target(speed, delta):
 	var next_location = nav.get_next_path_position()
 	var current_location = global_transform.origin
 	var new_velocity = (next_location - current_location).normalized() * speed
-	velocity = velocity.move_toward(new_velocity, 0.25)
+	velocity = velocity.move_toward(new_velocity, delta * 100)
+	#velocity = new_velocity * delta * 270
 
 func update_target_position(target : Vector3):
 	nav.target_position = target
