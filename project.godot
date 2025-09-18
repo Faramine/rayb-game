@@ -15,6 +15,10 @@ run/main_scene="uid://b70a4g5oogicp"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://b60o4bjht5gi3"
 
+[display]
+
+window/vsync/vsync_mode=0
+
 [dotnet]
 
 project/assembly_name="rayb-game"

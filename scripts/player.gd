@@ -7,6 +7,8 @@ extends CharacterBody3D
 # Armature and animation nodes
 @onready var armature = $Armature;
 @onready var skeleton = $Armature/Skeleton3D;
+@onready var bone_idx : int = skeleton.find_bone("head");
+
 @onready var animationTree = $AnimationTree;
 @onready var headMarker = $Armature/Head_marker;
 @onready var lookAtModifier = $Armature/Skeleton3D/LookAtModifier3D;
@@ -49,19 +51,36 @@ func process_move(delta):
 	var direction = controller.move_vector();
 	
 	lookAtModifier.target_node = world.cursor.get_path();
-	
+	var cursor_pos : Vector3 = world.cursor.global_position;
+	var local_bone_transform : Transform3D = skeleton.get_bone_global_pose(bone_idx);
+	var global_bone_pos : Vector3 = skeleton.to_global(local_bone_transform.origin);
+	var lookAt : Vector3 = cursor_pos - global_bone_pos;
+	lookAt = lookAt.normalized();
+	print(lookAt)
+	var lookAtDot : float = lookAt.dot(direction);
+		
 	if direction:
 		intent_direction = direction
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		animationTree["parameters/conditions/is_walking"] = true;
+		if lookAtDot > 0:
+			animationTree["parameters/conditions/is_walking"] = true;
+			animationTree["parameters/conditions/is_backing"] = false;
+			self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
+		else:
+			print("Backing")
+			animationTree["parameters/conditions/is_backing"] = true;
+			animationTree["parameters/conditions/is_walking"] = false;
+			self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,-1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
 		velocity.x = lerp(velocity.x, 0.0, delta * friction);
 		velocity.z = lerp(velocity.z, 0.0, delta * friction);
+		animationTree["parameters/conditions/is_backing"] = false;
 		animationTree["parameters/conditions/is_walking"] = false;
 		animationTree["parameters/conditions/is_idle"] = true;
-	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
+		#self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
+	
 
 func take_damage(damage):
 	$Health.take_damage(1)
