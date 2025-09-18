@@ -14,11 +14,18 @@ const lerp_smoothstep = 30; # Smoothness of the rotation animation on movement d
 var is_in_godray = false
 var intent_direction = Vector3(0,1,0)
 var last_position = global_position
+var is_charged = true : set = _set_charged
+var is_dead = false
 
 signal godray_entered
 signal godray_exited
+signal dead
+
+func _ready() -> void:
+	self.is_charged = true
 
 func _process(delta):
+	if is_dead: return
 	if dash_ability.is_dashing:
 		dash_ability.process_dash(delta)
 	else:
@@ -49,7 +56,21 @@ func process_move(delta):
 	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
 func take_damage(damage):
-	$Health.take_damage(damage)
+	$Health.take_damage(1)
+	if $Health.is_dead():
+		is_dead = true
+		$"Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(0,0,0)
+		dash_ability.dash_cooldown.stop()
+		dash_ability.prejuice_timer.stop()
+		dead.emit()
+		$SubViewport/Control/Label.text = "Dead"
+		is_in_godray = true
+		self.process_mode = Node.PROCESS_MODE_DISABLED
+	else:
+		is_charged = false
+		$"Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
+		dash_ability.dash_cooldown.start()
+		dash_ability.prejuice_timer.start()
 	
 func _on_area_entered(area: Area3D) -> void:
 	if area.is_in_group("Camera_zone"):
@@ -76,3 +97,8 @@ func sword_collisions_length():
 	$SwordHitbox/RightSwordCollision.shape.size.z = 1 + length
 	$SwordHitbox/RightSwordCollision.position.z = -length/2
 	#$SwordHitbox/RightSwordCollision.disabled = !activate
+
+func _set_charged(charged):
+	is_charged = charged
+	$SubViewport/Control/Label.text = "Chargééé" if charged else "faible"
+	$Health.current_health = 2 if charged else 1

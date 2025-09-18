@@ -45,7 +45,7 @@ colors = PackedColorArray(0.2, 0, 0, 0.509804, 0, 0, 0, 0)
 gradient = SubResource("Gradient_1ob5i")
 
 [sub_resource type="Curve" id="Curve_t1tt7"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.436441, 0.0674158), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.681319, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_t4k0o"]
@@ -301,7 +301,7 @@ metadata/_custom_type_script = "uid://ct7jbab3yuigr"
 [node name="MeleeAttackCollision" type="CollisionShape3D" parent="HitBox" index="0"]
 shape = SubResource("CylinderShape3D_ola0k")
 disabled = true
-debug_color = Color(0.7, 0, 0, 0.419608)
+debug_color = Color(0.7, 0, 0, 1)
 
 [node name="AttackImpactParticles" type="GPUParticles3D" parent="." index="9"]
 emitting = false
