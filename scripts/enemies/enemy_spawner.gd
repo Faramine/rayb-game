@@ -6,7 +6,6 @@ extends MeshInstance3D
 	set(value):
 		enemyType = value
 		_create_mesh()
-		print("My resource just changed!")
 
 func _create_mesh():
 	if(enemyType == 1):

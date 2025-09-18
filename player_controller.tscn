@@ -741,7 +741,7 @@ loop_mode = 1
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mpocd"]
-xfade_time = 0.2
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_walking"
 
@@ -751,10 +751,12 @@ advance_mode = 2
 advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_um6fn"]
+xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"is_backing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2x3ds"]
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_idle"
 
@@ -774,6 +776,7 @@ advance_mode = 2
 advance_condition = &"is_dashing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kgs87"]
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_backing"
 
@@ -788,18 +791,18 @@ advance_mode = 2
 advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_63v6x"]
-xfade_time = 0.5
+xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"is_backing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g2d2u"]
-xfade_time = 0.5
+xfade_time = 0.1
 advance_mode = 2
 advance_condition = &"is_walking"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_yqvp8"]
 states/Back/node = SubResource("AnimationNodeAnimation_halkx")
-states/Back/position = Vector2(597, 227)
+states/Back/position = Vector2(566, 194)
 states/Dash/node = SubResource("AnimationNodeAnimation_4garc")
 states/Dash/position = Vector2(712, 108)
 states/End/position = Vector2(895, 108)
@@ -807,9 +810,9 @@ states/Idle/node = SubResource("AnimationNodeAnimation_lyd3o")
 states/Idle/position = Vector2(374, 100)
 states/Start/position = Vector2(202, 100)
 states/Walk/node = SubResource("AnimationNodeAnimation_oamho")
-states/Walk/position = Vector2(597, -11)
+states/Walk/position = Vector2(566, 14)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3eoxc"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_mpocd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_vw112"), "Idle", "Back", SubResource("AnimationNodeStateMachineTransition_um6fn"), "Back", "Idle", SubResource("AnimationNodeStateMachineTransition_2x3ds"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_8frjr"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_j5nl8"), "Back", "Dash", SubResource("AnimationNodeStateMachineTransition_wbsu7"), "Dash", "Back", SubResource("AnimationNodeStateMachineTransition_kgs87"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_u5gqg"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_xyw2u"), "Walk", "Back", SubResource("AnimationNodeStateMachineTransition_63v6x"), "Back", "Walk", SubResource("AnimationNodeStateMachineTransition_g2d2u")]
-graph_offset = Vector2(-24, -15.1312)
+graph_offset = Vector2(-33, -23.131199)
 
 [sub_resource type="Gradient" id="Gradient_halkx"]
 offsets = PackedFloat32Array(0, 0.52381)
@@ -939,9 +942,11 @@ shape = SubResource("CapsuleShape3D_f0yg5")
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.36, 0)
 
 [node name="Head_marker" type="Marker3D" parent="Armature"]
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Head_marker"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.89595, 0)
+visible = false
 mesh = SubResource("PrismMesh_oamho")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature"]
@@ -949,7 +954,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(2.09582e-23, -1.63034, -7.85085e-09)
+bones/0/position = Vector3(1.0579e-22, -1.55364, -7.1805e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.20936e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -998,35 +1003,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.35008, -2.49678, 1.37169)
+bones/7/position = Vector3(-1.26534, -2.45, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.76979, -2.51484, -0.862469)
+bones/8/position = Vector3(-1.7799, -2.45018, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(-0.0434002, -2.50657, -2.12247)
+bones/9/position = Vector3(-0.00188608, -2.45004, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.74192, -2.50189, -0.862469)
+bones/10/position = Vector3(1.80756, -2.45, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.18139, -2.50189, 1.47753)
+bones/11/position = Vector3(1.04913, -2.45, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -1071,7 +1076,6 @@ amount = 50
 lifetime = 0.2
 one_shot = true
 fixed_fps = 120
-visibility_aabb = AABB(-5, -2, -5, 10, 6, 10)
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_4garc")
 draw_pass_1 = SubResource("QuadMesh_oamho")

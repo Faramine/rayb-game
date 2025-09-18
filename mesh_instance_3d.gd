@@ -8,7 +8,6 @@ class_name ProjectorDecal3D
 			_create_mesh()
 		size = value
 		_update_shader()
-		print(mesh)
 
 @export var texture: Texture2D:
 	set(value):

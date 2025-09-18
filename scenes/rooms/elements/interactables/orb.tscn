@@ -1,7 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://cathik8bmmo37"]
+[gd_scene load_steps=15 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
 [ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scenes/rooms/elements/interactables/orb.gd" id="1_ytsln"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_o5njl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]
+radius = 1.0
+height = 3.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ytsln"]
 radius = 0.75
@@ -14,15 +19,16 @@ shader_parameter/frequency = 3.0
 shader_parameter/minimum_light = 0.5
 shader_parameter/intensity = 5.0
 
-[sub_resource type="SphereMesh" id="SphereMesh_m8ccx"]
-flip_faces = true
-radius = 1.0
-height = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m8ccx"]
 transparency = 1
 shading_mode = 0
 albedo_color = Color(1, 1, 1, 0.254902)
+
+[sub_resource type="SphereMesh" id="SphereMesh_m8ccx"]
+material = SubResource("StandardMaterial3D_m8ccx")
+flip_faces = true
+radius = 1.0
+height = 2.0
 
 [sub_resource type="Animation" id="Animation_ytsln"]
 resource_name = "Orb_floating"
@@ -89,8 +95,17 @@ _data = {
 &"RESET": SubResource("Animation_o5njl")
 }
 
-[node name="Orb" type="Node3D"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o5njl"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_o5njl"]
+flip_faces = true
+
+[node name="Orb" type="StaticBody3D"]
 script = ExtResource("1_ytsln")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_ytsln")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_ytsln")
@@ -99,9 +114,23 @@ surface_material_override/0 = SubResource("ShaderMaterial_o5njl")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
 mesh = SubResource("SphereMesh_m8ccx")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_m8ccx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_maamf")
 }
+
+[node name="HurtBox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_o5njl")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="HurtBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_ytsln")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_o5njl")
+draw_pass_1 = SubResource("QuadMesh_o5njl")

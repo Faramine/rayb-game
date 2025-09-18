@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=26 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
@@ -8,7 +8,8 @@
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
-[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Script" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Shader" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -19,8 +20,8 @@ noise_type = 3
 frequency = 0.0901
 
 [sub_resource type="NoiseTexture3D" id="NoiseTexture3D_gbfbk"]
-color_ramp = SubResource("Gradient_pkg7o")
 noise = SubResource("FastNoiseLite_pkg7o")
+color_ramp = SubResource("Gradient_pkg7o")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gbfbk"]
 shader = ExtResource("5_pkg7o")
@@ -36,6 +37,7 @@ ambient_light_source = 1
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.4
+glow_enabled = true
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_dwbse"]
 noise_type = 0
@@ -50,8 +52,8 @@ size = Vector2(2, 2)
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_aqk2v"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_036b0"]
-seamless = true
 noise = SubResource("FastNoiseLite_aqk2v")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dwbse"]
 render_priority = 0
@@ -66,9 +68,23 @@ top_radius = 0.2
 bottom_radius = 0.0
 height = 1.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wse8f"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ic0uy"]
+noise = SubResource("FastNoiseLite_wse8f")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
+resource_local_to_scene = true
+shader = ExtResource("10_wse8f")
+shader_parameter/NOISE_TEXTURE = SubResource("NoiseTexture2D_ic0uy")
+shader_parameter/uv_scaling = 2.05
+shader_parameter/movement_direction = Vector2(1, 1)
+shader_parameter/movement_speed = 0.0
+
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
-minimap = NodePath("Map")
+minimap = NodePath("CanvasLayer/Map")
 generator = NodePath("GeneratorBase")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -104,8 +120,6 @@ surface_material_override/0 = SubResource("ShaderMaterial_dwbse")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 world = NodePath("..")
 
-[node name="Map" parent="." instance=ExtResource("3_tlwt5")]
-
 [node name="GeneratorBase" type="Node" parent="."]
 script = ExtResource("6_dwbse")
 
@@ -118,7 +132,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
-[node name="Label" type="Label" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_ic0uy")
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Map" parent="CanvasLayer" instance=ExtResource("3_tlwt5")]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 23.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("9_ioo17")

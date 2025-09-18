@@ -63,7 +63,6 @@ func generate_map(world : World):
 	world.preboss_room = world.rooms.get(preboss)
 	room_list.push_back([preboss[0]-1,preboss[1]])
 	world.preboss_room.open_wall([preboss[0]-1,preboss[1]])
-	print(preboss)
 	
 	new_room = room_scene.instantiate()
 	new_room.position.x = 26.5 * (preboss[0]-1-map_center)
@@ -105,8 +104,6 @@ func generate_map(world : World):
 		orbi = orb.instantiate()
 		orbi.position = room.orb_position
 		room.add_child(orbi)
-		print(room.orb_position)
-		print(key)
 	
 	
 func verify_room_placements(k,map,list,room_list):
