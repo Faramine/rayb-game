@@ -33,8 +33,6 @@ func process_dash(delta):
 	dash_time += delta
 	if (dash_time <= 0.075):
 		player.intent_direction = dash_target_dir
-		#player.rotation.y = lerp_angle(player.rotation.y,
-		 #dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), player.lerp_smoothstep * delta);
 		player.rotation.y = dash_target_dir.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0))
 		player.velocity = dash_target_dir * dash_speed;
 	else:

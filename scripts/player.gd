@@ -45,7 +45,6 @@ func process_move(delta):
 		intent_direction = direction
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		#armature.global_rotation.y = lerp_angle(armature.rotation.y, direction.signed_angle_to(Vector3(0.0,0.0,1.0),Vector3(0.0,-1.0,0.0)), lerp_smoothstep);
 		animationTree["parameters/conditions/is_walking"] = true;
 		animationTree["parameters/conditions/is_idle"] = false;
 	else:
@@ -96,7 +95,6 @@ func sword_collisions_length():
 	$SwordHitbox/LeftSwordCollision.position.z = -length/2
 	$SwordHitbox/RightSwordCollision.shape.size.z = 1 + length
 	$SwordHitbox/RightSwordCollision.position.z = -length/2
-	#$SwordHitbox/RightSwordCollision.disabled = !activate
 
 func _set_charged(charged):
 	is_charged = charged

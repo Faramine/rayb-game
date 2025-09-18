@@ -1139,6 +1139,7 @@ vertical_alignment = 1
 
 [node name="SpriteState" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15638, 0)
+visible = false
 pixel_size = 0.05
 billboard = 1
 texture = SubResource("ViewportTexture_oamho")
