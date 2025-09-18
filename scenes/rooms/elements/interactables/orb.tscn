@@ -1,7 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cathik8bmmo37"]
+[gd_scene load_steps=12 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
 [ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scenes/rooms/elements/interactables/orb.gd" id="1_ytsln"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]
+radius = 1.0
+height = 3.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ytsln"]
 radius = 0.75
@@ -89,8 +93,12 @@ _data = {
 &"RESET": SubResource("Animation_o5njl")
 }
 
-[node name="Orb" type="Node3D"]
+[node name="Orb" type="StaticBody3D"]
 script = ExtResource("1_ytsln")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_ytsln")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_ytsln")
@@ -105,3 +113,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_m8ccx")
 libraries = {
 &"": SubResource("AnimationLibrary_maamf")
 }
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_ytsln")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

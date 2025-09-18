@@ -6,7 +6,7 @@ extends Node3D
 
 @onready var player : Player = $Player
 @onready var camera : Camera = $Camera
-@onready var cursor = $Cursor
+@onready var cursor : Node3D = $Cursor
 
 # Dictionnaire Coord/Room
 var rooms : Dictionary = Dictionary() #room

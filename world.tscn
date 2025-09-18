@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=26 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
@@ -8,7 +8,8 @@
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
-[ext_resource type="Script" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -36,6 +37,7 @@ ambient_light_source = 1
 ambient_light_color = Color(0.867917, 0.827773, 1, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.4
+glow_enabled = true
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_dwbse"]
 noise_type = 0
@@ -66,6 +68,19 @@ top_radius = 0.2
 bottom_radius = 0.0
 height = 1.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wse8f"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ic0uy"]
+seamless = true
+noise = SubResource("FastNoiseLite_wse8f")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
+shader = ExtResource("10_wse8f")
+shader_parameter/NOISE_TEXTURE = SubResource("NoiseTexture2D_ic0uy")
+shader_parameter/uv_scaling = 2.05
+shader_parameter/movement_direction = Vector2(1, 1)
+shader_parameter/movement_speed = 0.0
+
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
 minimap = NodePath("Map")
@@ -82,6 +97,7 @@ sky_mode = 1
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 12.5, 12.5, 0)
+visible = false
 environment = SubResource("Environment_dwbse")
 fov = 22.0
 size = 25.0
@@ -92,7 +108,6 @@ noise = SubResource("FastNoiseLite_dwbse")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
-visible = false
 layers = 2
 cast_shadow = 0
 extra_cull_margin = 16384.0
@@ -105,12 +120,11 @@ surface_material_override/0 = SubResource("ShaderMaterial_dwbse")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 world = NodePath("..")
 
-[node name="Map" parent="." instance=ExtResource("3_tlwt5")]
-
 [node name="GeneratorBase" type="Node" parent="."]
 script = ExtResource("6_dwbse")
 
 [node name="Cursor" type="Node3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("8_gbfbk")
 
 [node name="Debug_Model" type="MeshInstance3D" parent="Cursor"]
@@ -118,7 +132,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
+[node name="Map" parent="." instance=ExtResource("3_tlwt5")]
+
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("9_ioo17")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_ic0uy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
