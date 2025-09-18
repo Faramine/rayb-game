@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dye7apdp65ohn"]
+[gd_scene load_steps=14 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
 [ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
@@ -12,29 +12,18 @@ shader = ExtResource("1_sykuj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_7idm3"]
 material = SubResource("ShaderMaterial_7idm3")
-size = Vector3(5.5, 25, 5.5)
-
-[sub_resource type="Gradient" id="Gradient_ospo2"]
-offsets = PackedFloat32Array(0.896825, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_sykuj"]
-noise_type = 2
-seed = 1
-frequency = 0.1083
-cellular_return_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7idm3"]
-color_ramp = SubResource("Gradient_ospo2")
-noise = SubResource("FastNoiseLite_sykuj")
+size = Vector3(5.5, 27, 5.5)
+subdivide_height = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sykuj"]
 render_priority = 0
 shader = ExtResource("1_3t4on")
-shader_parameter/gradient = SubResource("NoiseTexture2D_7idm3")
 
 [sub_resource type="BoxMesh" id="BoxMesh_winag"]
 material = SubResource("ShaderMaterial_sykuj")
-size = Vector3(4, 25, 4)
+flip_faces = true
+size = Vector3(5, 26, 5)
+subdivide_height = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_winag"]
 render_priority = 0
@@ -50,6 +39,9 @@ size = Vector3(6, 5, 6)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ospo2"]
 size = Vector3(5.5, 10, 5.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sykuj"]
+albedo_color = Color(0.409826, 0.312408, 0.114597, 1)
 
 [node name="GodRay" type="Node3D"]
 
@@ -86,4 +78,10 @@ metadata/_custom_type_script = "uid://c11bkvabhn6gi"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+visible = false
 shape = SubResource("BoxShape3D_ospo2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+visible = false
+size = Vector3(10, 1, 10)
+material = SubResource("StandardMaterial3D_sykuj")

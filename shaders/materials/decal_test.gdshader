@@ -1,8 +1,8 @@
 shader_type spatial;
 render_mode unshaded,cull_front,depth_test_disabled;
 
-uniform sampler2D depth_texture : hint_depth_texture,filter_linear_mipmap;
-uniform sampler2D screen_texture : hint_screen_texture,filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture;
+uniform sampler2D screen_texture : hint_screen_texture;
 uniform sampler2D decal_texture;
 
 varying mat4 INV_MODEL_MATRIX;
@@ -39,8 +39,10 @@ void fragment() {
 	vec4 screen = texture(screen_texture,SCREEN_UV);
 	vec4 stencil = texture(decal_texture,NEW_UV);
 	float a = (screen.x + screen.y + screen.z);
-	ALBEDO = vec3(1.0)+screen.xyz;
 	
+	EMISSION = vec3(1.0);
+	ALBEDO = vec3(0.5)+screen.xyz;
+	ALPHA = ( cube_half_size.x - abs(test_pos.x) - 0.1) * ( cube_half_size.z - abs(test_pos.z) - 0.1) * 5.0;
 	if(a<0.01||a>2.9)
 		ALPHA= 0.0;
 }
