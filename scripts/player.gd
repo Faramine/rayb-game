@@ -54,7 +54,7 @@ func process_move(delta):
 		animationTree["parameters/conditions/is_idle"] = true;
 	self.rotation.y = lerp_angle(self.rotation.y, intent_direction.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), lerp_smoothstep * delta)
 
-func take_damage(damage):
+func take_damage(hitbox):
 	if not $DamageCooldown.is_stopped(): return
 	$Health.take_damage(1)
 	if $Health.is_dead():
