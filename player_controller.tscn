@@ -1073,7 +1073,6 @@ amount = 50
 lifetime = 0.2
 one_shot = true
 fixed_fps = 120
-visibility_aabb = AABB(-5, -2, -5, 10, 6, 10)
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_4garc")
 draw_pass_1 = SubResource("QuadMesh_oamho")
