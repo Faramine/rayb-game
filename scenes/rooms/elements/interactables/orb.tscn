@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
-[ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scenes/rooms/elements/interactables/orb.gd" id="1_ytsln"]
+[ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scripts/orb.gd" id="1_ytsln"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_o5njl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]

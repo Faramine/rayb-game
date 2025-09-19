@@ -1,15 +1,15 @@
 [gd_scene load_steps=26 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://player_controller.tscn" id="2_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://map.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://scenes/player_controller.tscn" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://scenes/map.tscn" id="3_tlwt5"]
 [ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
-[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
-[ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
+[ext_resource type="Script" path="res://label.gd" id="9_ioo17"]
+[ext_resource type="Shader" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
