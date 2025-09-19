@@ -17,6 +17,10 @@ config/icon="uid://b60o4bjht5gi3"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=2
+window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 
 [dotnet]

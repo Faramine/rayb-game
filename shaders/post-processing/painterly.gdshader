@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode unshaded;
 
-uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D SCREEN_TEXTURE: hint_screen_texture;
 uniform sampler2D NOISE_TEXTURE: repeat_enable;
 //uniform float strength: hint_range(0.0, 5, 0.1) = 1.0;
 uniform float uv_scaling: hint_range (0.0, 10.0, 0.05) = 1.0;

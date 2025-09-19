@@ -23,9 +23,9 @@ func take_damage(hitbox : HitBox):
 	var tween2 = create_tween()
 	var albedo = outer_mesh.mesh.material.albedo_color
 	
-	var direction = (global_position - hitbox.global_position).normalized()
-	var interpolated_position = global_position + direction * strength
-	var interpolated_position2 = global_position + direction * strength / 2
+	var direction = (spawn_position - hitbox.global_position).normalized()
+	var interpolated_position = spawn_position + direction * strength
+	var interpolated_position2 = spawn_position + direction * strength / 2
 	
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_QUAD)
@@ -37,7 +37,7 @@ func take_damage(hitbox : HitBox):
 	
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(self,"global_position",global_position,2)
+	tween.tween_property(self,"global_position",spawn_position,2)
 	
 	tween2.set_ease(Tween.EASE_OUT)
 	tween2.set_trans(Tween.TRANS_QUAD)

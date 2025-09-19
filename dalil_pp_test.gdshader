@@ -21,7 +21,7 @@ vec4 blendOver(vec4 a, vec4 b) {
 
 void fragment() {
 	vec2 uv = SCREEN_UV;
-	vec4 screen_color = textureLod(screen_texture, uv, 0.0);
+	vec4 screen_color = texture(screen_texture, uv);
 
 	vec2 movement_factor = movement_direction * movement_speed * TIME;
 
@@ -29,7 +29,7 @@ void fragment() {
 
 	vec4 colorSum = vec4(0.0,0.0,0.0,0.0);
 	int passNumber = 3;
-	float strength = 0.008;
+	float strength = 0.005;
 	for (int i = 0; i < passNumber; i++){
 		float noise_value_x = texture(NOISE_TEXTURE, uv*uv_scaling + vec2(float(i)*0.1+0.74561)).r - 0.5;
 		float noise_value_y = texture(NOISE_TEXTURE, uv*uv_scaling + vec2(float(i)*0.1+0.89551)).r - 0.5;
@@ -41,7 +41,7 @@ void fragment() {
 		colorSum = blendOver(colorSum,sample);
 	}
 
-	
+
 	COLOR.xyz = colorSum.xyz;
 }
 

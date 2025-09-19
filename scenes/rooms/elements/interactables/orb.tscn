@@ -132,5 +132,6 @@ shape = SubResource("CapsuleShape3D_ytsln")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+emitting = false
 process_material = SubResource("ParticleProcessMaterial_o5njl")
 draw_pass_1 = SubResource("QuadMesh_o5njl")

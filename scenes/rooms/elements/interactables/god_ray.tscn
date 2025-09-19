@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dye7apdp65ohn"]
+[gd_scene load_steps=16 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
 [ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
@@ -29,7 +29,7 @@ subdivide_height = 20
 render_priority = 0
 shader = ExtResource("3_ospo2")
 shader_parameter/decal_texture = ExtResource("2_ijm52")
-shader_parameter/scale_mod = Vector3(0.166667, 0.2, 0.166667)
+shader_parameter/scale_mod = Vector3(0.16666667, 0.2, 0.16666667)
 shader_parameter/cube_half_size = Vector3(3, 2.5, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_x5peg"]
@@ -42,6 +42,26 @@ size = Vector3(5.5, 10, 5.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sykuj"]
 albedo_color = Color(0.409826, 0.312408, 0.114597, 1)
+
+[sub_resource type="Animation" id="Animation_sykuj"]
+resource_name = "opening"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D2:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7idm3"]
+_data = {
+&"opening": SubResource("Animation_sykuj")
+}
 
 [node name="GodRay" type="Node3D"]
 
@@ -85,3 +105,8 @@ shape = SubResource("BoxShape3D_ospo2")
 visible = false
 size = Vector3(10, 1, 10)
 material = SubResource("StandardMaterial3D_sykuj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7idm3")
+}
