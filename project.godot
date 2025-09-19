@@ -18,6 +18,8 @@ config/icon="uid://b60o4bjht5gi3"
 [display]
 
 window/vsync/vsync_mode=0
+mouse_cursor/custom_image="uid://buf1bqbcyfegx"
+mouse_cursor/custom_image_hotspot=Vector2(4, 4)
 
 [dotnet]
 
