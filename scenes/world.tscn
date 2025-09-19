@@ -9,8 +9,8 @@
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
 [ext_resource type="Shader" uid="uid://c6rnujac3dpur" path="res://shaders/Experiment/world.gdshader" id="9_ic0uy"]
-[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://label.gd" id="9_ioo17"]
-[ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://dalil_pp_test.gdshader" id="10_wse8f"]
+[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://scripts/FPS.gd" id="9_ioo17"]
+[ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://shaders/post-processing/dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
 offsets = PackedFloat32Array(0, 0.698113, 0.962264)
@@ -87,7 +87,7 @@ shader = ExtResource("9_ic0uy")
 
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
-minimap = NodePath("CanvasLayer/MiniMap")
+minimap = NodePath("UICanvasLayer/MiniMap")
 generator = NodePath("GeneratorBase")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -109,7 +109,7 @@ far = 100.0
 script = ExtResource("5_036b0")
 noise = SubResource("FastNoiseLite_dwbse")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera"]
+[node name="SpatialPP(Keep off)" type="MeshInstance3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
 visible = false
 layers = 2
@@ -137,9 +137,9 @@ visible = false
 mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="2DPPCanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer"]
 z_as_relative = false
 material = SubResource("ShaderMaterial_ic0uy")
 anchors_preset = 15
@@ -148,9 +148,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+[node name="2DPPCanvasLayer(debug)" type="CanvasLayer" parent="."]
+visible = false
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
+[node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer(debug)"]
+visible = false
 material = SubResource("ShaderMaterial_k3n1d")
 anchors_preset = 15
 anchor_right = 1.0
@@ -158,12 +160,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
 follow_viewport_enabled = true
-[node name="MiniMap" parent="CanvasLayer2" instance=ExtResource("3_tlwt5")]
 
-[node name="FPS" type="Label" parent="CanvasLayer2"]
+[node name="MiniMap" parent="UICanvasLayer" instance=ExtResource("3_tlwt5")]
+
+[node name="FPS" type="Label" parent="UICanvasLayer"]
 offset_right = 40.0
 offset_bottom = 23.0
 size_flags_horizontal = 3

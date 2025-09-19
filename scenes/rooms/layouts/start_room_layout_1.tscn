@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://3ddnr4pbtihn" path="res://scenes/rooms/layouts/base_room_layout.tscn" id="1_yruwk"]
 [ext_resource type="PackedScene" uid="uid://dye7apdp65ohn" path="res://scenes/rooms/elements/interactables/god_ray.tscn" id="2_1uijr"]
-[ext_resource type="Shader" path="res://rock.gdshader" id="3_wy5iv"]
+[ext_resource type="Shader" uid="uid://nuyokq2ngvjx" path="res://shaders/materials/rock.gdshader" id="3_wy5iv"]
 [ext_resource type="Texture2D" uid="uid://bndkh4efonen6" path="res://assets/environment/rock_round_0.png" id="4_1lkji"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ikc70"]
@@ -51,8 +51,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
 
 [node name="GodRay3" parent="God_rays" index="1" instance=ExtResource("2_1uijr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97914, 0, 8)
-
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Obstacles" index="0"]
 
 [node name="rock_round_0" type="CSGMesh3D" parent="." index="5"]
 transform = Transform3D(-2.1308, -0.0121361, 0.779628, 0.26958, 2.11733, 0.769746, -0.731639, 0.815496, -1.98694, -9.27673, 0.283755, -7.66311)

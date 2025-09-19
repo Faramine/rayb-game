@@ -15,7 +15,7 @@ var strength = 2.0
 @onready var animationplayer = $AnimationPlayer
 
 func _ready() -> void:
-	spawn_position = position
+	spawn_position = global_position
 	animationplayer.play("Orb_floating")
 
 func take_damage(hitbox : HitBox):
