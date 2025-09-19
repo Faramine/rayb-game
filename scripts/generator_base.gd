@@ -20,7 +20,7 @@ func generate_map(world : World):
 		for j in range(0,map_size):
 			map[i][j] = 0
 	
-	var room_scene = load("res://room_base.tscn")
+	var room_scene = load("res://scenes/room_base.tscn")
 	var list
 	var new_room : Room
 	var map_closed = false
