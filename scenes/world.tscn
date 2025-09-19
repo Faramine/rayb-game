@@ -87,7 +87,7 @@ shader = ExtResource("9_ic0uy")
 
 [node name="World" type="Node3D" node_paths=PackedStringArray("minimap", "generator")]
 script = ExtResource("1_tlwt5")
-minimap = NodePath("CanvasLayer2/Map")
+minimap = NodePath("CanvasLayer/MiniMap")
 generator = NodePath("GeneratorBase")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -133,6 +133,7 @@ script = ExtResource("8_gbfbk")
 
 [node name="Debug_Model" type="MeshInstance3D" parent="Cursor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
@@ -160,12 +161,11 @@ grow_vertical = 2
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = 2
 follow_viewport_enabled = true
+[node name="MiniMap" parent="CanvasLayer2" instance=ExtResource("3_tlwt5")]
 
-[node name="Label" type="Label" parent="CanvasLayer2"]
+[node name="FPS" type="Label" parent="CanvasLayer2"]
 offset_right = 40.0
 offset_bottom = 23.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("9_ioo17")
-
-[node name="Map" parent="CanvasLayer2" instance=ExtResource("3_tlwt5")]
