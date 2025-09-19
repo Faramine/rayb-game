@@ -150,7 +150,6 @@ grow_vertical = 2
 [node name="CanvasLayer3" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
-visible = false
 material = SubResource("ShaderMaterial_k3n1d")
 anchors_preset = 15
 anchor_right = 1.0
