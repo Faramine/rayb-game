@@ -87,19 +87,23 @@ void voronoise(vec2 uv, float size, float variance, float seed, float speed,
 	return;
 }
 
+varying vec4 NODE_POSITION_CLIP;
+
 void vertex() {
 	VERTEX.z -= (fbm(vec2(VERTEX.y - TIME * 0.01)) * 0.5) - 0.25;
 	VERTEX.x += (fbm(vec2(VERTEX.y + TIME * 0.01)) * 0.5) - 0.25;
+	NODE_POSITION_CLIP = (PROJECTION_MATRIX * vec4(NODE_POSITION_VIEW, 1.0));
 }
 
 void fragment() {
 	//Parametters
 	float ratio = VIEWPORT_SIZE.x/VIEWPORT_SIZE.y;
+	vec2 local_uv = (SCREEN_UV * 2.0 - 1.0) * NODE_POSITION_CLIP.w - NODE_POSITION_CLIP.xy;
 	float screen_y = 0.05;
 	float speed = 0.01;
 	int layers = 3;
-	float size = 5.00;
-	float r = 0.01 * size / 5.0;
+	float size = 0.05;
+	float r = 0.2 * size;
 	
 	float distance_A;
 	vec2 position_A;
@@ -114,8 +118,8 @@ void fragment() {
 	for(int i = 0; i < layers; i++){
 		
 		uv = vec2(
-			SCREEN_UV.x * ratio,
-			SCREEN_UV.y
+			local_uv.x * ratio,
+			local_uv.y
 			);
 			
 		uv += vec2(
@@ -133,7 +137,7 @@ void fragment() {
 		ray = ((distance_A<r) ? 
 			1.0 : 0.0 );
 		
-		fadingio = ( fbm(index_A + vec2( TIME/10.0 + float(i) ) ) * 2.0 - 0.7 );
+		fadingio = ( fbm(index_A + vec2( TIME/20.0 + float(i) ) ) * 2.0 - 0.7 );
 
 		alpha += clamp( ray * culling * fadingio, 0.0, 1.0);
 	}

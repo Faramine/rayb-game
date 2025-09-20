@@ -1,23 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://cathik8bmmo37"]
+[gd_scene load_steps=28 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
 [ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scripts/orb.gd" id="1_ytsln"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_o5njl"]
+[ext_resource type="Shader" uid="uid://b810ceenn767l" path="res://shaders/materials/deformation.gdshader" id="4_lqf62"]
+[ext_resource type="AudioStream" uid="uid://cq1qh5tw48b45" path="res://assets/Audio/orb_cling.wav" id="4_maamf"]
+[ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_btbwp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]
 radius = 1.0
 height = 3.0
-
-[sub_resource type="SphereMesh" id="SphereMesh_ytsln"]
-radius = 0.75
-height = 1.5
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5njl"]
-render_priority = 0
-shader = ExtResource("1_m8ccx")
-shader_parameter/frequency = 3.0
-shader_parameter/minimum_light = 0.5
-shader_parameter/intensity = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m8ccx"]
 transparency = 1
@@ -30,21 +22,28 @@ flip_faces = true
 radius = 1.0
 height = 2.0
 
+[sub_resource type="SphereMesh" id="SphereMesh_ytsln"]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5njl"]
+render_priority = 0
+shader = ExtResource("1_m8ccx")
+shader_parameter/frequency = 3.0
+shader_parameter/minimum_light = 0.5
+shader_parameter/intensity = 5.0
+
 [sub_resource type="Animation" id="Animation_ytsln"]
 resource_name = "Orb_floating"
 length = 6.0
 loop_mode = 1
-tracks/0/type = "bezier"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:position:y")
+tracks/0/path = NodePath("MeshInstance3D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(2, -0.25, 0, 1.46667, 0.000908613, 2.2, -1.46667, -0.00149536, 1.5, 0.00143647, 2, -1.43333, -0.000263929, 0.25, 0),
-"times": PackedFloat32Array(0, 3, 6)
-}
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 3, 1, 0, 1.1, 0, 6, 1, 0, 1, 0)
 
 [sub_resource type="Animation" id="Animation_maamf"]
 resource_name = "Orb_hit"
@@ -52,7 +51,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/path = NodePath("MeshInstance3D/MeshInstance3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -64,41 +63,128 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_o5njl"]
 length = 0.001
-tracks/0/type = "bezier"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:position:y")
+tracks/0/path = NodePath("MeshInstance3D/MeshInstance3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/1/type = "scale_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D/MeshInstance3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ImpactParticles/GPUParticles3D3:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_h0yyv"]
+resource_name = "Orb_empty"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D/MeshInstance3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 0, 0, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ImpactParticles/GPUParticles3D3:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_maamf"]
 _data = {
+&"Orb_empty": SubResource("Animation_h0yyv"),
 &"Orb_floating": SubResource("Animation_ytsln"),
 &"Orb_hit": SubResource("Animation_maamf"),
 &"RESET": SubResource("Animation_o5njl")
 }
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o5njl"]
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+radial_velocity_min = 4.9999776
+radial_velocity_max = 9.999977
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
 
-[sub_resource type="QuadMesh" id="QuadMesh_o5njl"]
-flip_faces = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maamf"]
+shading_mode = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_lqf62"]
+material = SubResource("StandardMaterial3D_maamf")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="Curve" id="Curve_btbwp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.99998, 1), -0.41272786, -0.41272786, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_h0yyv"]
+curve = SubResource("Curve_btbwp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4jpue"]
+gravity = Vector3(0, 0, 0)
+scale_min = 100.0
+scale_max = 100.0
+scale_curve = SubResource("CurveTexture_h0yyv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lqf62"]
+render_priority = 0
+shader = ExtResource("4_lqf62")
+
+[sub_resource type="QuadMesh" id="QuadMesh_btbwp"]
+lightmap_size_hint = Vector2i(7, 7)
+material = SubResource("ShaderMaterial_lqf62")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lwsun"]
+radial_velocity_min = 1.9999776
+radial_velocity_max = 1.9999776
+gravity = Vector3(0, 9.8, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ct4a"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("5_btbwp")
+albedo_texture_msdf = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_1pdxi"]
+material = SubResource("StandardMaterial3D_2ct4a")
+size = Vector2(2, 2)
 
 [node name="Orb" type="StaticBody3D"]
 script = ExtResource("1_ytsln")
@@ -106,14 +192,15 @@ script = ExtResource("1_ytsln")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("CapsuleShape3D_ytsln")
+disabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_ytsln")
-surface_material_override/0 = SubResource("ShaderMaterial_o5njl")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
 mesh = SubResource("SphereMesh_m8ccx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+mesh = SubResource("SphereMesh_ytsln")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_o5njl")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -130,8 +217,39 @@ metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("CapsuleShape3D_ytsln")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="ImpactParticles" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="ImpactParticles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9417269, 0)
 emitting = false
+amount = 15
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+transform_align = 1
 process_material = SubResource("ParticleProcessMaterial_o5njl")
-draw_pass_1 = SubResource("QuadMesh_o5njl")
+draw_pass_1 = SubResource("QuadMesh_lqf62")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="ImpactParticles"]
+transform = Transform3D(0.99983144, 0, 0.018359832, 0, 1, 0, -0.018359832, 0, 0.99983144, 0, 0, 0)
+emitting = false
+amount = 1
+lifetime = 2.0
+one_shot = true
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_4jpue")
+draw_pass_1 = SubResource("QuadMesh_btbwp")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="ImpactParticles"]
+emitting = false
+amount = 20
+lifetime = 2.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_lwsun")
+draw_pass_1 = SubResource("QuadMesh_1pdxi")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9417269, 0)
+stream = ExtResource("4_maamf")
+bus = &"Effects"

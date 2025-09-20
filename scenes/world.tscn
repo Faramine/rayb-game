@@ -152,7 +152,6 @@ grow_vertical = 2
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer(debug)"]
-visible = false
 material = SubResource("ShaderMaterial_k3n1d")
 anchors_preset = 15
 anchor_right = 1.0

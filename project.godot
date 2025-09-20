@@ -17,8 +17,8 @@ config/icon="uid://b60o4bjht5gi3"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1700
+window/size/viewport_height=900
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://buf1bqbcyfegx"

@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://dye7apdp65ohn"]
+[gd_scene load_steps=17 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
+[ext_resource type="Script" uid="uid://cgs0vj5du68ww" path="res://scenes/rooms/elements/interactables/god_ray.gd" id="1_7idm3"]
 [ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
 [ext_resource type="Texture2D" uid="uid://yjthraqju1ms" path="res://assets/textures/experimental/Texture_test.png" id="2_ijm52"]
 [ext_resource type="Shader" uid="uid://7l4kd51mlo2" path="res://shaders/materials/decal_test.gdshader" id="3_ospo2"]
@@ -40,33 +41,37 @@ size = Vector3(6, 5, 6)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ospo2"]
 size = Vector3(5.5, 10, 5.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sykuj"]
-albedo_color = Color(0.409826, 0.312408, 0.114597, 1)
+[sub_resource type="Animation" id="Animation_7idm3"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_sykuj"]
 resource_name = "opening"
-tracks/0/type = "value"
+tracks/0/type = "scale_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D2:mesh")
+tracks/0/path = NodePath("MeshInstance3D2")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.25, 1, 0.1, 1, 0.1, 0.75, 1, 0.1, 1, 0.1, 1, 1, 1, 1, 1)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7idm3"]
 _data = {
+&"RESET": SubResource("Animation_7idm3"),
 &"opening": SubResource("Animation_sykuj")
 }
 
 [node name="GodRay" type="Node3D"]
+script = ExtResource("1_7idm3")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0193071, 12.5, 0)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.0193071, 12.5, 0)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_7idm3")
 
@@ -74,22 +79,11 @@ mesh = SubResource("BoxMesh_7idm3")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_winag")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0)
-visible = false
-light_color = Color(1, 1, 0.835294, 1)
-light_energy = 300.0
-light_volumetric_fog_energy = 0.0
-light_projector = ExtResource("2_ijm52")
-spot_range = 10.0
-spot_attenuation = 1.08
-spot_angle = 30.0
-spot_angle_attenuation = 0.233259
-
-[node name="ProjectorDecal3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+[node name="ProjectorDecal3D" type="MeshInstance3D" parent="MeshInstance3D2"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.4394014e-10, -12.4, 0.0193071)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_x5peg")
+skeleton = NodePath("../..")
 script = ExtResource("4_sykuj")
 size = Vector3(6, 5, 6)
 metadata/_custom_type_script = "uid://c11bkvabhn6gi"
@@ -100,11 +94,6 @@ metadata/_custom_type_script = "uid://c11bkvabhn6gi"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 visible = false
 shape = SubResource("BoxShape3D_ospo2")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-visible = false
-size = Vector3(10, 1, 10)
-material = SubResource("StandardMaterial3D_sykuj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
