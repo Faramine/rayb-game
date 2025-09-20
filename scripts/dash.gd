@@ -29,7 +29,7 @@ func dash(dash_target_pos: Vector3):
 		player.sword_collisions(true)
 		var tween_greycape = create_tween()
 		tween_greycape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),
-	 "emission", Color.from_rgba8(100,100,100), 0.1)
+	 		"emission", Color.from_rgba8(100,100,100), 0.1)
 		#$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)
 	
 func process_dash(delta):
@@ -78,7 +78,10 @@ func regain_dash():
 	dash_cooldown.stop()
 	prejuice_timer.stop()
 	$"../OmniLight3D".light_energy = 1
-	$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.WHITE
+	var tween_greycape = create_tween()
+	tween_greycape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),
+ 		"emission", Color.WHITE, 0.1)
+	#$"../Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.WHITE
 	player.is_charged = true
 
 func _on_dash_cooldown_timeout() -> void:
