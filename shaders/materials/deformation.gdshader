@@ -40,7 +40,7 @@ void fragment() {
 	vec2 displaced_uv = scale_around_uv(SCREEN_UV,object_center_uv,vec2((scale)));
 	//displaced_uv = SCREEN_UV;
 	ALPHA = intensity;//(0.5 - abs(dot_value))*2.0;
-	ALBEDO = texture(screen,displaced_uv).xyz * 2.0;
+	ALBEDO = texture(screen,displaced_uv).xyz;
 	//if(0.3 < intensity && intensity < 0.4) ALBEDO = vec3(1.0);
 }
 

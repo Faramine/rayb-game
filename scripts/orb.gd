@@ -8,6 +8,8 @@ var inv_timer = 0.0
 var spawn_position
 var strength = 2.0
 
+signal broken
+
 @onready var outer_mesh : MeshInstance3D = $MeshInstance3D
 @onready var inner_mesh : MeshInstance3D = $MeshInstance3D/MeshInstance3D
 
@@ -59,3 +61,4 @@ func take_damage(hitbox : HitBox):
 	if life > 3 && not dead:
 		dead = true
 		animationplayer.play("Orb_empty")
+		broken.emit(self)

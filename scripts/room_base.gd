@@ -113,6 +113,11 @@ func populate(layout : Room_layout):
 	layout.remove_child(layout.obstacles)
 	layout.remove_child(layout.enemies)
 	
+	if layout is PrebossRoomLayout:
+		layout.remove_child(layout.boss_door)
+		add_child(layout.boss_door)
+		layout.boss_door.connect_door(world)
+	
 	add_child(layout.godrays)
 	add_child(layout.enemies)
 	enemy_spawners = layout.enemies.get_children()

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://davgok5lxe6cq"]
+
+[ext_resource type="Script" uid="uid://ikeafo0o8rg3" path="res://scenes/rooms/elements/boss_door.gd" id="1_fdpmv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_13tm8"]
+shading_mode = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_fdpmv"]
+material = SubResource("StandardMaterial3D_13tm8")
+size = Vector3(0.2, 4, 3)
+
+[node name="BossDoor" type="Node3D"]
+script = ExtResource("1_fdpmv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_fdpmv")

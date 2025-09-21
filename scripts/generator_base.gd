@@ -4,6 +4,7 @@ extends Node
 @export var map_size = 11
 
 @onready var start_layout = preload("res://scenes/rooms/layouts/start_room_layout_1.tscn")
+@onready var preboss_layout = preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
 @onready var layout = [preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
 preload("res://scenes/rooms/layouts/test_room_layout_1.tscn"), preload("res://scenes/rooms/layouts/test_room_layout_2.tscn")]
 @onready var orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
@@ -81,8 +82,10 @@ func generate_map(world : World):
 	list.erase([map_center,map_center])
 	
 	world.start_room.populate(start_layout.instantiate())
+	world.preboss_room.populate(preboss_layout.instantiate())
 	
 	list = room_list.duplicate()
+	list.erase(preboss)
 	list.erase([preboss[0]-1,preboss[1]])
 	list.erase([map_center,map_center])
 	
@@ -104,7 +107,7 @@ func generate_map(world : World):
 		orbi = orb.instantiate()
 		orbi.position = room.orb_position
 		room.add_child(orbi)
-	
+		world.connect_orb(orbi)
 	
 func verify_room_placements(k,map,list,room_list):
 	var map_opened = false

@@ -15,6 +15,10 @@ var preboss_room : Room
 var boss_room : Room
 var active_room : Room
 
+var norb = 0
+
+signal door_opened
+
 func _ready() -> void:
 	generator.generate_map(self)
 	minimap.display_map(rooms.keys())
@@ -29,3 +33,13 @@ func activate_room(next_room : Room):
 	if(self.active_room): self.active_room.deactivate_room()
 	next_room.activate_room()
 	self.active_room = next_room
+	
+func connect_orb(orb : Orb):
+	norb = norb+1
+	orb.broken.connect(on_orb_breaking)
+
+func on_orb_breaking(orb : Orb):
+	if orb != null:
+		norb = norb - 1
+		if norb < 1 :
+			door_opened.emit(self)
