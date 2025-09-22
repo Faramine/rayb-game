@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b70a4g5oogicp"]
+[gd_scene load_steps=30 format=3 uid="uid://b70a4g5oogicp"]
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://scenes/player_controller.tscn" id="2_tlwt5"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
 [ext_resource type="Shader" uid="uid://c6rnujac3dpur" path="res://shaders/Experiment/world.gdshader" id="9_ic0uy"]
 [ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://scripts/FPS.gd" id="9_ioo17"]
+[ext_resource type="Shader" uid="uid://o2ijdjydc6j4" path="res://shaders/post-processing/kuwahara.gdshader" id="9_q5onr"]
 [ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://shaders/post-processing/dalil_pp_test.gdshader" id="10_wse8f"]
 
 [sub_resource type="Gradient" id="Gradient_pkg7o"]
@@ -67,6 +68,12 @@ shader_parameter/movement_speed = 0.0
 top_radius = 0.2
 bottom_radius = 0.0
 height = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhx03"]
+resource_local_to_scene = true
+shader = ExtResource("9_q5onr")
+shader_parameter/radius = 5
+shader_parameter/offset = Vector3(0, 0, 0)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_wse8f"]
 
@@ -138,6 +145,16 @@ mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
 [node name="2DPPCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect2" type="ColorRect" parent="2DPPCanvasLayer"]
+visible = false
+z_as_relative = false
+material = SubResource("ShaderMaterial_jhx03")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer"]
 z_as_relative = false

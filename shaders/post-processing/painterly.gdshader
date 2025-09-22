@@ -37,7 +37,7 @@ void fragment() {
 		sample_uv.x += noise_value_x*strength;
 		sample_uv.y += noise_value_y*strength;
 		vec4 sample = texture(SCREEN_TEXTURE, sample_uv);
-		sample.a *= 0.1;
+		sample.a *= 1.0/float(passNumber);
 		colorSum = blendOver(colorSum,sample);
 	}
 
