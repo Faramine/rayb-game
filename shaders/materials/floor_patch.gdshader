@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode unshaded;
 
-uniform sampler2D NORMAL_TEXTURE: source_color;
+uniform sampler2D MASK_TEXTURE: source_color;
 varying vec3 world_position;
 
 float random(float v) {
@@ -99,7 +99,7 @@ vec3 voronoi( in vec3 x )
 void fragment() {
 	//vec3 color_dark = vec3(0.059, 0.075, 0.08)*0.8;
 	vec3 color_dark = vec3(0.145, 0.188, 0.306)*0.2;
-	vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5;
+	vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5*2.0;
 
 	if(false){
 		color_base = rgb2hsv(color_base);
@@ -133,12 +133,7 @@ void fragment() {
 	//ALBEDO = vec3(level_bounds_coords.x);
 
 	// ALBEDO = texture(NORMAL_TEXTURE, UV).rgb;
-	vec3 normal_map = (texture(NORMAL_TEXTURE,UV).rgb - 0.5)*2.0;
-	normal_map = vec3(normal_map.x,normal_map.z,-normal_map.y);
-	normal_map = normalize(normal_map);
-
-	vec3 world_normal = (MODEL_MATRIX * vec4(normal_map,0.0)).xyz;
-	world_normal = normalize(world_normal);
+	float mask_map = texture(MASK_TEXTURE,UV).r;
 
 	//vec3 normal = (vec4(normal_map, 0.0) * inverse(MODEL_MATRIX)).xyz;
 	//normal = normalize(normal);
@@ -146,17 +141,9 @@ void fragment() {
 	float global_illumination = 0.0;
 	vec3 light_color = vec3(1.0,1.0,1.0);
 
-	{
-		vec3 light_drection = normalize(vec3(0.0,1.0,0.0));
-		float light_intensity = 0.2;
-		float illumination = clamp(dot(world_normal,light_drection),0.0,1.0) * light_intensity;
-		global_illumination += illumination;
-	}
-
-	vec3 final_color = overlay(color, light_color, global_illumination);
-	final_color = mix(color_dark,final_color,height_parameter);
-	final_color = final_color * (1.0-level_bounds_mask);
+	vec3 final_color = color_base;
 	ALBEDO = final_color;
+	ALPHA = mask_map;
 	//ALBEDO = vec3(illumination);
 	// Called for every pixel the material is visible on.
 }
