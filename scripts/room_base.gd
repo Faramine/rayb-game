@@ -23,7 +23,7 @@ var is_active : bool = false
 var is_cleared : bool = false
 
 var enemy_spawners = []
-var enemy_melee_scene : PackedScene = load("res://scenes/enemy_melee.tscn")
+var enemy_melee_scene : PackedScene = load("res://scenes/rooms/elements/enemies/enemy_melee.tscn")
 @onready var enemies : Array[Enemy] = []
 var enemies_defeated = 0
 

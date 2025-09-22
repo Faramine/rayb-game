@@ -1,6 +1,9 @@
 class_name Orb
 extends Node3D
 
+var position_tween : Tween = create_tween()
+var flashing_tween : Tween = create_tween()
+
 var inv = false
 var dead = false
 var inv_timer = 0.0
@@ -24,8 +27,8 @@ func _ready() -> void:
 	animationplayer.play("Orb_floating")
 
 func take_damage(hitbox : HitBox):
-	var position_tween = create_tween()
-	var flashing_tween = create_tween()
+	position_tween = create_tween()
+	flashing_tween = create_tween()
 	var albedo = outer_mesh.mesh.material.albedo_color
 	
 	var direction = (spawn_position - hitbox.global_position).normalized()
@@ -58,7 +61,11 @@ func take_damage(hitbox : HitBox):
 	$ImpactParticles/GPUParticles3D.restart()
 	$ImpactParticles/GPUParticles3D2.restart()
 	
-	if life > 3 && not dead:
+	if life >= 3 && not dead:
+		on_breaking()
+	
+func on_breaking():
 		dead = true
+		$ImpactParticles/GPUParticles3D3.restart()
 		animationplayer.play("Orb_empty")
 		broken.emit(self)

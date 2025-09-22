@@ -1,6 +1,6 @@
 shader_type spatial;
-//uniform sampler2D noise : repeat_enable;
-render_mode unshaded, cull_back, world_vertex_coords;
+render_mode unshaded;
+uniform sampler2DArray animation;
 
 float random(vec2 uv) {
     return fract(sin(dot(uv.xy,
@@ -41,14 +41,31 @@ float fbm(vec2 uv) {
     return value / famplitude;
 }
 
+const float repeat_start = 14.0;
+const float repeat_end = 17.0;
+
+varying float frame;
+varying float nframe;
+
 void vertex() {
-	VERTEX.z += (fbm(vec2(VERTEX.y - TIME * 0.01)) * 0.3) - 0.15;
+	// Called for every vertex the material is visible on.
+	nframe = INSTANCE_CUSTOM.w * 12.0;
+	frame = floor(mod((INSTANCE_CUSTOM.y * nframe),nframe));
+	nframe -= mod(nframe-27.0,4.0);
+	if(frame >= 14.0 && frame < nframe-27.0+17.0)
+		frame = 14.0 + mod(frame - 14.0, 4.0);
+	else if (frame >= nframe-27.0+17.0)
+		frame = 27.0 - (nframe - frame);
+	VERTEX.x += ((VERTEX.y) * .25* (VERTEX.x)) + (fbm(vec2(VERTEX.y* 0.01 + TIME * 0.05))-0.5) * 10.0 * (VERTEX.y / 12.5);
 }
 
 void fragment() {
-	// Called for every pixel the material is visible on.
-	ALBEDO = vec3(1.0);
-	ALPHA = max(0.05,(1.0-SCREEN_UV.y)*1.0-0.7);
+	vec2 uv = UV;
+	uv.y = uv.y*2.0;
+	if (uv.y > 1.0) discard;
+	
+	ALPHA = texture(animation,vec3(uv,frame)).a;
+	ALBEDO = texture(animation,vec3(uv,frame)).xyz;
 }
 
 //void light() {

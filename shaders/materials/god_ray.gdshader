@@ -1,6 +1,6 @@
 shader_type spatial;
 //uniform sampler2D noise : repeat_enable;
-render_mode unshaded,cull_front;
+render_mode unshaded,cull_back;
 
 float random(vec2 uv) {
     return fract(sin(dot(uv.xy,
@@ -60,18 +60,18 @@ void voronoise(vec2 uv, float size, float variance, float seed, float speed,
 	int range = 1;
 	for (int y= -range; y <= range; y++) {
 		for (int x= -range; x <= range; x++) {
-			
+
 			vec2 neighbor = vec2(float(x),float(y));
-			
+
 			vec2 time_offset = vec2(
 				fbm(random2(index_uv + neighbor + seed + 42.0) * TIME * speed),
 				fbm(random2(index_uv + neighbor - seed - 42.0) * TIME * speed)
 				);
 			vec2 point = variance * time_offset + vec2((1.0 - variance)*0.5);
-			
+
 			vec2 diff = neighbor + point - fract_uv;
 			float dist = length(diff);
-			
+
 			if(dist < minimum_dist_A) {
 				minimum_index_A = neighbor + index_uv;
 				minimum_dist_A = dist;
@@ -90,8 +90,7 @@ void voronoise(vec2 uv, float size, float variance, float seed, float speed,
 varying vec4 NODE_POSITION_CLIP;
 
 void vertex() {
-	VERTEX.z -= (fbm(vec2(VERTEX.y - TIME * 0.01)) * 0.5) - 0.25;
-	VERTEX.x += (fbm(vec2(VERTEX.y + TIME * 0.01)) * 0.5) - 0.25;
+	VERTEX.z += (fbm(vec2(VERTEX.y - TIME * 0.01)) * 0.3) - 0.15;
 	NODE_POSITION_CLIP = (PROJECTION_MATRIX * vec4(NODE_POSITION_VIEW, 1.0));
 }
 
@@ -102,41 +101,41 @@ void fragment() {
 	float screen_y = 0.05;
 	float speed = 0.01;
 	int layers = 3;
-	float size = 0.05;
-	float r = 0.2 * size;
-	
+	float size = 0.025;
+	float r = 0.7 * size;
+
 	float distance_A;
 	vec2 position_A;
 	vec2 index_A;
 	vec2 uv;
-	
+
 	float culling;
 	float ray;
 	float fadingio;
 	float alpha = 0.0;
-	
+
 	for(int i = 0; i < layers; i++){
-		
+
 		uv = vec2(
 			local_uv.x * ratio,
 			local_uv.y
 			);
-			
+
 		uv += vec2(
 			random(vec2(float(i))) * ratio,
 			random(vec2(float(i) + 10.0))
-			);
-		
+			)* NODE_POSITION_CLIP.w;
+
 		voronoise(uv, size, 1.0, float(i), speed,
 			 distance_A, position_A, index_A
 		);
-		
-		culling = (random(index_A + float(i)) > 0.1 ?
+
+		culling = (random(index_A + float(i)) > 0.5 ?
 			1.0 : 0.0 );
-		
-		ray = ((distance_A<r) ? 
+
+		ray = ((distance_A<r) ?
 			1.0 : 0.0 );
-		
+
 		fadingio = ( fbm(index_A + vec2( TIME/20.0 + float(i) ) ) * 2.0 - 0.7 );
 
 		alpha += clamp( ray * culling * fadingio, 0.0, 1.0);

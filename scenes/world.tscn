@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cakx6ulk5kvmw" path="res://scripts/world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://c8rnlof07pti0" path="res://scenes/player_controller.tscn" id="2_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://scenes/map.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://41fpov2sqvbg" path="res://scenes/ui_elements/map.tscn" id="3_tlwt5"]
 [ext_resource type="Shader" uid="uid://cq51g8iq02m0k" path="res://shaders/post-processing/painterly.gdshader" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
@@ -138,6 +138,7 @@ mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
 [node name="2DPPCanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer"]
 z_as_relative = false

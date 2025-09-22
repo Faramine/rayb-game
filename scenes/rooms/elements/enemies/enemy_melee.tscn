@@ -1,10 +1,10 @@
 [gd_scene load_steps=36 format=3 uid="uid://jwpwxu137g02"]
 
-[ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://scenes/abstract_enemy.tscn" id="1_33gkd"]
+[ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://scenes/rooms/elements/enemies/abstract_enemy.tscn" id="1_33gkd"]
 [ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_melee.gd" id="2_jnamf"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_1ob5i"]
 [ext_resource type="Script" uid="uid://cys45mbytwrfs" path="res://scripts/health.gd" id="3_mwbfj"]
-[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="4_jqwtn"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_jqwtn"]
 [ext_resource type="Script" uid="uid://belxaiupe7mb3" path="res://scripts/enemies/melee/idle_state.gd" id="5_t1tt7"]
 [ext_resource type="Script" uid="uid://h2fig86rt56o" path="res://scripts/enemies/melee/chase.gd" id="6_t4k0o"]
 [ext_resource type="Script" uid="uid://cejk0tw6dfnuj" path="res://scripts/enemies/melee/load_attack.gd" id="7_a6dem"]

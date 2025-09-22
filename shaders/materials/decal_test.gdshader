@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded,cull_front,depth_test_disabled;
+render_mode unshaded,cull_front;
 
 uniform sampler2D depth_texture : hint_depth_texture;
 uniform sampler2D screen_texture : hint_screen_texture;
@@ -48,5 +48,4 @@ void fragment() {
 }
 
 //void light() {
-//	discard;
 //}

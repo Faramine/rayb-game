@@ -13,6 +13,7 @@ shader = ExtResource("1_sykuj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_7idm3"]
 material = SubResource("ShaderMaterial_7idm3")
+flip_faces = true
 size = Vector3(5.5, 27, 5.5)
 subdivide_height = 20
 
