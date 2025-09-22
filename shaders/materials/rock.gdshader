@@ -2,8 +2,12 @@ shader_type spatial;
 render_mode unshaded;
 
 uniform sampler2D NORMAL_TEXTURE: source_color;
-global uniform vec3 current_room_position;
 varying vec3 world_position;
+
+// Global inputs
+global uniform vec3 current_room_position;
+global uniform vec4 palette_color_base;
+global uniform vec4 palette_color_dark;
 
 float random(float v) {
     return fract(sin(dot(vec2(v),
@@ -47,14 +51,7 @@ vec3 hsv2rgb(vec3 c){
 }
 
 vec3 overlay(vec3 A, vec3 B, float factor){
-	vec3 multiply = 2.0 * A * B;
-    vec3 screen = 1.0 - (2.0 * (1.0 - A)) * (1.0 - B);
-
-	float gray = (A.r + A.b + A.g) / 3.0;
-    float threshold = step(gray, 0.5);
-    vec3 overlay = (multiply * (1.0 - threshold)) + (screen * threshold);
-
-	overlay = hsv2rgb(rgb2hsv(overlay) * vec3(1.0,5.0,1.0));
+	vec3 overlay = hsv2rgb(rgb2hsv(A) * vec3(1.0,1.5,10.0));
 	return mix(A, overlay, factor);
 }
 
@@ -99,11 +96,11 @@ vec3 voronoi( in vec3 x )
 
 void fragment() {
 	//vec3 color_dark = vec3(0.059, 0.075, 0.08)*0.8;
-	vec3 color_dark = vec3(0.145, 0.188, 0.306)*0.2;
-	vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5;
+	//vec3 color_dark = vec3(0.145, 0.188, 0.306)*0.5;
+	//vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5;
 
 	if(false){
-		color_base = rgb2hsv(color_base);
+		vec3 color_base = rgb2hsv(palette_color_base.xyz);
 		float voronoi_size = 0.5;
 		float voronoi_id = voronoi(world_position * voronoi_size).b;
 		color_base.x += (random(voronoi_id + 6568.0)*0.5-0.5)*0.05;
@@ -118,7 +115,7 @@ void fragment() {
 	// Posterize height parameter to get a painterly effect
 	float posterization_n = 100.0;
 	height_parameter = floor(height_parameter*posterization_n)/posterization_n;
-	vec3 color = mix(color_dark, color_base, height_parameter);
+	vec3 color = mix(palette_color_dark.xyz, palette_color_base.xyz, height_parameter);
 
 	float room_size = 13.25;
 	float level_bounds_start = 12.0;
@@ -147,14 +144,14 @@ void fragment() {
 	vec3 light_color = vec3(1.0,1.0,1.0);
 
 	{
-		vec3 light_drection = normalize(vec3(0.0,1.0,0.0));
+		vec3 light_drection = normalize(vec3(0.5,1.0,0.2));
 		float light_intensity = 0.2;
 		float illumination = clamp(dot(world_normal,light_drection),0.0,1.0) * light_intensity;
 		global_illumination += illumination;
 	}
 
 	vec3 final_color = overlay(color, light_color, global_illumination);
-	final_color = mix(color_dark,final_color,height_parameter);
+	final_color = mix(palette_color_dark.xyz,final_color,height_parameter);
 	final_color = final_color * (1.0-level_bounds_mask);
 	ALBEDO = final_color;
 	

@@ -138,7 +138,6 @@ mesh = SubResource("CylinderMesh_ioo17")
 skeleton = NodePath("../../Camera")
 
 [node name="2DPPCanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="2DPPCanvasLayer"]
 z_as_relative = false

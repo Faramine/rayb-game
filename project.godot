@@ -74,3 +74,11 @@ current_room_position={
 "type": "vec3",
 "value": Vector3(0, 0, 0)
 }
+palette_color_dark={
+"type": "color",
+"value": Color(0.068018906, 0.07684273, 0.097434916, 1)
+}
+palette_color_base={
+"type": "color",
+"value": Color(0.1105, 0.13132499, 0.17, 1)
+}

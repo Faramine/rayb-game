@@ -19,8 +19,8 @@ size = Vector2(2, 2)
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ca3w1"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_036b0"]
-seamless = true
 noise = SubResource("FastNoiseLite_ca3w1")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vs6ms"]
 render_priority = 0

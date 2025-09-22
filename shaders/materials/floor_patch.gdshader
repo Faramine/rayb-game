@@ -4,6 +4,11 @@ render_mode unshaded;
 uniform sampler2D MASK_TEXTURE: source_color;
 varying vec3 world_position;
 
+// Global inputs
+global uniform vec3 current_room_position;
+global uniform vec4 palette_color_base;
+global uniform vec4 palette_color_dark;
+
 float random(float v) {
     return fract(sin(dot(vec2(v),
         vec2(12.9898,78.233))) *
@@ -134,6 +139,7 @@ void fragment() {
 
 	// ALBEDO = texture(NORMAL_TEXTURE, UV).rgb;
 	float mask_map = texture(MASK_TEXTURE,UV).r;
+	float final_alpha = mask_map * 2.0;
 
 	//vec3 normal = (vec4(normal_map, 0.0) * inverse(MODEL_MATRIX)).xyz;
 	//normal = normalize(normal);
@@ -141,9 +147,9 @@ void fragment() {
 	float global_illumination = 0.0;
 	vec3 light_color = vec3(1.0,1.0,1.0);
 
-	vec3 final_color = color_base;
+	vec3 final_color = palette_color_base.xyz;
 	ALBEDO = final_color;
-	ALPHA = mask_map;
+	ALPHA = final_alpha;
 	//ALBEDO = vec3(illumination);
 	// Called for every pixel the material is visible on.
 }
