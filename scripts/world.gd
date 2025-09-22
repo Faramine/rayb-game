@@ -28,6 +28,7 @@ func change_room(coords):
 	minimap.change_room(coords)
 	activate_room(rooms.get(coords))
 	camera.track(active_room.camera_posistion)
+	RenderingServer.global_shader_parameter_set("current_room_position", active_room.global_position);
 	
 func activate_room(next_room : Room):
 	if(self.active_room): self.active_room.deactivate_room()

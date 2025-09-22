@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode unshaded;
 
 uniform sampler2D NORMAL_TEXTURE: source_color;
+global uniform vec3 current_room_position;
 varying vec3 world_position;
 
 float random(float v) {
@@ -119,15 +120,14 @@ void fragment() {
 	height_parameter = floor(height_parameter*posterization_n)/posterization_n;
 	vec3 color = mix(color_dark, color_base, height_parameter);
 
-	float level_bounds_start = 4.5;
-	float level_bounds_end = 5.0;
+	float room_size = 13.25;
+	float level_bounds_start = 12.0;
+	float level_bounds_end = 26.0;
 	float level_bounds_mask = 0.0;
 	vec2 level_bounds_coords = world_position.xz;
-	float room_size = 13.25;
-	level_bounds_coords.x =  (fract((world_position.x / room_size/2.0)+0.5)-0.5)*2.0*room_size;
-	level_bounds_coords.y =  (fract((world_position.z / room_size/2.0)+0.5)-0.5)*2.0*room_size;
-	level_bounds_mask += clamp(abs(level_bounds_coords.x)-12.0, 0.0, 1.0);
-	level_bounds_mask += clamp(abs(level_bounds_coords.y)-12.0, 0.0, 1.0);
+
+	level_bounds_mask += clamp(abs(world_position.x - current_room_position.x) - level_bounds_start, 0.0, 1.0);
+	level_bounds_mask += clamp(abs(world_position.z - current_room_position.z) - level_bounds_start, 0.0, 1.0);
 	level_bounds_mask = clamp(level_bounds_mask, 0.0, 1.0);
 	//ALBEDO = vec3(level_bounds_coords,0.0);
 	//ALBEDO = vec3(level_bounds_coords.x);
@@ -157,6 +157,9 @@ void fragment() {
 	final_color = mix(color_dark,final_color,height_parameter);
 	final_color = final_color * (1.0-level_bounds_mask);
 	ALBEDO = final_color;
+	
+	//ALBEDO = vec3(level_bounds_mask);
+	
 	//ALBEDO = vec3(illumination);
 	// Called for every pixel the material is visible on.
 }
