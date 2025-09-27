@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnrfsosmcwfto"
-path="res://.godot/imported/rond_noir_gimp_1.png-28e9d3f7f5b9240c44701e5c9bb53b50.ctex"
+uid="uid://dbwfk2pdly4nh"
+path="res://.godot/imported/rock_cube_0.png-4dbc6bc1f7a5e45236a000161c18acd2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/rond_noir_gimp_1.png"
-dest_files=["res://.godot/imported/rond_noir_gimp_1.png-28e9d3f7f5b9240c44701e5c9bb53b50.ctex"]
+source_file="res://assets/environment/rocks/rock_cube_0.png"
+dest_files=["res://.godot/imported/rock_cube_0.png-4dbc6bc1f7a5e45236a000161c18acd2.ctex"]
 
 [params]
 
