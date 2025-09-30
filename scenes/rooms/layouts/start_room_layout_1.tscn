@@ -1,18 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://b14q0ovbrg6ex"]
+[gd_scene load_steps=31 format=3 uid="uid://b14q0ovbrg6ex"]
 
 [ext_resource type="PackedScene" uid="uid://3ddnr4pbtihn" path="res://scenes/rooms/layouts/base_room_layout.tscn" id="1_yruwk"]
 [ext_resource type="PackedScene" uid="uid://dye7apdp65ohn" path="res://scenes/rooms/elements/interactables/god_ray.tscn" id="2_1uijr"]
-[ext_resource type="ArrayMesh" uid="uid://v68qc3srbe76" path="res://assets/environment/rocks/rock_round_0.obj" id="3_ectgg"]
+[ext_resource type="ArrayMesh" uid="uid://1vqerjkf02bh" path="res://assets/environment/rocks/rock_round_0.obj" id="3_ectgg"]
 [ext_resource type="Shader" uid="uid://nuyokq2ngvjx" path="res://shaders/materials/rock.gdshader" id="3_wy5iv"]
 [ext_resource type="Texture2D" uid="uid://bndkh4efonen6" path="res://assets/environment/rock_round_0.png" id="4_1lkji"]
 [ext_resource type="Texture2D" uid="uid://cjvnsxnje2hyq" path="res://assets/environment/rocks/rock_long_0.png" id="5_jpg7w"]
-[ext_resource type="ArrayMesh" uid="uid://d1tr0oo2g7occ" path="res://assets/environment/rocks/rock_long_0.obj" id="6_688ov"]
-[ext_resource type="ArrayMesh" uid="uid://baehhwjs5ubsd" path="res://assets/environment/rocks/rock_cube_0.obj" id="8_6gv8k"]
+[ext_resource type="ArrayMesh" uid="uid://dpfuihd6urky6" path="res://assets/environment/rocks/rock_long_0.obj" id="6_688ov"]
+[ext_resource type="ArrayMesh" uid="uid://j3hbnyqxsmps" path="res://assets/environment/rocks/rock_cube_0.obj" id="8_6gv8k"]
 [ext_resource type="Shader" uid="uid://daeep773ty80g" path="res://shaders/materials/floor_patch.gdshader" id="8_qmh6r"]
 [ext_resource type="Texture2D" uid="uid://cpgbq4bfxp614" path="res://assets/environment/rocks/rock_cube_0.png" id="9_ig5lm"]
 [ext_resource type="Texture2D" uid="uid://d1xs4yl070fvg" path="res://assets/environment/patches/patch_flat_0.png" id="9_yd2x5"]
-[ext_resource type="ArrayMesh" uid="uid://bqhlhq8ecox5h" path="res://assets/environment/rocks/rock_round_2.obj" id="12_jgeuh"]
+[ext_resource type="ArrayMesh" uid="uid://db1qwyjeub3uq" path="res://assets/environment/rocks/rock_round_2.obj" id="12_jgeuh"]
 [ext_resource type="Texture2D" uid="uid://dbfp1n3l4ktln" path="res://assets/environment/rocks/rock_round_2.png" id="13_g0bp5"]
+[ext_resource type="Shader" uid="uid://008i0c5ku5tq" path="res://shaders/environment/brushstroke_basic.gdshader" id="14_ig5lm"]
+[ext_resource type="Texture2D" uid="uid://b2sa1yn1awb5b" path="res://assets/environment/strokes/stroke_basic.png" id="15_jgeuh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jpg7w"]
 render_priority = 0
@@ -29,6 +31,11 @@ render_priority = 0
 shader = ExtResource("3_wy5iv")
 shader_parameter/NORMAL_TEXTURE = ExtResource("9_ig5lm")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rsn2u"]
+render_priority = 0
+shader = ExtResource("3_wy5iv")
+shader_parameter/NORMAL_TEXTURE = ExtResource("13_g0bp5")
+
 [sub_resource type="QuadMesh" id="QuadMesh_jwciu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m6l6j"]
@@ -36,10 +43,55 @@ render_priority = 0
 shader = ExtResource("8_qmh6r")
 shader_parameter/MASK_TEXTURE = ExtResource("9_yd2x5")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rsn2u"]
+[sub_resource type="QuadMesh" id="QuadMesh_jgeuh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jgeuh"]
 render_priority = 0
-shader = ExtResource("3_wy5iv")
-shader_parameter/NORMAL_TEXTURE = ExtResource("13_g0bp5")
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g0bp5"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8b21a"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p28rm"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_706oa"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4gnu8"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58qkb"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skqt4"]
+render_priority = 0
+shader = ExtResource("14_ig5lm")
+shader_parameter/ALPHA_TEXTURE = ExtResource("15_jgeuh")
+shader_parameter/stroke_index = 3
 
 [node name="Start_room_layout_1" instance=ExtResource("1_yruwk")]
 
@@ -49,55 +101,107 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
 [node name="GodRay3" parent="God_rays" index="1" instance=ExtResource("2_1uijr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97914, 0, 8)
 
-[node name="rock_round_0" type="CSGMesh3D" parent="." index="5"]
+[node name="Rocks" type="Node3D" parent="." index="5"]
+
+[node name="Rock0" type="CSGMesh3D" parent="Rocks" index="0"]
 transform = Transform3D(2.2689817, 0, 0, 0, 2.26898, 0, 0, 0, 2.2689776, -9.27673, 0.283755, -7.66311)
 use_collision = true
 mesh = ExtResource("3_ectgg")
 material = SubResource("ShaderMaterial_jpg7w")
 
-[node name="rock_round_1" type="CSGMesh3D" parent="." index="6"]
+[node name="Rock1" type="CSGMesh3D" parent="Rocks" index="1"]
 transform = Transform3D(2.2689815, 0, 0, 0, 2.2675898, 0.07942365, 0, -0.079423726, 2.2675872, -9.754925, -6.614898, -5.40329)
 use_collision = true
 mesh = ExtResource("6_688ov")
 material = SubResource("ShaderMaterial_qmh6r")
 
-[node name="rock_round_2" type="CSGMesh3D" parent="." index="7"]
+[node name="Rock2" type="CSGMesh3D" parent="Rocks" index="2"]
 transform = Transform3D(5.1482754, 0, 0, 0, -5.0775995, -0.85006285, 0, 0.8500627, -5.0775905, 7.5273685, -1.7689979, 8.959717)
 use_collision = true
 mesh = ExtResource("3_ectgg")
 material = SubResource("ShaderMaterial_jpg7w")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="." index="8"]
+[node name="Rock3" type="CSGMesh3D" parent="Rocks" index="3"]
 transform = Transform3D(3.635, 0, 0, 0, 3.635, 0, 0, 0, 3.635, -14.680582, 1.5729451, -5.428495)
 use_collision = true
 mesh = ExtResource("8_6gv8k")
 material = SubResource("ShaderMaterial_3ycna")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="9"]
-transform = Transform3D(23.72, 0, 0, 0, -1.0368341e-06, 23.72, 0, -23.72, -1.0368341e-06, 4.1459165, 0.100262284, 3.7155845)
-mesh = SubResource("QuadMesh_jwciu")
-surface_material_override/0 = SubResource("ShaderMaterial_m6l6j")
-
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="." index="10"]
+[node name="Rock4" type="CSGMesh3D" parent="Rocks" index="4"]
 transform = Transform3D(0.27076194, 3.064705, 0.28700176, -0.2030337, -0.26970077, 3.0715036, 3.0714107, -0.2879992, 0.1777391, -14.782479, 1.8472638, 5.101451)
 use_collision = true
 mesh = ExtResource("8_6gv8k")
 material = SubResource("ShaderMaterial_3ycna")
 
-[node name="CSGMesh3D3" type="CSGMesh3D" parent="." index="11"]
+[node name="Rock5" type="CSGMesh3D" parent="Rocks" index="5"]
 transform = Transform3D(6.87, 0, 0, 0, 6.87, 0, 0, 0, 6.87, -10.704446, 4.8659973, -15.50524)
 use_collision = true
 mesh = ExtResource("12_jgeuh")
 material = SubResource("ShaderMaterial_rsn2u")
 
-[node name="CSGMesh3D4" type="CSGMesh3D" parent="." index="12"]
+[node name="Rock6" type="CSGMesh3D" parent="Rocks" index="6"]
 transform = Transform3D(3.0899994, 0, 0, 0, 2.8710995, 1.1423169, 0, -1.1423172, 2.8710995, -4.737051, 2.1097307, -14.67187)
 use_collision = true
 mesh = ExtResource("8_6gv8k")
 material = SubResource("ShaderMaterial_3ycna")
 
-[node name="rock_round_3" type="CSGMesh3D" parent="." index="13"]
+[node name="Rock7" type="CSGMesh3D" parent="Rocks" index="7"]
 transform = Transform3D(2.2689815, 0, 0, 0, -2.2689803, 1.9836033e-07, 0, -1.9836055e-07, -2.2689776, 11.163112, 1.9247308, 11.469307)
 use_collision = true
 mesh = ExtResource("6_688ov")
 material = SubResource("ShaderMaterial_qmh6r")
+
+[node name="FloorPatch0" type="MeshInstance3D" parent="." index="6"]
+transform = Transform3D(23.72, 0, 0, 0, -1.0368341e-06, 23.72, 0, -23.72, -1.0368341e-06, 4.1459165, 0.100262284, 3.7155845)
+mesh = SubResource("QuadMesh_jwciu")
+surface_material_override/0 = SubResource("ShaderMaterial_m6l6j")
+
+[node name="BorderStrokes" type="Node3D" parent="." index="7"]
+
+[node name="BorderStroke0" type="MeshInstance3D" parent="BorderStrokes" index="0"]
+transform = Transform3D(18.319563, -0.56546503, 0, 1.7504207, 5.918047, 0, 0, 0, 5.9450006, -10.902057, 7.8499074, 7.5321026)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_jgeuh")
+
+[node name="BorderStroke1" type="MeshInstance3D" parent="BorderStrokes" index="1"]
+transform = Transform3D(18.403, 0, 0, 0, 5.945, 0, 0, 0, 5.945, -5.6831427, 13.168238, -2.9431806)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_g0bp5")
+
+[node name="BorderStroke2" type="MeshInstance3D" parent="BorderStrokes" index="2"]
+transform = Transform3D(23.512627, 0.8889877, 0, -3.5559509, 5.8781567, 0, 0, 0, 5.945, 15.263195, 2.0580645, 12.652797)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_8b21a")
+
+[node name="BorderStroke3" type="MeshInstance3D" parent="BorderStrokes" index="3"]
+transform = Transform3D(-18.40255, 0.0415034, 0, -0.12847553, -5.9448547, 0, 0, 0, 5.945, 15.105713, 0.8223853, -10.577482)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_p28rm")
+
+[node name="BorderStroke4" type="MeshInstance3D" parent="BorderStrokes" index="4"]
+transform = Transform3D(0.85887897, 5.9385204, 0, -18.382944, 0.27745667, 0, 0, 0, 5.9449997, 14.371355, 7.762611, -13.332717)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_706oa")
+
+[node name="BorderStroke5" type="MeshInstance3D" parent="BorderStrokes" index="5"]
+transform = Transform3D(7.910051, 0.29981843, 0, -1.196283, 1.9824566, 0, 0, 0, 2.005, 14.009216, 5.683672, 12.341596)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_4gnu8")
+
+[node name="BorderStroke6" type="MeshInstance3D" parent="BorderStrokes" index="6"]
+transform = Transform3D(1.066028, 4.4970703, 0, -17.943361, 0.26717418, 0, 0, 0, 4.505, 10.462212, 6.213818, 13.259147)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_58qkb")
+
+[node name="BorderStroke7" type="MeshInstance3D" parent="BorderStrokes" index="7"]
+transform = Transform3D(-2.8428912, 4.448299, 0, -17.748764, -0.712502, 0, 0, 0, 4.505, -3.5912666, 6.4240136, 13.487464)
+mesh = SubResource("QuadMesh_jgeuh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_skqt4")
