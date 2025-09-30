@@ -21,8 +21,8 @@ func dash(dash_target_pos: Vector3):
 		player.is_charged = false
 		is_dashing = true
 		player.animationTree["parameters/conditions/is_dashing"] = true;
-		dash_target_pos.y = 0
-		self.dash_target_dir = (dash_target_pos - player.position).normalized();
+		dash_target_dir = (dash_target_pos - player.position)
+		self.dash_target_dir = Vector3(dash_target_dir.x, 0, dash_target_dir.z).normalized()
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
 		player.world.camera.add_trauma(0.25)

@@ -21,7 +21,7 @@ window/size/viewport_width=1700
 window/size/viewport_height=900
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
-mouse_cursor/custom_image="uid://buf1bqbcyfegx"
+mouse_cursor/custom_image="uid://dnrfsosmcwfto"
 mouse_cursor/custom_image_hotspot=Vector2(4, 4)
 
 [dotnet]
