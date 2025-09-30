@@ -150,13 +150,17 @@ void fragment() {
 		global_illumination += illumination;
 	}
 
+	float z_mask = world_position.y + 1.0;
+	z_mask = clamp(z_mask,0.0,1.0);
+
 	vec3 final_color = overlay(color, light_color, global_illumination);
 	final_color = mix(palette_color_dark.xyz,final_color,height_parameter);
 	final_color = final_color * (1.0-level_bounds_mask);
+	final_color *= z_mask;
 	ALBEDO = final_color;
-	
+
 	//ALBEDO = vec3(level_bounds_mask);
-	
+
 	//ALBEDO = vec3(illumination);
 	// Called for every pixel the material is visible on.
 }
