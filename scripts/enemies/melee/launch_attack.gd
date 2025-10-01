@@ -2,6 +2,11 @@ extends State
 
 var parent : EnemyMelee
 
+# Armature and animation nodes
+@onready var armature = $Armature;
+@onready var skeleton = $Armature/Skeleton3D;
+@onready var animationTree = get_parent().get_parent().get_node("AnimationTree");
+
 @export var chase_state : State
 @export var misled_state : State
 
@@ -15,6 +20,12 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+		# Setting up the animation parameters for the animation tree
+	animationTree["parameters/conditions/is_walking"] = false;
+	animationTree["parameters/conditions/is_idle"] = false;
+	animationTree["parameters/conditions/is_bracing"] = false;
+	animationTree["parameters/conditions/is_slamming"] = true;
+	
 	var tween = create_tween()
 	tween.tween_property(parent.mesh, "scale", Vector3.ONE, 0.05)
 	launch_attack_duration.start()

@@ -27,6 +27,7 @@ func move_toward_target(speed, delta):
 	var new_velocity = (next_location - current_location).normalized() * speed
 	velocity = velocity.move_toward(new_velocity, delta * 100)
 	#velocity = new_velocity * delta * 270
+	self.rotation.y = lerp_angle(self.rotation.y, new_velocity.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), 25 * delta);
 
 func update_target_position(target : Vector3):
 	nav.target_position = target

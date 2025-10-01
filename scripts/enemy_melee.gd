@@ -3,6 +3,11 @@ extends Enemy
 
 @onready var state_machine = $StateMachine
 
+# Armature and animation nodes
+@onready var armature = $Armature;
+@onready var skeleton = $Armature/Skeleton3D;
+@onready var animationTree = $AnimationTree;
+
 var launch_origin : Vector3
 var launch_target : Vector3
 
@@ -31,6 +36,9 @@ func on_room_activated():
 func take_damage(hitbox : HitBox):
 	$Health.damage_cache = hitbox.damage
 	state_machine.apply_transition("got_hit")
+
+func move_toward_target(speed, delta):
+	super.move_toward_target(speed, delta);
 
 func _on_player_enter_godray():
 	state_machine.apply_transition("godray_entered")

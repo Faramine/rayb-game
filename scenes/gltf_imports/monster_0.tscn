@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqutyadeck132"]
+
+[ext_resource type="PackedScene" uid="uid://dm2n4rlc2gvnx" path="res://assets/characters/monster_0.glb" id="1_cl42n"]
+
+[node name="monster_02" instance=ExtResource("1_cl42n")]
