@@ -4,7 +4,7 @@ render_mode unshaded;
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture;
 uniform sampler2D NOISE_TEXTURE: repeat_enable;
 //uniform float strength: hint_range(0.0, 5, 0.1) = 1.0;
-uniform float uv_scaling: hint_range (0.0, 10.0, 0.05) = 1.0;
+//uniform float uv_scaling: hint_range (0.0, 10.0, 0.05) = 1.0;
 uniform vec2 movement_direction = vec2(1, 0);
 uniform float movement_speed: hint_range (0.0, 0.5, 0.01) = 0.1;
 
@@ -29,7 +29,8 @@ void fragment() {
 
 	vec4 colorSum = vec4(0.0,0.0,0.0,0.0);
 	int passNumber = 3;
-	float strength = 0.008;
+	float strength = 0.8;
+	float uv_scaling = 0.0000002;
 	for (int i = 0; i < passNumber; i++){
 		float noise_value_x = texture(NOISE_TEXTURE, uv*uv_scaling + vec2(float(i)*0.1+0.74561)).r - 0.5;
 		float noise_value_y = texture(NOISE_TEXTURE, uv*uv_scaling + vec2(float(i)*0.1+0.89551)).r - 0.5;
