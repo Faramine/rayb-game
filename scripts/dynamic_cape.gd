@@ -11,8 +11,14 @@ var hook_position_grid;
 const grid_width = 5;
 const grid_height = 3;
 
-const spring_stiffness = 100.0;
+const spring_stiffness = 500.0;
 const hook_weight = 10.0;
+
+const reaction_radius : float = 0.7;
+
+func hook_local(hook_id : int):
+	var local_pos : Transform3D = skeleton.get_bone_global_pose(hook_id);
+	return local_pos.origin;
 
 func hook_global(hook_id : int):
 	var local_pos : Transform3D = skeleton.get_bone_global_pose(hook_id);
@@ -66,11 +72,23 @@ func _process(delta):
 				
 				var shape_force = -spring_stiffness * (- hook_global_rest(hook_grid[i][j]) + hook_global(hook_grid[i][j]));
 				
-				var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight;
+				var reaction_force : Vector3;
+				var hook_local_position = hook_local(hook_grid[i][j]);
+				hook_local_position.y = 0.0;
+				var hook_global_position = skeleton.to_global(hook_local_position);
+				var center_global_position = skeleton.to_global(Vector3(0.0,0.0,0.0));
+				var hook_global_distance_to_center : float = hook_global_position.distance_to(center_global_position);
+				var reaction_magnitude : float = 0.0;
+				if hook_global_distance_to_center < reaction_radius:
+					reaction_magnitude = reaction_radius-hook_global_distance_to_center;
+				var reaction_global_direction = (hook_global_position-center_global_position).normalized();
+				reaction_force = reaction_global_direction * reaction_magnitude;
 				
-				hook_velocity_grid[i][j] *= 0.96
+				var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight * 0.0;
+				
+				hook_velocity_grid[i][j] *= 0.8
 				hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force) * delta;
-				hook_position_grid[i][j] += hook_velocity_grid[i][j] * delta;
+				hook_position_grid[i][j] += hook_velocity_grid[i][j] * delta + reaction_force;
 				
 				#return to local coords and set the new bone position
 				var new_local_pos : Vector3 = skeleton.to_local(hook_position_grid[i][j]) ;
