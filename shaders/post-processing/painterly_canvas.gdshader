@@ -112,7 +112,7 @@ void fragment() {
 	//colorSum += texture(screen_texture, UV);
 	int passNumber = 10;
 	float global_strength_min = 0.004;
-	float global_strength_max = 0.01;
+	float global_strength_max = 0.008;
 	float uv_scaling = 40.0;
 	for (int i = 0; i < passNumber; i++){
 		float noise_value_x = fbm(uv_normalized*uv_scaling + vec2(float(i)*0.1+random(vec2(8582.561+float(i)))*5242.588)) - 0.5;

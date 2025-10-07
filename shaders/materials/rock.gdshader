@@ -65,7 +65,7 @@ vec3 hash( vec3 x )
 }
 
 // returns closest, second closest, and cell id
-vec3 voronoi( in vec3 x )
+vec3 voronoi( in vec3 x, out vec3 pos)
 {
     vec3 p = floor( x );
     vec3 f = fract( x );
@@ -77,12 +77,15 @@ vec3 voronoi( in vec3 x )
     for( int i=-1; i<=1; i++ )
     {
         vec3 b = vec3( float(i), float(j), float(k) );
-        vec3 r = vec3( b ) - f + hash( p + b );
+        vec3 r = b + hash( p + b ) - f;
+		vec3 k = b + hash( p + b ); // voronoi cell kernel position
+		vec3 k_abs = k + p; // kernel's absolute position
         float d = dot( r, r );
 
         if( d < res.x )
         {
 			id = dot( p+b, vec3(1.0,57.0,113.0 ) );
+			pos = k_abs;
             res = vec2( d, res.x );
         }
         else if( d < res.y )
@@ -94,18 +97,43 @@ vec3 voronoi( in vec3 x )
     return vec3( sqrt( res ), abs(id) );
 }
 
+float fbm(vec3 pos, float seed) {
+    int octaves = 3;
+    float amplitude = 0.5;
+    float frequency = 0.1;
+	float value = 0.0;
+
+    for(int i = 0; i < octaves; i++) {
+        value += amplitude * random3(frequency * pos + vec3(seed)).x;
+        amplitude *= 0.5;
+        frequency *= 2.0;
+    }
+    return value;
+}
+
 void fragment() {
 	//vec3 color_dark = vec3(0.059, 0.075, 0.08)*0.8;
 	//vec3 color_dark = vec3(0.145, 0.188, 0.306)*0.5;
 	//vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5;
 
-	if(false){
-		vec3 color_base = rgb2hsv(palette_color_base.xyz);
+	vec3 color_base;
+	if(true){
+		color_base = rgb2hsv(palette_color_base.xyz);
 		float voronoi_size = 0.5;
-		float voronoi_id = voronoi(world_position * voronoi_size).b;
-		color_base.x += (random(voronoi_id + 6568.0)*0.5-0.5)*0.05;
-		color_base.y += (random(voronoi_id + 8921.0)*0.5-0.5)*0.2;
-		color_base.z += (random(voronoi_id + 9822.0)*0.5-0.5)*0.2;
+		vec3 pos;
+		
+		vec3 noisy_offset = vec3(
+			fbm(world_position, 5134.1379),
+			fbm(world_position, 2344.7829),
+			fbm(world_position, 7523.5278)
+		);
+		vec3 noisy_position = world_position + noisy_offset;
+		
+		float voronoi_id = voronoi(noisy_position * voronoi_size, pos).b;
+		
+		color_base.x += (random(voronoi_id + 6568.0)*0.5-0.0)*0.05;
+		color_base.y += (random(voronoi_id + 8921.0)*0.5-0.0)*0.02;
+		color_base.z += (random(voronoi_id + 9822.0)*0.5-0.0)*0.15;
 		color_base = clamp(color_base, vec3(0.0), vec3(1.0));
 		color_base = hsv2rgb(color_base);
 	}
@@ -115,7 +143,7 @@ void fragment() {
 	// Posterize height parameter to get a painterly effect
 	float posterization_n = 100.0;
 	height_parameter = floor(height_parameter*posterization_n)/posterization_n;
-	vec3 color = mix(palette_color_dark.xyz, palette_color_base.xyz, height_parameter);
+	vec3 color = mix(palette_color_dark.rgb, color_base.rgb, height_parameter);
 
 	float room_size = 13.25;
 	float level_bounds_start = 12.0;
@@ -143,8 +171,8 @@ void fragment() {
 	float global_illumination = 0.0;
 	vec3 light_color = vec3(1.0,1.0,1.0);
 
+	vec3 light_drection = normalize(vec3(0.5,1.0,0.2));
 	{
-		vec3 light_drection = normalize(vec3(0.5,1.0,0.2));
 		float light_intensity = 0.2;
 		float illumination = clamp(dot(world_normal,light_drection),0.0,1.0) * light_intensity;
 		global_illumination += illumination;
@@ -153,9 +181,32 @@ void fragment() {
 	float z_mask = world_position.y + 1.0;
 	z_mask = clamp(z_mask,0.0,1.0);
 
+	float glitter = 0.0;
+	{
+		float glitter_intensity = 60.0;
+		float glitter_density = 0.1;
+		float voronoi_size = 12.0;
+		vec3 voronoi_position;
+		float voronoi_id = voronoi(world_position * voronoi_size, voronoi_position).b;
+		float voronoi_mask = (random3(voronoi_position).x < glitter_density)?1.0:0.0;
+		
+		float y_mask = world_position.y - 4.0;
+		y_mask = clamp(y_mask,0.0,1.0);
+		
+		float nomal_mask = (dot(world_normal,normalize(vec3(0.0,1.0,0.0)))-0.6)*50.0;
+		nomal_mask = clamp(nomal_mask,0.0,1.0);
+		
+		float glitter_albedo = sin(TIME*random3(voronoi_position).x*1.0 + random3(voronoi_position).y * 100.0)-0.99;
+		glitter_albedo = clamp(glitter_albedo,0.0,1.0);
+		
+		glitter = glitter_intensity * voronoi_mask * y_mask * glitter_albedo * nomal_mask;
+		//glitter = voronoi_position.y;
+	}
+
 	vec3 final_color = overlay(color, light_color, global_illumination);
 	final_color = mix(palette_color_dark.xyz,final_color,height_parameter);
-	final_color = final_color * (1.0-level_bounds_mask);
+	final_color += glitter;
+	final_color *= 1.0-level_bounds_mask;
 	final_color *= z_mask;
 	ALBEDO = final_color;
 
