@@ -11,8 +11,10 @@ var hook_position_grid;
 const grid_width = 5;
 const grid_height = 3;
 
-const spring_stiffness = 500.0;
-const hook_weight = 10.0;
+const spring_stiffness = 1000.0;
+const hook_weight = 1.0;
+const spring_friction = 0.6;
+const body_friction = 0.2;
 
 const reaction_radius : float = 0.7;
 
@@ -73,9 +75,12 @@ func _process(delta):
 				var shape_force = -spring_stiffness * (- hook_global_rest(hook_grid[i][j]) + hook_global(hook_grid[i][j]));
 				
 				var reaction_force : Vector3;
-				var hook_local_position = hook_local(hook_grid[i][j]);
-				hook_local_position.y = 0.0;
-				var hook_global_position = skeleton.to_global(hook_local_position);
+				var hook_local_flattened_position = hook_local(hook_grid[i][j]);
+				hook_local_flattened_position.y = 0.0;
+				var hook_local_velocity = skeleton.to_local(hook_velocity_grid[i][j]);
+				hook_local_velocity.y = 0.0;
+				
+				var hook_global_position = skeleton.to_global(hook_local_flattened_position);
 				var center_global_position = skeleton.to_global(Vector3(0.0,0.0,0.0));
 				var hook_global_distance_to_center : float = hook_global_position.distance_to(center_global_position);
 				var reaction_magnitude : float = 0.0;
@@ -84,10 +89,25 @@ func _process(delta):
 				var reaction_global_direction = (hook_global_position-center_global_position).normalized();
 				reaction_force = reaction_global_direction * reaction_magnitude;
 				
+				var tangent = hook_local_flattened_position.rotated(Vector3(0.0,1.0,0.0),PI/2.0).normalized();
+				var coeff = Vector3(tangent).dot(hook_local_velocity) / Vector3(tangent).dot(tangent);
+				var friction_vector_local = Vector3(tangent.x, 0.0, tangent.z) * coeff;
+				
+				var normal = hook_local_flattened_position.normalized();
+				var relevant_forces = spring_force_sum+shape_force;
+				relevant_forces = skeleton.to_local(relevant_forces);
+				var normal_force = Vector3(normal).dot(relevant_forces) / Vector3(normal).dot(normal);
+				var tangent_force = Vector3(tangent).dot(relevant_forces) / Vector3(tangent).dot(tangent);
+				var tangent_force_vector = tangent * tangent_force;
+				var friction_force = body_friction*normal_force * tangent_force_vector.normalized();
+				if hook_global_distance_to_center > reaction_radius:
+					friction_force*=0.0
+				friction_force = skeleton.to_global(friction_force);
+				
 				var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight * 0.0;
 				
-				hook_velocity_grid[i][j] *= 0.8
-				hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force) * delta;
+				hook_velocity_grid[i][j] *= spring_friction
+				hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force+friction_force) * delta;
 				hook_position_grid[i][j] += hook_velocity_grid[i][j] * delta + reaction_force;
 				
 				#return to local coords and set the new bone position
