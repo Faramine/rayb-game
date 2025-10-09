@@ -146,13 +146,13 @@ void fragment() {
 	vec3 color = mix(palette_color_dark.rgb, color_base.rgb, height_parameter);
 
 	float room_size = 13.25;
-	float level_bounds_start = 12.0;
-	float level_bounds_end = 26.0;
+	vec2 level_bounds_start = vec2(12.0,18.25);
+	vec2 level_bounds_end = vec2(26.0,26.0);
 	float level_bounds_mask = 0.0;
 	vec2 level_bounds_coords = world_position.xz;
 
-	level_bounds_mask += clamp(abs(world_position.x - current_room_position.x) - level_bounds_start, 0.0, 1.0);
-	level_bounds_mask += clamp(abs(world_position.z - current_room_position.z) - level_bounds_start, 0.0, 1.0);
+	level_bounds_mask += clamp(abs(world_position.x - current_room_position.x) - level_bounds_start.x, 0.0, 1.0);
+	level_bounds_mask += clamp(abs(world_position.z - current_room_position.z) - level_bounds_start.y, 0.0, 1.0);
 	level_bounds_mask = clamp(level_bounds_mask, 0.0, 1.0);
 	//ALBEDO = vec3(level_bounds_coords,0.0);
 	//ALBEDO = vec3(level_bounds_coords.x);

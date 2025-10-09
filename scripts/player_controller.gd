@@ -1,5 +1,7 @@
 extends Node3D
 
+@onready var dash_hint = $"../DashHint"
+@onready var hitbox_hint = $"../HitBoxHint"
 var mouse = Vector2()
 const DIST = 1000
 var player : Player
@@ -12,12 +14,18 @@ func _ready() -> void:
 	cursor = player.world.cursor
 	
 func _process(delta: float) -> void:
+	var cpos
 	if not cursor: 
 		cursor = player.world.cursor
 		return
 	if cursor_pos:
 		cursor.visible = true
 		cursor.target = cursor_pos
+		cpos = cursor_pos - player.global_position
+		cpos.y = 0
+		cpos = cpos.normalized() * 10
+		dash_hint.global_position.x = player.global_position.x + cpos.x
+		dash_hint.global_position.z = player.global_position.z + cpos.z
 	else:
 		cursor.visible = false
 
@@ -30,7 +38,14 @@ func _input(event: InputEvent) -> void:
 		mouse = event.position
 		cursor_pos = get_mouse_world_pos(get_viewport().get_mouse_position())
 	if event is InputEventMouseButton:
-		if event.pressed == false and event.button_index == MOUSE_BUTTON_LEFT:
+		mouse = event.position
+		cursor_pos = get_mouse_world_pos(get_viewport().get_mouse_position())
+		if event.pressed == true and event.button_index == MOUSE_BUTTON_LEFT:
+			dash_hint.visible = true
+			hitbox_hint.visible = true
+		elif event.pressed == false and event.button_index == MOUSE_BUTTON_LEFT:
+			dash_hint.visible = false
+			hitbox_hint.visible = false
 			if cursor_pos:
 				player.dash(cursor_pos)
 

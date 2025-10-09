@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=68 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dn345f1wob2fs" path="res://assets/characters/character_Plane Layer.png" id="5_lyd3o"]
 [ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="7_oamho"]
+[ext_resource type="Texture2D" uid="uid://bafv1x8o1tffl" path="res://assets/textures/placeholder/Illustration.png" id="9_ga2kn"]
+[ext_resource type="Script" uid="uid://ci1ucis4csa2r" path="res://scenes/hitbox_hint.gd" id="10_lwvb4"]
+[ext_resource type="Script" uid="uid://ddntn3o5i7iii" path="res://scenes/dash_hint.gd" id="11_mfmwq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
 
@@ -912,6 +915,21 @@ size = Vector3(2.5, 1, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_oamho"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwvb4"]
+transparency = 1
+albedo_texture = ExtResource("9_ga2kn")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mfmwq"]
+material = SubResource("StandardMaterial3D_lwvb4")
+size = Vector2(7, 7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kmjt"]
+transparency = 1
+albedo_texture = ExtResource("9_ga2kn")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bqnof"]
+material = SubResource("StandardMaterial3D_1kmjt")
+
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 3
 collision_mask = 133
@@ -954,7 +972,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(4.6393468e-23, -1.6938823, -8.406235e-09)
+bones/0/position = Vector3(-1.26135e-22, -1.6137213, -7.705609e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.209359e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -1003,35 +1021,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.2421088, -2.5684385, 1.37169)
+bones/7/position = Vector3(-1.3405697, -2.481104, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.8470542, -2.5654233, -0.862469)
+bones/8/position = Vector3(-1.7694584, -2.500843, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(0.010167656, -2.567277, -2.12247)
+bones/9/position = Vector3(-0.048582796, -2.4915915, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.8298712, -2.5670223, -0.862469)
+bones/10/position = Vector3(1.742479, -2.4864964, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.1351734, -2.5678995, 1.47753)
+bones/11/position = Vector3(1.1801282, -2.4864964, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -1167,6 +1185,18 @@ texture = SubResource("ViewportTexture_oamho")
 [node name="DamageCooldown" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
+
+[node name="HitBoxHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+mesh = SubResource("PlaneMesh_mfmwq")
+script = ExtResource("10_lwvb4")
+
+[node name="DashHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+mesh = SubResource("PlaneMesh_bqnof")
+script = ExtResource("11_mfmwq")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

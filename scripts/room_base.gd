@@ -1,6 +1,7 @@
 class_name Room
 extends Node3D
 
+#region Children
 @onready var camera_posistion : Vector3 = $Camera_pos.global_position
 @onready var ceiling : CSGBox3D = $Ceiling
 @onready var nav = $NavigationRegion3D
@@ -14,6 +15,7 @@ extends Node3D
 @onready var doorMatDown = $NavigationRegion3D/Doormat_down
 @onready var doorMatLeft = $NavigationRegion3D/Doormat_left
 @onready var doorMatRight = $NavigationRegion3D/Doormat_right
+#endregion
 
 var orb_position
 
@@ -64,6 +66,8 @@ func activate_room():
 	#walldown1.material.albedo_color.a = 0.5
 	#walldown2.material.albedo_color.a = 0.5
 	self.visible = true
+	for o in nav.get_children():
+		o.use_collision = true
 	spawn_enemies()
 
 func deactivate_room():
@@ -75,6 +79,8 @@ func deactivate_room():
 	for enemy in enemies:
 		enemy.on_room_deactivated()
 		enemy.queue_free()
+	for o in nav.get_children():
+		o.use_collision = false
 	enemies = []
 	enemies_defeated = 0
 
@@ -120,9 +126,13 @@ func populate(layout : Room_layout):
 	
 	add_child(layout.godrays)
 	add_child(layout.enemies)
-	enemy_spawners = layout.enemies.get_children()
-	layout.enemies.visible = false
 	add_child(layout.decor)
 	add_child(layout.orb_position)
 	orb_position = layout.orb_position.position
-	nav.add_child(layout.obstacles)
+	for o in layout.obstacles.get_children():
+		layout.obstacles.remove_child(o)
+		nav.add_child(o)
+	nav.bake_navigation_mesh(false)
+	enemy_spawners = layout.enemies.get_children()
+	layout.enemies.visible = false
+	remove_child(layout)

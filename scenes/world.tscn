@@ -126,7 +126,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_dwbse")
 
 [node name="Player" parent="." node_paths=PackedStringArray("world") instance=ExtResource("2_tlwt5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 3, 0)
 world = NodePath("..")
 
 [node name="GeneratorBase" type="Node" parent="."]
