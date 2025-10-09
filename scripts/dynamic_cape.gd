@@ -8,15 +8,16 @@ extends Node3D
 var hook_grid;
 var hook_velocity_grid;
 var hook_position_grid;
-const grid_width = 5;
-const grid_height = 3;
+const grid_width = 8;
+const grid_height = 6;
 
-const spring_stiffness = 1000.0;
-const hook_weight = 1.0;
-const spring_friction = 0.6;
-const body_friction = 0.2;
+const spring_stiffness = 100.0;
+const shape_stiffness = 100.0;
+const hook_weight = 0.0;
+const spring_friction = 0.95;
+const body_friction = 1.0;
 
-const reaction_radius : float = 0.7;
+const reaction_radius : float = 1.0;
 
 func hook_local(hook_id : int):
 	var local_pos : Transform3D = skeleton.get_bone_global_pose(hook_id);
@@ -53,7 +54,7 @@ func _process(delta):
 		for j in grid_height:
 			#get the hook's global position
 			
-			if j == 0:
+			if j == 0 or j == 1:
 				hook_velocity_grid[i][j] = Vector3(0.0, 0.0, 0.0);
 				hook_position_grid[i][j] = hook_global_rest(hook_grid[i][j]);
 				
@@ -72,11 +73,14 @@ func _process(delta):
 							
 							spring_force_sum += spring_force_vector;
 				
-				var shape_force = -spring_stiffness * (- hook_global_rest(hook_grid[i][j]) + hook_global(hook_grid[i][j]));
+				var shape_force = -shape_stiffness * (- hook_global_rest(hook_grid[i][j]) + hook_global(hook_grid[i][j]));
 				
 				var reaction_force : Vector3;
+				
+				# Flattened position of the current hook in local space
 				var hook_local_flattened_position = hook_local(hook_grid[i][j]);
 				hook_local_flattened_position.y = 0.0;
+				
 				var hook_local_velocity = skeleton.to_local(hook_velocity_grid[i][j]);
 				hook_local_velocity.y = 0.0;
 				
@@ -87,7 +91,7 @@ func _process(delta):
 				if hook_global_distance_to_center < reaction_radius:
 					reaction_magnitude = reaction_radius-hook_global_distance_to_center;
 				var reaction_global_direction = (hook_global_position-center_global_position).normalized();
-				reaction_force = reaction_global_direction * reaction_magnitude;
+				reaction_force = -reaction_global_direction * reaction_magnitude;
 				
 				var tangent = hook_local_flattened_position.rotated(Vector3(0.0,1.0,0.0),PI/2.0).normalized();
 				var coeff = Vector3(tangent).dot(hook_local_velocity) / Vector3(tangent).dot(tangent);
@@ -104,12 +108,55 @@ func _process(delta):
 					friction_force*=0.0
 				friction_force = skeleton.to_global(friction_force);
 				
-				var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight * 0.0;
+				var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight;
 				
+				
+				# Final velocity computation
+				# [TODO ?] We compute a velocity vector for each applied force. This is where we implicitly apply friction forces.
 				hook_velocity_grid[i][j] *= spring_friction
-				hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force+friction_force) * delta;
-				hook_position_grid[i][j] += hook_velocity_grid[i][j] * delta + reaction_force;
+				hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force) * delta;
 				
+				# Position computation
+				var starting_position : Vector3 = hook_position_grid[i][j];
+				var ending_position : Vector3 = hook_position_grid[i][j] + hook_velocity_grid[i][j] * delta;
+				hook_position_grid[i][j] = ending_position;
+				
+				# Handling collisions
+				# The character's hitbox is represented by a cylinder centered at the origin in local space
+				# We check for collisions by flattening all the coordinates first
+				var starting_position_local = skeleton.to_local(starting_position);
+				var ending_position_local = skeleton.to_local(ending_position);
+				var starting_position_flattened = Vector2(starting_position_local.x, starting_position_local.z);
+				var ending_position_flattened = Vector2(ending_position_local.x, ending_position_local.z);
+				var direction_local = (ending_position_local - starting_position_local).normalized();
+				var direction_flattened = (ending_position_flattened - starting_position_flattened).normalized();
+				# Checking intersection with the hitbox cylinder's cross-section circle
+				var intersection_param : float = Geometry2D.segment_intersects_circle(
+					starting_position_flattened,
+					ending_position_flattened,
+					Vector2(0.0,0.0),
+					reaction_radius);
+				var start_in_radius : bool = starting_position_flattened.length() < reaction_radius;
+				var end_in_radius : bool = starting_position_flattened.length() < reaction_radius;
+				if intersection_param == -1 and !start_in_radius and !end_in_radius:
+					# -1 returned and nothing is in the radius, there are no intersections
+					pass; # Do nothing
+				elif intersection_param != -1:
+					# Compute the intersection with the cylinder in local space
+					var hit_position_local : Vector3 = starting_position_local + (ending_position_local-starting_position_local)*intersection_param;
+					var hit_position_global : Vector3 = skeleton.to_global(hit_position_local)# Convert to global
+					hook_velocity_grid[i][j] = Vector3(0.0,0.0,0.0); # NULLIFY velocity
+					hook_position_grid[i][j] = hit_position_global;
+				elif start_in_radius and end_in_radius:
+					var ip : float = Geometry2D.segment_intersects_circle(
+					starting_position_flattened,
+					starting_position_flattened + direction_flattened*100.0,
+					Vector2(0.0,0.0),
+					reaction_radius);
+					var hit_position_local : Vector3 = starting_position_local + (Vector3(direction_flattened.x,0.0,direction_flattened.y)*100.0)*ip;
+					var hit_position_global : Vector3 = skeleton.to_global(hit_position_local)# Convert to global
+					hook_velocity_grid[i][j] = Vector3(0.0,0.0,0.0); # NULLIFY velocity
+					hook_position_grid[i][j] = hit_position_global;
 				#return to local coords and set the new bone position
 				var new_local_pos : Vector3 = skeleton.to_local(hook_position_grid[i][j]) ;
 				skeleton.set_bone_pose_position(hook_grid[i][j], new_local_pos);
