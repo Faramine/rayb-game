@@ -9,17 +9,16 @@ albedo_color = Color(0.06356, 0.0126, 0.14, 1)
 albedo_texture = ExtResource("2_mfgdg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c8or3"]
-size = Vector3(25, 25, 25)
+size = Vector3(25, 25, 37.5)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_k3jq5"]
-vertices = PackedVector3Array(1.25, 0.4, -13.25, -1.25, 0.4, -13.25, -1, 0.4, -12, 1.5, 0.4, -11.5, -1.5, 0.4, -11.5, -11.5, 0.4, -1.5, -12, 0.4, -1, -13.25, 0.4, -1.25, -13.25, 0.4, 1.25, -11.5, 0.4, 1.5, 11.75, 0.4, -1.25, 11.75, 0.4, -11.5, -1.25, 0.4, 11.75, -1.25, 0.4, 13.25, 1.25, 0.4, 13.25, 1.5, 0.4, 11.75, 11.75, 0.4, 1.5, 13.25, 0.4, 1.25, 13.25, 0.4, -1.25, -11.5, 0.4, -11.5, -11.5, 0.4, 11.75, 11.75, 0.4, 11.75, -12, 4.4, -12.25, -1.5, 4.4, -12.25, -1.5, 4.4, -12.75, -12.25, 4.4, -12.75, -12.75, 4.4, -12.25, -12.75, 4.4, -1.5, -12.25, 4.4, -1.5, 12.25, 4.4, -12, 12.25, 4.4, -1.5, 12.75, 4.4, -1.5, 12.75, 4.4, -12.25, 12.25, 4.4, -12.75, 1.75, 4.4, -12.75, 1.75, 4.4, -12.25, -1.5, 4.4, 12.75, -1.5, 4.4, 12.25, -12, 4.4, 12.25, -12.25, 4.4, 12.75, -12.25, 4.4, 1.75, -12.75, 4.4, 1.75, -12.75, 4.4, 12.25, 12, 4.4, 12.25, 1.75, 4.4, 12.25, 1.75, 4.4, 12.75, 12.25, 4.4, 12.75, 12.75, 4.4, 12.25, 12.75, 4.4, 1.75, 12.25, 4.4, 1.75)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 3), PackedInt32Array(7, 6, 8), PackedInt32Array(8, 6, 9), PackedInt32Array(3, 11, 10), PackedInt32Array(13, 12, 14), PackedInt32Array(14, 12, 15), PackedInt32Array(10, 16, 15), PackedInt32Array(18, 17, 10), PackedInt32Array(10, 17, 16), PackedInt32Array(12, 9, 15), PackedInt32Array(15, 9, 5), PackedInt32Array(15, 5, 3), PackedInt32Array(15, 3, 10), PackedInt32Array(4, 2, 3), PackedInt32Array(9, 6, 5), PackedInt32Array(5, 19, 4), PackedInt32Array(12, 20, 9), PackedInt32Array(16, 21, 15), PackedInt32Array(23, 22, 24), PackedInt32Array(24, 22, 25), PackedInt32Array(25, 22, 26), PackedInt32Array(26, 22, 28), PackedInt32Array(26, 28, 27), PackedInt32Array(30, 29, 31), PackedInt32Array(31, 29, 32), PackedInt32Array(32, 29, 33), PackedInt32Array(33, 29, 35), PackedInt32Array(33, 35, 34), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 39), PackedInt32Array(39, 42, 38), PackedInt32Array(38, 42, 40), PackedInt32Array(40, 42, 41), PackedInt32Array(44, 43, 45), PackedInt32Array(45, 43, 46), PackedInt32Array(46, 43, 47), PackedInt32Array(47, 43, 49), PackedInt32Array(47, 49, 48)]
+vertices = PackedVector3Array(-1.25, 0.4, -25.75, -1.25, 0.4, -23.25, 1.25, 0.4, -23.25, 1.25, 0.4, -25.75, -12.25, 4.4, 19, 12.25, 4.4, 19, 12.25, 4.4, 18.5, -12.25, 4.4, 18.25, -12.75, 4.4, 18.5, -12.75, 4.4, -18.5, -12.25, 4.4, -18.25, -12.25, 4.4, -19, 12.25, 4.4, -18.5, 12.25, 4.4, -19, 12.25, 0.4, 18, 12.25, 0.4, 13, 11.75, 0.4, 12.75, -11.5, 0.4, 18, 11.75, 0.4, -12.5, 12.25, 0.4, -12.75, 12.25, 0.4, -17.75, -11.5, 0.4, -17.75, 12.25, 4.4, 12.25, 12.75, 4.4, 12.25, 13, 4.4, 1.5, 12.75, 4.4, -12.25, 12.25, 4.4, -12.25, -1.25, 0.4, 23.25, -1.25, 0.4, 25.75, 1.25, 0.4, 25.75, 1.25, 0.4, 23.25)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(8, 7, 4), PackedInt32Array(4, 7, 6), PackedInt32Array(4, 6, 5), PackedInt32Array(10, 7, 9), PackedInt32Array(9, 7, 8), PackedInt32Array(9, 11, 10), PackedInt32Array(10, 11, 12), PackedInt32Array(12, 11, 13), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(19, 18, 20), PackedInt32Array(20, 18, 21), PackedInt32Array(18, 16, 21), PackedInt32Array(21, 16, 17), PackedInt32Array(23, 22, 24), PackedInt32Array(24, 22, 25), PackedInt32Array(25, 22, 26), PackedInt32Array(30, 29, 27), PackedInt32Array(27, 29, 28)]
 agent_radius = 0.25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jk031"]
 render_priority = 0
 shader = ExtResource("3_t4afj")
-shader_parameter/current_room_position = Vector3(0, 0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4afj"]
 albedo_color = Color(0.21616, 0.1736, 0.28, 1)
@@ -50,55 +49,55 @@ navigation_mesh = SubResource("NavigationMesh_k3jq5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 use_collision = true
 collision_layer = 129
-size = Vector3(25, 0.1, 25)
+size = Vector3(25, 0.1, 37.5)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_left" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 18.75)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_left2" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 18.75)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_left" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 18.75)
 use_collision = true
 size = Vector3(3, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_right" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -18.75)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_right2" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -18.75)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_right" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -18.75)
 use_collision = true
 size = Vector3(3, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_up" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 10.05)
 use_collision = true
-size = Vector3(1, 4, 11)
+size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_up2" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, -10.005)
 use_collision = true
-size = Vector3(1, 4, 11)
+size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_up" type="CSGBox3D" parent="NavigationRegion3D"]
@@ -108,17 +107,17 @@ size = Vector3(1, 4, 3)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_down" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 10.05)
 visible = false
 use_collision = true
-size = Vector3(1, 4, 11)
+size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_down2" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, -10.05)
 visible = false
 use_collision = true
-size = Vector3(1, 4, 11)
+size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_down" type="CSGBox3D" parent="NavigationRegion3D"]
@@ -136,7 +135,7 @@ size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
 [node name="Doormat_left" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.25)
 visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)
@@ -150,7 +149,7 @@ size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
 [node name="Doormat_right" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.25)
 visible = false
 use_collision = true
 size = Vector3(3, 0.1, 3)

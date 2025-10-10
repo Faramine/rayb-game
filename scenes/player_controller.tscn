@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=68 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="7_oamho"]
+[ext_resource type="Texture2D" uid="uid://bafv1x8o1tffl" path="res://assets/textures/placeholder/Illustration.png" id="9_ga2kn"]
+[ext_resource type="Script" uid="uid://ci1ucis4csa2r" path="res://scenes/hitbox_hint.gd" id="10_lwvb4"]
+[ext_resource type="Script" uid="uid://ddntn3o5i7iii" path="res://scenes/dash_hint.gd" id="11_mfmwq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
 
@@ -1013,6 +1016,21 @@ size = Vector3(2.5, 1, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_oamho"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwvb4"]
+transparency = 1
+albedo_texture = ExtResource("9_ga2kn")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mfmwq"]
+material = SubResource("StandardMaterial3D_lwvb4")
+size = Vector2(7, 7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kmjt"]
+transparency = 1
+albedo_texture = ExtResource("9_ga2kn")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bqnof"]
+material = SubResource("StandardMaterial3D_1kmjt")
+
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 3
 collision_mask = 133
@@ -1755,6 +1773,18 @@ texture = SubResource("ViewportTexture_oamho")
 [node name="DamageCooldown" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
+
+[node name="HitBoxHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+mesh = SubResource("PlaneMesh_mfmwq")
+script = ExtResource("10_lwvb4")
+
+[node name="DashHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+mesh = SubResource("PlaneMesh_bqnof")
+script = ExtResource("11_mfmwq")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

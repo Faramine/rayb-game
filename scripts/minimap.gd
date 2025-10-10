@@ -27,17 +27,16 @@ func change_room(room: Array):
 	tween.play()
 
 func display_map(room_list: Array):
-	var square
 	for k in room_list:
 		place_room(k,Color.GRAY, hide_mode)
 
-func display_special_rooms(start:Array,pre:Array,boss:Array):
-	self.pre = pre
-	self.start = start
-	self.boss = boss
-	place_room(start,Color.GREEN, hide_mode)
-	place_room(pre,Color.BLUE, hide_mode)
-	place_room(boss,Color.RED, hide_mode)
+func display_special_rooms(startroom:Array,preroom:Array,bossroom:Array):
+	self.pre = preroom
+	self.start = startroom
+	self.boss = bossroom
+	place_room(startroom,Color.GREEN, hide_mode)
+	place_room(preroom,Color.BLUE, hide_mode)
+	place_room(bossroom,Color.RED, hide_mode)
 
 func reveal_room(coords):
 	var square = rooms.get(coords)
@@ -65,7 +64,7 @@ func soft_reveal(coords):
 		square.visible = true
 		square.color = Color.DIM_GRAY
 
-func place_room(coords:Array,color:Color, hide = false):
+func place_room(coords:Array,color:Color, hiden = false):
 	var square
 	square = ColorRect.new()
 	square.color = color
@@ -73,6 +72,6 @@ func place_room(coords:Array,color:Color, hide = false):
 	square.size.y = 20
 	square.position.x = -coords[1] * 21
 	square.position.y = coords[0] * 21
-	square.visible = !hide
+	square.visible = !hiden
 	rooms.set(coords,square)
 	mapcontrol.add_child(square)

@@ -43,7 +43,7 @@ func generate_map(world : World):
 	for k in room_list:
 		new_room = room_scene.instantiate()
 		new_room.position.x = 26.5 * (k[0]-map_center)
-		new_room.position.z = 26.5 * (k[1]-map_center)
+		new_room.position.z = 39 * (k[1]-map_center)
 		new_room.coords = k
 		new_room.set_world(world)
 		world.rooms.set(k, new_room)
