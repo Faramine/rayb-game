@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=4 uid="uid://c8rnlof07pti0"]
+[gd_scene load_steps=72 format=4 uid="uid://c8rnlof07pti0"]
 
 [ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
 [ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
@@ -11,8 +11,8 @@
 [ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="7_oamho"]
 [ext_resource type="Texture2D" uid="uid://bafv1x8o1tffl" path="res://assets/textures/placeholder/Illustration.png" id="9_ga2kn"]
-[ext_resource type="Script" uid="uid://ci1ucis4csa2r" path="res://scenes/hitbox_hint.gd" id="10_lwvb4"]
-[ext_resource type="Script" uid="uid://ddntn3o5i7iii" path="res://scenes/dash_hint.gd" id="11_mfmwq"]
+[ext_resource type="Script" path="res://scenes/hitbox_hint.gd" id="10_lwvb4"]
+[ext_resource type="Script" path="res://scenes/dash_hint.gd" id="11_mfmwq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
 
@@ -67,6 +67,10 @@ bind/10/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, 2.45, 0.862469)
 bind/11/name = &"cape_front_left"
 bind/11/bone = -1
 bind/11/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, 2.45, -1.47753)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bqnof"]
+radius = 0.2
+height = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b8r18"]
 resource_name = "Cape"
@@ -234,7 +238,14 @@ bind/44/name = &"cape_hook_2_1"
 bind/44/bone = -1
 bind/44/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2249999, 0.07499993, 0)
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_bqnof"]
+top_radius = 1.15
+bottom_radius = 1.15
+height = 3.725
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwvb4"]
+transparency = 1
+albedo_texture = ExtResource("9_ga2kn")
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 
@@ -1016,10 +1027,6 @@ size = Vector3(2.5, 1, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_oamho"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwvb4"]
-transparency = 1
-albedo_texture = ExtResource("9_ga2kn")
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_mfmwq"]
 material = SubResource("StandardMaterial3D_lwvb4")
 size = Vector2(7, 7)
@@ -1081,7 +1088,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(2.12786e-22, -1.701, -8.46843e-09)
+bones/0/position = Vector3(1.00863774e-22, -1.5652688, -7.282167e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.209359e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -1130,35 +1137,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.2204208, -2.574643, 1.37169)
+bones/7/position = Vector3(-1.2500108, -2.4501383, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.799902, -2.5747354, -0.862469)
+bones/8/position = Vector3(-1.775319, -2.4599903, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(0.028223403, -2.5746977, -2.12247)
+bones/9/position = Vector3(-0.008899249, -2.4534366, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.8022518, -2.5746725, -0.862469)
+bones/10/position = Vector3(1.7683756, -2.4511833, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.1624625, -2.5746725, 1.47753)
+bones/11/position = Vector3(1.0999806, -2.4511833, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -1173,12 +1180,12 @@ bone = 2
 use_secondary_rotation = false
 
 [node name="Neck" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
-transform = Transform3D(1, -7.626357e-15, 2.3841801e-07, -7.626354e-15, 1, 6.397466e-08, -2.3841801e-07, -6.397466e-08, 1, -6.2640755e-15, -0.879628, -5.3836747e-08)
+transform = Transform3D(1, -7.626357e-15, 2.3841801e-07, -7.626354e-15, 1, 6.397466e-08, -2.3841801e-07, -6.397466e-08, 1, -6.264076e-15, -0.7438968, -5.2650485e-08)
 bone_name = "torso"
 bone_idx = 1
 
 [node name="Armature2" type="Node3D" parent="Armature/Skeleton3D/Neck"]
-transform = Transform3D(1, -7.626356e-15, -2.3841804e-07, -7.626357e-15, 1, -6.397465e-08, 2.3841804e-07, 6.397465e-08, 1, -1.1709089e-14, 0.55972934, 9.8811256e-08)
+transform = Transform3D(1, -7.626356e-15, -2.3841804e-07, -7.626357e-15, 1, -6.397465e-08, 2.3841804e-07, 6.397465e-08, 1, -1.517371e-14, 1.0378993, 1.2863835e-07)
 script = ExtResource("4_mfmwq")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature/Skeleton3D/Neck/Armature2"]
@@ -1498,9 +1505,22 @@ bones/44/position = Vector3(-1.2249999, -0.07499993, 0)
 bones/44/rotation = Quaternion(0, 0, 0, 1)
 bones/44/scale = Vector3(1, 1, 1)
 
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D/Neck/Armature2/Skeleton3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8662058, -0.07499993, -0.8662058)
+bone_name = "cape_hook_5_1"
+bone_idx = 24
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Skeleton3D/Neck/Armature2/Skeleton3D/BoneAttachment3D"]
+mesh = SubResource("SphereMesh_bqnof")
+
 [node name="cape" type="MeshInstance3D" parent="Armature/Skeleton3D/Neck/Armature2/Skeleton3D"]
 mesh = SubResource("ArrayMesh_lwvb4")
 skin = SubResource("Skin_mfmwq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Armature/Skeleton3D/Neck/Armature2/Skeleton3D"]
+transform = Transform3D(1, 8.8352445e-29, -3.3881318e-21, 8.8352445e-29, 1, 8.4703295e-22, 3.3881318e-21, -8.4703295e-22, 1, -4.341044e-21, -1.354994, -1.0027392e-09)
+visible = false
+mesh = SubResource("CylinderMesh_bqnof")
 
 [node name="PlayerCylinder" type="SoftBody3D" parent="Armature/Skeleton3D/Neck"]
 transform = Transform3D(1, 1.6940659e-21, 0, 0, 1, 0, 0, 0, 1, 2.6020828e-14, -3.4439633, -2.1930272e-07)
@@ -1512,10 +1532,10 @@ collision_mask = 0
 pinned_points = [0, 21, 2, 55, 36, 22, 99, 51, 73]
 attachments/0/point_index = 0
 attachments/0/spatial_attachment_path = NodePath("..")
-attachments/0/offset = Vector3(-0.9687492, -3.4439633, -2.1930272e-07)
+attachments/0/offset = Vector3(-0.9687492, -3.4439633, -2.1930273e-07)
 attachments/1/point_index = 21
 attachments/1/spatial_attachment_path = NodePath("..")
-attachments/1/offset = Vector3(0.9687492, -3.4439633, -2.1930272e-07)
+attachments/1/offset = Vector3(0.9687492, -3.4439633, -2.1930273e-07)
 attachments/2/point_index = 2
 attachments/2/spatial_attachment_path = NodePath("..")
 attachments/2/offset = Vector3(-1.2029316e-09, -3.4439633, -0.96874946)
@@ -1556,100 +1576,100 @@ ray_pickable = false
 pinned_points = [2, 3, 4, 5, 18, 19, 20, 22, 21, 26, 27, 28, 29, 31, 32, 75, 74, 67, 33, 66, 65, 64, 62, 61, 60, 59, 58, 45, 40, 43, 44, 0]
 attachments/0/point_index = 2
 attachments/0/spatial_attachment_path = NodePath("..")
-attachments/0/offset = Vector3(-0.98085505, -4.0880127, -0.0026538852)
+attachments/0/offset = Vector3(-0.98085505, -4.088013, -0.0026538852)
 attachments/1/point_index = 3
 attachments/1/spatial_attachment_path = NodePath("..")
-attachments/1/offset = Vector3(-0.75422037, -4.2520375, -0.0020407392)
+attachments/1/offset = Vector3(-0.75422037, -4.252038, -0.0020407392)
 attachments/2/point_index = 4
 attachments/2/spatial_attachment_path = NodePath("..")
-attachments/2/offset = Vector3(1.4364631, -5.4548874, 0.16329633)
+attachments/2/offset = Vector3(1.4364631, -5.454888, 0.16329633)
 attachments/3/point_index = 5
 attachments/3/spatial_attachment_path = NodePath("..")
-attachments/3/offset = Vector3(-0.004772339, -6.1383247, 1.7639579)
+attachments/3/offset = Vector3(-0.004772339, -6.1383257, 1.7639579)
 attachments/4/point_index = 18
 attachments/4/spatial_attachment_path = NodePath("..")
-attachments/4/offset = Vector3(-0.75422037, -4.2520375, -0.0020407392)
+attachments/4/offset = Vector3(-0.75422037, -4.252038, -0.0020407392)
 attachments/5/point_index = 19
 attachments/5/spatial_attachment_path = NodePath("..")
-attachments/5/offset = Vector3(0.5868202, -4.2520375, -0.55327207)
+attachments/5/offset = Vector3(0.5868202, -4.252038, -0.55327207)
 attachments/6/point_index = 20
 attachments/6/spatial_attachment_path = NodePath("..")
 attachments/6/offset = Vector3(1.1790715, -6.6577377, -1.1423277)
 attachments/7/point_index = 22
 attachments/7/spatial_attachment_path = NodePath("..")
-attachments/7/offset = Vector3(0.69544566, -4.0880127, -0.69169307)
+attachments/7/offset = Vector3(0.69544566, -4.088013, -0.69169307)
 attachments/8/point_index = 21
 attachments/8/spatial_attachment_path = NodePath("..")
-attachments/8/offset = Vector3(0.0026536756, -4.0880127, -0.9808553)
+attachments/8/offset = Vector3(0.0026536756, -4.088013, -0.9808553)
 attachments/9/point_index = 26
 attachments/9/spatial_attachment_path = NodePath("..")
 attachments/9/offset = Vector3(-1.5895303, -6.6577377, -0.004300796)
 attachments/10/point_index = 27
 attachments/10/spatial_attachment_path = NodePath("..")
-attachments/10/offset = Vector3(-1.4280121, -6.821762, -1.4357604)
+attachments/10/offset = Vector3(-1.4280121, -6.821763, -1.4357604)
 attachments/11/point_index = 28
 attachments/11/spatial_attachment_path = NodePath("..")
-attachments/11/offset = Vector3(-1.43576, -6.821762, 1.4280118)
+attachments/11/offset = Vector3(-1.43576, -6.821763, 1.4280118)
 attachments/12/point_index = 29
 attachments/12/spatial_attachment_path = NodePath("..")
-attachments/12/offset = Vector3(-0.0054785605, -6.8217626, 2.0249922)
+attachments/12/offset = Vector3(-0.0054785605, -6.821763, 2.0249922)
 attachments/13/point_index = 31
 attachments/13/spatial_attachment_path = NodePath("..")
 attachments/13/offset = Vector3(-1.5895303, -6.6577377, -0.004300796)
 attachments/14/point_index = 32
 attachments/14/spatial_attachment_path = NodePath("..")
-attachments/14/offset = Vector3(0.028340725, -4.2520375, 0.78476626)
+attachments/14/offset = Vector3(0.028340725, -4.252038, 0.78476626)
 attachments/15/point_index = 75
 attachments/15/spatial_attachment_path = NodePath("..")
-attachments/15/offset = Vector3(1.1876847, -4.77145, -0.12851024)
+attachments/15/offset = Vector3(1.1876847, -4.7714505, -0.12851024)
 attachments/16/point_index = 74
 attachments/16/spatial_attachment_path = NodePath("..")
-attachments/16/offset = Vector3(0.004066118, -5.4548874, -1.5029243)
+attachments/16/offset = Vector3(0.004066118, -5.454888, -1.5029243)
 attachments/17/point_index = 67
 attachments/17/spatial_attachment_path = NodePath("..")
-attachments/17/offset = Vector3(-0.87577266, -4.77145, -0.8805245)
+attachments/17/offset = Vector3(-0.87577266, -4.7714505, -0.8805245)
 attachments/18/point_index = 33
 attachments/18/spatial_attachment_path = NodePath("..")
-attachments/18/offset = Vector3(1.4280121, -6.821762, 1.4357597)
+attachments/18/offset = Vector3(1.4280121, -6.821763, 1.4357597)
 attachments/19/point_index = 66
 attachments/19/spatial_attachment_path = NodePath("..")
-attachments/19/offset = Vector3(-0.96304786, -4.8534627, -0.0026057535)
+attachments/19/offset = Vector3(-0.96304786, -4.853463, -0.0026057535)
 attachments/20/point_index = 65
 attachments/20/spatial_attachment_path = NodePath("..")
-attachments/20/offset = Vector3(-0.97008145, -6.0563126, 0.99522793)
+attachments/20/offset = Vector3(-0.97008145, -6.056313, 0.99522793)
 attachments/21/point_index = 64
 attachments/21/spatial_attachment_path = NodePath("..")
-attachments/21/offset = Vector3(-1.3807029, -6.0563126, -0.0037357816)
+attachments/21/offset = Vector3(-1.3807029, -6.056313, -0.0037357816)
 attachments/22/point_index = 62
 attachments/22/spatial_attachment_path = NodePath("..")
-attachments/22/offset = Vector3(0.98004127, -4.8534627, 0.108029805)
+attachments/22/offset = Vector3(0.98004127, -4.853463, 0.108029805)
 attachments/23/point_index = 61
 attachments/23/spatial_attachment_path = NodePath("..")
 attachments/23/offset = Vector3(1.5788201, -6.6577377, 0.17609867)
 attachments/24/point_index = 60
 attachments/24/spatial_attachment_path = NodePath("..")
-attachments/24/offset = Vector3(1.9354455, -6.821762, 0.22002038)
+attachments/24/offset = Vector3(1.9354455, -6.821763, 0.22002038)
 attachments/25/point_index = 59
 attachments/25/spatial_attachment_path = NodePath("..")
-attachments/25/offset = Vector3(1.2439322, -6.1383247, 1.250681)
+attachments/25/offset = Vector3(1.2439322, -6.1383257, 1.250681)
 attachments/26/point_index = 58
 attachments/26/spatial_attachment_path = NodePath("..")
-attachments/26/offset = Vector3(-1.7639582, -6.1383247, -0.004772675)
+attachments/26/offset = Vector3(-1.7639582, -6.1383257, -0.004772675)
 attachments/27/point_index = 45
 attachments/27/spatial_attachment_path = NodePath("..")
-attachments/27/offset = Vector3(-0.96304786, -4.8534627, -0.0026057535)
+attachments/27/offset = Vector3(-0.96304786, -4.853463, -0.0026057535)
 attachments/28/point_index = 40
 attachments/28/spatial_attachment_path = NodePath("..")
-attachments/28/offset = Vector3(-1.7639582, -6.1383247, -0.004772675)
+attachments/28/offset = Vector3(-1.7639582, -6.1383257, -0.004772675)
 attachments/29/point_index = 43
 attachments/29/spatial_attachment_path = NodePath("..")
 attachments/29/offset = Vector3(-0.9646822, -6.0563126, -1.0004631)
 attachments/30/point_index = 44
 attachments/30/spatial_attachment_path = NodePath("..")
-attachments/30/offset = Vector3(-1.3807029, -6.0563126, -0.0037357816)
+attachments/30/offset = Vector3(-1.3807029, -6.056313, -0.0037357816)
 attachments/31/point_index = 0
 attachments/31/spatial_attachment_path = NodePath("..")
-attachments/31/offset = Vector3(-0.0026536756, -4.0880127, 0.9808548)
+attachments/31/offset = Vector3(-0.0026536756, -4.088013, 0.9808548)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 active = false
