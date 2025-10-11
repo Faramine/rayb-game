@@ -4,24 +4,33 @@ extends Node3D
 @onready var skeleton = $Skeleton3D;
 # @onready var bone_idx : int = skeleton.find_bone("head");
 
+var rng = RandomNumberGenerator.new()
+var noise = FastNoiseLite.new()
+@onready var noise_time_start = Time.get_unix_time_from_system();
+
 # Hook array
 var hook_grid;
 var hook_velocity_grid;
 var hook_position_grid;
 var hook_position_local_grid;
-const grid_width = 9;
-const grid_height = 5;
+const grid_width = 13;
+const grid_height = 6;
 
-const spring_stiffness = 100.0;
-const shape_stiffness = 100.0;
-const hook_weight = 1.0;
-const spring_friction = 0.90;
+const spring_stiffness = 5000.0;
+const shape_stiffness = 0.0;
+const hook_weight = 5.0;
+const spring_friction = 0.3;
 const body_friction = 0.0;
 
-const wind_force = Vector3(-00.0,0.0,0.0);
+const max_velocity = 200.0;
 
-const reaction_radius : float = 1.15;
-const reaction_height : float = 3.0;
+const wind_force = Vector3(0.0,0.0,100.0);
+
+const reaction_radius : float = 1.20;
+const reaction_height : float = 2.0;
+
+const toggle_correction : bool = true;
+const toggle_collision : bool = false;
 
 func hook_local(hook_id : int):
 	var local_pos : Transform3D = skeleton.get_bone_global_pose(hook_id);
@@ -47,6 +56,7 @@ func _ready() -> void:
 	hook_velocity_grid = [];
 	hook_position_grid = [];
 	hook_position_local_grid = [];
+	
 	for i in grid_width:
 		hook_grid.append([])
 		hook_velocity_grid.append([])
@@ -59,8 +69,14 @@ func _ready() -> void:
 			hook_velocity_grid[i].append(Vector3(0.0,0.0,0.0));
 			hook_position_grid[i].append(hook_global_rest(hook_grid[i][j]));
 			hook_position_local_grid[i].append(hook_local(hook_grid[i][j]));
-
+	
+	noise.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC 
+	noise.fractal_octaves = 3
+	
 func _process(delta):
+	var noise_time = Time.get_unix_time_from_system() - noise_time_start;
+	
+	var wind_intensity = rng.randf_range(-200.0, 200.0)
 	var new_hook_velocity_grid = [];
 	var new_hook_position_grid = [];
 	for i in grid_width:
@@ -75,7 +91,7 @@ func _process(delta):
 			for j in grid_height:
 				#get the hook's global position
 				#if j in range(0,1) or (( i == 0 or i == 8) and j in range(0,3)):
-				if j in range(0,1) :
+				if j in range(0,2) :
 					new_hook_velocity_grid[i][j] = Vector3(0.0, 0.0, 0.0);
 					hook_velocity_grid[i][j] = Vector3(0.0, 0.0, 9.0);
 					new_hook_position_grid[i][j] = hook_global_rest(hook_grid[i][j]);
@@ -85,36 +101,39 @@ func _process(delta):
 					skeleton.set_bone_pose_position(hook_grid[i][j], new_local_pos);
 				else:
 					
-					var new_local_position = hook_local(hook_grid[i][j]);
-					var new_flattened_position = Vector2(new_local_position.x, new_local_position.z);
-					var old_local_position = hook_position_local_grid[i][j];
-					var old_flattened_position = Vector2(old_local_position.x,old_local_position.z);
-					var rest_local_position = hook_local_rest(hook_grid[i][j]);
-					var rest_flattened_position = Vector2(rest_local_position.x,rest_local_position.z);
-					#var intersection_param_0 : float = Geometry2D.segment_intersects_circle(
-						#old_flattened_position,
-						#new_flattened_position,
-						#Vector2(0.0,0.0),
-						#reaction_radius);
-						
-					if old_flattened_position.length() < reaction_radius:
-						var correction_ray = (rest_flattened_position - old_flattened_position) * 2.0;
-						
-						
-						var intersection_param : float = Geometry2D.segment_intersects_circle(
-						old_flattened_position,
-						old_flattened_position + correction_ray,
-						Vector2(0.0,0.0),
-						reaction_radius);
-						
-						if intersection_param == -1:
-							breakpoint; #Failure  case
-						
-						# var corrected_position_flattened = old_flattened_position.normalized() * reaction_radius
-						var corrected_position_flattened = old_flattened_position + correction_ray * intersection_param;
-						
-						var corrected_position_local = Vector3(corrected_position_flattened.x, old_local_position.y, corrected_position_flattened.y);
-						hook_position_grid[i][j] = skeleton.to_global(corrected_position_local);
+					if toggle_correction :
+						var new_local_position = hook_local(hook_grid[i][j]);
+						var new_flattened_position = Vector2(new_local_position.x, new_local_position.z);
+						var old_local_position = hook_position_local_grid[i][j];
+						var old_flattened_position = Vector2(old_local_position.x,old_local_position.z);
+						var rest_local_position = hook_local_rest(hook_grid[i][j]);
+						var rest_flattened_position = Vector2(rest_local_position.x,rest_local_position.z);
+						#var intersection_param_0 : float = Geometry2D.segment_intersects_circle(
+							#old_flattened_position,
+							#new_flattened_position,
+							#Vector2(0.0,0.0),
+							#reaction_radius);
+							
+						if old_flattened_position.length() < reaction_radius:
+							var correction_ray = (rest_flattened_position - old_flattened_position) * 2.0;
+							
+							var intersection_param : float = Geometry2D.segment_intersects_circle(
+							old_flattened_position,
+							old_flattened_position + correction_ray,
+							Vector2(0.0,0.0),
+							reaction_radius);
+							if intersection_param == 1.0:
+								breakpoint; #Failure  case
+								
+							if intersection_param == -1:
+								breakpoint; #Failure  case
+							
+							# var corrected_position_flattened = old_flattened_position.normalized() * reaction_radius
+							var corrected_position_flattened = old_flattened_position + correction_ray * intersection_param * 1.1;
+							
+							
+							var corrected_position_local = Vector3(corrected_position_flattened.x, old_local_position.y, corrected_position_flattened.y);
+							hook_position_grid[i][j] = skeleton.to_global(corrected_position_local);
 						
 					#if intersection_param_0 == -1:
 						## -1 returned and nothing is in the radius, there are no intersections
@@ -126,8 +145,8 @@ func _process(delta):
 						#hook_velocity_grid[i][j] = Vector3(0.0,0.0,0.0); # NULLIFY velocity
 						#hook_position_grid[i][j] = hit_position_global;
 						
-					var repulsion_vector_local = (1.0-(new_flattened_position.length()/reaction_radius))*new_flattened_position.normalized();
-					var repulsion_force = skeleton.to_global(Vector3(repulsion_vector_local.x,0.0,repulsion_vector_local.y))*100.0;
+						var repulsion_vector_local = (1.0-(new_flattened_position.length()/reaction_radius))*new_flattened_position.normalized();
+						var repulsion_force = skeleton.to_global(Vector3(repulsion_vector_local.x,0.0,repulsion_vector_local.y))*100.0;
 					
 					var spring_force_sum : Vector3 = Vector3(0.0,0.0,0.0);
 					for k in range(i-1,i+1):
@@ -178,52 +197,57 @@ func _process(delta):
 					
 					var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight;
 					
+
+					var wind_force = Vector3(0.0, 0.0, 1.0) * noise.get_noise_2d(noise_time*50.0,0.0) * 100.0;
 					
 					# Final velocity computation
 					# [TODO ?] We compute a velocity vector for each applied force. This is where we implicitly apply friction forces.
 					new_hook_velocity_grid[i][j] = hook_velocity_grid[i][j] * spring_friction
 					new_hook_velocity_grid[i][j] += (spring_force_sum+gravity_force_vector+shape_force+wind_force) * delta;
+					if new_hook_velocity_grid[i][j].length() > max_velocity:
+						new_hook_velocity_grid[i][j] = new_hook_velocity_grid[i][j].normalized() * max_velocity;
 					
 					# Position computation
 					var starting_position : Vector3 = hook_position_grid[i][j];
 					var ending_position : Vector3 = hook_position_grid[i][j] + new_hook_velocity_grid[i][j] * delta;
 					new_hook_position_grid[i][j] = ending_position;
 					
-					# Handling collisions
-					# The character's hitbox is represented by a cylinder centered at the origin in local space
-					# We check if the computed velocity vector intersects the cylinder. If so, we "truncate" it
-					# so that it ends on the cylinder's surface. Friction and reaction upon impact is disregarded.
-					var starting_position_local = skeleton.to_local(starting_position);
-					var ending_position_local = skeleton.to_local(ending_position);
-					var velocity_local = ending_position_local - starting_position_local;
-					var velocity_direction = velocity_local.normalized();
-					
-					# REMOVE
-					var starting_position_flattened = Vector2(starting_position_local.x, starting_position_local.z);
-					var ending_position_flattened = Vector2(ending_position_local.x, ending_position_local.z);
-					
-					var cylinder_intersection_result : PackedVector3Array = Geometry3D.segment_intersects_cylinder(
-						starting_position_local,
-						ending_position_local,
-						reaction_height,
-						reaction_radius);
-					
-					if cylinder_intersection_result.is_empty():
-						# No collisions detected, and the hypothesis that the starting position is outside or on the cylinder
-						# means that no collision has occurred.
-						pass;
-					else:
-						# Collision detected. Compute bounce
-						var intersection_point : Vector3 = cylinder_intersection_result[0];
-						var intersection_normal : Vector3 = cylinder_intersection_result[0];
+					if toggle_collision :
+						# Handling collisions
+						# The character's hitbox is represented by a cylinder centered at the origin in local space
+						# We check if the computed velocity vector intersects the cylinder. If so, we "truncate" it
+						# so that it ends on the cylinder's surface. Friction and reaction upon impact is disregarded.
+						var starting_position_local = skeleton.to_local(starting_position);
+						var ending_position_local = skeleton.to_local(ending_position);
+						var velocity_local = ending_position_local - starting_position_local;
+						var velocity_direction = velocity_local.normalized();
 						
-						var reflected_direction : Vector3 = 2.0 * intersection_normal.dot(velocity_direction) * intersection_normal - velocity_direction;
-						var intersection_segment = starting_position_local - intersection_point;
-						var reflected_magnitude = intersection_segment.length();
-						var reflected_vector = reflected_direction * reflected_magnitude;
+						# REMOVE
+						var starting_position_flattened = Vector2(starting_position_local.x, starting_position_local.z);
+						var ending_position_flattened = Vector2(ending_position_local.x, ending_position_local.z);
 						
-						new_hook_velocity_grid[i][j] = skeleton.to_global(reflected_vector); # NULLIFY velocity
-						new_hook_position_grid[i][j] = skeleton.to_global(intersection_point + reflected_vector);
+						var cylinder_intersection_result : PackedVector3Array = Geometry3D.segment_intersects_cylinder(
+							starting_position_local,
+							ending_position_local,
+							reaction_height,
+							reaction_radius);
+						
+						if cylinder_intersection_result.is_empty():
+							# No collisions detected, and the hypothesis that the starting position is outside or on the cylinder
+							# means that no collision has occurred.
+							pass;
+						else:
+							# Collision detected. Compute bounce
+							var intersection_point : Vector3 = cylinder_intersection_result[0];
+							var intersection_normal : Vector3 = cylinder_intersection_result[0];
+							
+							var reflected_direction : Vector3 = 2.0 * intersection_normal.dot(velocity_direction) * intersection_normal - velocity_direction;
+							var intersection_segment = starting_position_local - intersection_point;
+							var reflected_magnitude = intersection_segment.length();
+							var reflected_vector = reflected_direction * reflected_magnitude * 0.002;
+							
+							new_hook_velocity_grid[i][j] = skeleton.to_global(reflected_vector); # NULLIFY velocity
+							new_hook_position_grid[i][j] = skeleton.to_global(intersection_point + reflected_vector);
 					
 		for i in grid_width:
 			for j in grid_height:
