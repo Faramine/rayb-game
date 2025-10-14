@@ -267,7 +267,7 @@ func _process(delta):
 								var debug = flatten(intersection_point + reflected_vector).length();
 								breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 							 
-							if true:
+							if false:
 								if i == 1 and j == 5:
 									print(
 										"\n",
