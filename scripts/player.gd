@@ -35,8 +35,10 @@ func _ready() -> void:
 func _process(delta):
 	if is_dead: return
 	if dash_ability.is_dashing:
+		($DashMotionRibbon).visible = true;
 		dash_ability.process_dash(delta)
 	else:
+		($DashMotionRibbon).visible = false;
 		process_move(delta)
 	if not is_on_floor():
 		velocity.y -= gravity

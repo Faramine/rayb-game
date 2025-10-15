@@ -15,7 +15,9 @@ var mdt = MeshDataTool.new()
 @onready var trajectory_buffer = [];
 @onready var direction_buffer = [];
 @onready var trajectory_buffer_current_i;
-const trajectory_buffer_size = 200;
+const trajectory_buffer_size = 20;
+
+var material;
 
 func to_viewport(world : Vector3):
 	var v = world * camera.get_camera_transform();
@@ -34,6 +36,9 @@ func _ready() -> void:
 	direction_buffer.resize(trajectory_buffer_size);
 	trajectory_buffer_current_i = 0
 	
+	material = ShaderMaterial.new();
+	material.set_shader_parameter("Shader", load("res://scenes/dash_smear.gdshader"));
+	
 	pass;
 	
 func _process(delta):
@@ -42,6 +47,8 @@ func _process(delta):
 	var player_position : Vector3 = player.to_global(Vector3(0.0,0.0,0.0));
 	player_position += Vector3(0.0,1.0,0.0)
 	trajectory_buffer[trajectory_buffer_current_i % trajectory_buffer_size] = player_position;
+	
+	var width : float = 1.0;
 	
 	camera = get_viewport().get_camera_3d();
 	if camera :
@@ -79,19 +86,16 @@ func _process(delta):
 				var Oprev_pos_screen : Vector2 = to_viewport(position_prev)
 				var tangent_screen = (O_pos_screen - Oprev_pos_screen).normalized();
 				var normal_screen = tangent_screen.rotated(PI/2.0).normalized();
-				var A_pos_screen : Vector2 = O_pos_screen + normal_screen;
-				var B_pos_screen : Vector2 = O_pos_screen - normal_screen;
+				var A_pos_screen : Vector2 = O_pos_screen + normal_screen * width/2.0;
+				var B_pos_screen : Vector2 = O_pos_screen - normal_screen * width/2.0;
 				var vertex_A_position : Vector3 = to_world(A_pos_screen,position);
 				var vertex_B_position : Vector3 = to_world(B_pos_screen,position);
 				verts.append(vertex_A_position);
-				uvs.append(Vector2(i,1.0));
+				uvs.append(Vector2(float(i)/float(trajectory_buffer_size),0.0));
 				normals.append(Vector3(0.0,1.0,0.0));
 				verts.append(vertex_B_position);
-				uvs.append(Vector2(i,-1.0));
+				uvs.append(Vector2(float(i)/float(trajectory_buffer_size),1.0));
 				normals.append(Vector3(0.0,1.0,0.0));
-				
-				if i == 0:
-					print(tangent_screen)
 
 		for i in range(0,trajectory_buffer_size-1):
 			indices.append(i*2)
@@ -116,6 +120,7 @@ func _process(delta):
 		surface_array[Mesh.ARRAY_INDEX] = indices;
 
 		ribbon_mesh.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
-		
+		var surface = ribbon_mesh.get_instance();
+		RenderingServer.instance_set_surface_override_material(surface, 0, load("res://scenes/player_controller.tscn::ShaderMaterial_sdupd"))
 		# increment the trajectory buffer
 		trajectory_buffer_current_i += 1;
