@@ -1,11 +1,11 @@
 [gd_scene load_steps=31 format=3 uid="uid://cathik8bmmo37"]
 
 [ext_resource type="Shader" uid="uid://q6nctuup6bwn" path="res://shaders/materials/orb.gdshader" id="1_m8ccx"]
-[ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scripts/orb.gd" id="1_ytsln"]
+[ext_resource type="Script" uid="uid://k0bn3edgtuom" path="res://scripts/rooms/orb.gd" id="1_ytsln"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_o5njl"]
 [ext_resource type="Shader" uid="uid://b810ceenn767l" path="res://shaders/materials/deformation.gdshader" id="4_lqf62"]
 [ext_resource type="AudioStream" uid="uid://cq1qh5tw48b45" path="res://assets/Audio/orb_cling.wav" id="4_maamf"]
-[ext_resource type="Shader" uid="uid://c8w6bu1w1qqu5" path="res://orb_break.gdshader" id="5_h0yyv"]
+[ext_resource type="Shader" uid="uid://c8w6bu1w1qqu5" path="res://shaders/orb_break.gdshader" id="5_h0yyv"]
 [ext_resource type="CompressedTexture2DArray" uid="uid://dmrqoyirwtqo4" path="res://assets/textures/placeholder/orb_break.png" id="6_4jpue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ytsln"]

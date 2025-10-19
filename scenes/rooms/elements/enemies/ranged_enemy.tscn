@@ -1,0 +1,102 @@
+[gd_scene load_steps=20 format=3 uid="uid://quurwgbpr87c"]
+
+[ext_resource type="Script" uid="uid://cbr8dbdfw7vsn" path="res://scripts/enemies/ranged_enemy.gd" id="1_b6d6m"]
+[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="2_jn5k4"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="2_kjvgw"]
+[ext_resource type="PackedScene" uid="uid://8wd7jnwhp2jp" path="res://scenes/rooms/elements/enemies/laser.tscn" id="3_cq84n"]
+[ext_resource type="Script" uid="uid://dlgbnc2atjx1e" path="res://scripts/enemies/ranged/idle_state.gd" id="3_n0ey1"]
+[ext_resource type="Script" uid="uid://c4iijxd3qtlkf" path="res://scripts/enemies/ranged/take_hit.gd" id="4_t5ps6"]
+[ext_resource type="PackedScene" uid="uid://d0mcnal57it48" path="res://scenes/rooms/elements/enemies/shockwave.tscn" id="5_cq84n"]
+[ext_resource type="Script" uid="uid://bxiujjbwbam7g" path="res://scripts/enemies/ranged/prepare_sw.gd" id="5_kjeh0"]
+[ext_resource type="Script" uid="uid://dadoor06h0oj0" path="res://scripts/enemies/ranged/shockwave.gd" id="6_8f45k"]
+[ext_resource type="Script" uid="uid://btvbw6qf8pcw6" path="res://scripts/enemies/ranged/prepare_laser.gd" id="7_kjvgw"]
+[ext_resource type="Script" uid="uid://buf7mdx3x0huu" path="res://scenes/rooms/elements/enemies/laser.gd" id="8_cq84n"]
+[ext_resource type="Script" uid="uid://do15mkaoodslc" path="res://scripts/enemies/ranged/prepare_bullet.gd" id="9_yr5wj"]
+[ext_resource type="Script" uid="uid://sbr5kfr1kvqg" path="res://scripts/enemies/ranged/bullet.gd" id="10_lery0"]
+[ext_resource type="Script" uid="uid://cc2qvukfi5y4i" path="res://scripts/enemies/ranged/disabled.gd" id="11_0najp"]
+[ext_resource type="Script" uid="uid://csvvqybp8fyvp" path="res://scripts/enemies/ranged/laser.gd" id="11_yr5wj"]
+[ext_resource type="Script" uid="uid://2fecq6uh3b45" path="res://scripts/enemies/ranged/dead.gd" id="12_ad2rt"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_bee66"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lery0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0najp"]
+
+[node name="RangedEnemy" type="CharacterBody3D"]
+script = ExtResource("1_b6d6m")
+metadata/_custom_type_script = "uid://cbr8dbdfw7vsn"
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8676084, 0)
+pixel_size = 0.02
+billboard = 1
+text = "State"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_bee66")
+
+[node name="HurtBox" type="Area3D" parent="."]
+script = ExtResource("2_kjvgw")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("SphereShape3D_lery0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0najp")
+
+[node name="Laser" parent="." instance=ExtResource("3_cq84n")]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0, 0)
+script = ExtResource("8_cq84n")
+
+[node name="Shockwave" parent="." instance=ExtResource("5_cq84n")]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("root_state")]
+script = ExtResource("2_jn5k4")
+root_state = NodePath("Disabled")
+
+[node name="IdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("disable", "take_hit_state", "prepare_sw_state", "prepare_l_state", "prepare_b_state")]
+script = ExtResource("3_n0ey1")
+disable = NodePath("../Disabled")
+take_hit_state = NodePath("../TakeHit")
+prepare_sw_state = NodePath("../PrepareSW")
+prepare_l_state = NodePath("../PrepareLaser")
+prepare_b_state = NodePath("../PrepareBullet")
+
+[node name="DecisionTimer" type="Timer" parent="StateMachine/IdleState"]
+one_shot = true
+
+[node name="TakeHit" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "dead_state")]
+script = ExtResource("4_t5ps6")
+idle_state = NodePath("../IdleState")
+dead_state = NodePath("../Dead")
+
+[node name="PrepareSW" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "shockwave_state")]
+script = ExtResource("5_kjeh0")
+take_hit_state = NodePath("../TakeHit")
+shockwave_state = NodePath("../Shockwave")
+
+[node name="Shockwave" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "idle_state")]
+script = ExtResource("6_8f45k")
+take_hit_state = NodePath("../TakeHit")
+idle_state = NodePath("../IdleState")
+
+[node name="PrepareLaser" type="Node" parent="StateMachine"]
+script = ExtResource("7_kjvgw")
+
+[node name="Laser" type="Node" parent="StateMachine"]
+script = ExtResource("11_yr5wj")
+
+[node name="PrepareBullet" type="Node" parent="StateMachine"]
+script = ExtResource("9_yr5wj")
+
+[node name="Bullet" type="Node" parent="StateMachine"]
+script = ExtResource("10_lery0")
+
+[node name="Disabled" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("11_0najp")
+idle_state = NodePath("../IdleState")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("12_ad2rt")

@@ -1,20 +1,20 @@
 [gd_scene load_steps=80 format=4 uid="uid://c8rnlof07pti0"]
 
-[ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player.gd" id="1_f0yg5"]
-[ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player_controller.gd" id="1_va7e3"]
+[ext_resource type="Script" uid="uid://2b0aiet3e7yd" path="res://scripts/player/player.gd" id="1_f0yg5"]
+[ext_resource type="Script" uid="uid://dega15hwxr42r" path="res://scripts/player/player_controller.gd" id="1_va7e3"]
 [ext_resource type="Script" uid="uid://cys45mbytwrfs" path="res://scripts/health.gd" id="2_oamho"]
 [ext_resource type="ArrayMesh" uid="uid://pcmi4vehexiw" path="res://assets/entities/player/meshes/player_Cylinder_002.res" id="4_ga2kn"]
 [ext_resource type="ArrayMesh" uid="uid://bs48y6wlmssok" path="res://assets/entities/player/meshes/player_Cylinder.res" id="4_lwvb4"]
-[ext_resource type="Script" uid="uid://dpuhtu0b6cqx2" path="res://scripts/dynamic_cape.gd" id="4_mfmwq"]
-[ext_resource type="Script" uid="uid://cllissle706n4" path="res://scripts/dash.gd" id="5_4garc"]
+[ext_resource type="Script" uid="uid://dpuhtu0b6cqx2" path="res://scripts/player/dynamic_cape.gd" id="4_mfmwq"]
+[ext_resource type="Script" uid="uid://cllissle706n4" path="res://scripts/player/dash.gd" id="5_4garc"]
 [ext_resource type="Texture2D" uid="uid://1ibb6isj8an8" path="res://assets/textures/circle_05.png" id="5_halkx"]
 [ext_resource type="Texture2D" uid="uid://24e4yjk5oqoy" path="res://assets/entities/player/gltfs/cape_cape_texture.png" id="5_iu0n4"]
 [ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="7_lyd3o"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="7_oamho"]
 [ext_resource type="Texture2D" uid="uid://bafv1x8o1tffl" path="res://assets/textures/placeholder/Illustration.png" id="9_ga2kn"]
-[ext_resource type="Script" path="res://scenes/hitbox_hint.gd" id="10_lwvb4"]
-[ext_resource type="Shader" uid="uid://n3bfxevkdrcy" path="res://dash_area_indicator.gdshader" id="13_ek60h"]
-[ext_resource type="Script" uid="uid://dhiowlac464yg" path="res://scenes/dash_motion_ribbon.gd" id="15_ngi1a"]
+[ext_resource type="Script" uid="uid://ci1ucis4csa2r" path="res://scripts/player/hitbox_hint.gd" id="10_lwvb4"]
+[ext_resource type="Shader" uid="uid://n3bfxevkdrcy" path="res://shaders/dash_area_indicator.gdshader" id="13_ek60h"]
+[ext_resource type="Script" uid="uid://dhiowlac464yg" path="res://scripts/player/dash_motion_ribbon.gd" id="15_ngi1a"]
 [ext_resource type="Shader" uid="uid://cfag5r3g4oo8w" path="res://scenes/dash_smear.gdshader" id="16_ek60h"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvefo"]
@@ -1655,7 +1655,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -7.62636e-15, 2.38419e-07, -5.54262e-15, 1, 5.52347e-08, -2.38419e-07, -5.52347e-08, 1, 0, -1.55343, -7.17866e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(-7.5881016e-23, -1.6215608, -7.774156e-09)
+bones/0/position = Vector3(6.217618e-23, -1.6566166, -8.080534e-09)
 bones/0/rotation = Quaternion(-2.76174e-08, 1.19209e-07, 5.209359e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "torso"
@@ -1704,35 +1704,35 @@ bones/7/name = "cape_front_right"
 bones/7/parent = -1
 bones/7/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08, -2.45, 1.47753)
 bones/7/enabled = true
-bones/7/position = Vector3(-1.34806, -2.4883277, 1.37169)
+bones/7/position = Vector3(-1.3121483, -2.537014, 1.37169)
 bones/7/rotation = Quaternion(0, 0, 0, 1)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "cape_side_right"
 bones/8/parent = -1
 bones/8/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78, -2.45, -0.862469)
 bones/8/enabled = true
-bones/8/position = Vector3(-1.7696162, -2.5074787, -0.862469)
+bones/8/position = Vector3(-1.8845699, -2.5238633, -0.862469)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "cape_back"
 bones/9/parent = -1
 bones/9/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-09, -2.45, -2.12247)
 bones/9/enabled = true
-bones/9/position = Vector3(-0.04693611, -2.4985933, -2.12247)
+bones/9/position = Vector3(-0.031287044, -2.531137, -2.12247)
 bones/9/rotation = Quaternion(0, 0, 0, 1)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "cape_side_left"
 bones/10/parent = -1
 bones/10/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78, -2.45, -0.862469)
 bones/10/enabled = true
-bones/10/position = Vector3(1.7420092, -2.4936404, -0.862469)
+bones/10/position = Vector3(1.8591703, -2.5342093, -0.862469)
 bones/10/rotation = Quaternion(0, 0, 0, 1)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "cape_front_left"
 bones/11/parent = -1
 bones/11/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08, -2.45, 1.47753)
 bones/11/enabled = true
-bones/11/position = Vector3(1.1814481, -2.4936404, 1.47753)
+bones/11/position = Vector3(1.0585933, -2.534225, 1.47753)
 bones/11/rotation = Quaternion(0, 0, 0, 1)
 bones/11/scale = Vector3(1, 1, 1)
 
@@ -1747,7 +1747,7 @@ bone = 2
 use_secondary_rotation = false
 
 [node name="Neck" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
-transform = Transform3D(1, -7.626357e-15, 2.3841801e-07, -7.626354e-15, 1, 6.397466e-08, -2.3841801e-07, -6.397466e-08, 1, -6.264076e-15, -0.80018884, -5.314247e-08)
+transform = Transform3D(1, -7.626357e-15, 2.3841801e-07, -7.626354e-15, 1, 6.397466e-08, -2.3841801e-07, -6.397466e-08, 1, -6.264076e-15, -0.8352446, -5.344885e-08)
 bone_name = "torso"
 bone_idx = 1
 
@@ -1771,6 +1771,7 @@ mesh = SubResource("SphereMesh_bqnof")
 surface_material_override/0 = SubResource("StandardMaterial3D_bqnof")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature/Skeleton3D/Neck/Armature2"]
+visible = false
 bones/0/name = "cape_hook_12_8"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.063238e-09, -1.4, -1.9360001)

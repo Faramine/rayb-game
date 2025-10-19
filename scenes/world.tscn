@@ -7,9 +7,9 @@
 [ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="5_036b0"]
 [ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="5_pkg7o"]
 [ext_resource type="Script" uid="uid://0mbb757g8iqi" path="res://scripts/generator_base.gd" id="6_dwbse"]
-[ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/cursor.gd" id="8_gbfbk"]
+[ext_resource type="Script" uid="uid://vxptolicwgey" path="res://scripts/player/cursor.gd" id="8_gbfbk"]
 [ext_resource type="Shader" uid="uid://c6rnujac3dpur" path="res://shaders/Experiment/world.gdshader" id="9_ic0uy"]
-[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://scripts/FPS.gd" id="9_ioo17"]
+[ext_resource type="Script" uid="uid://b3h0epy0d4q3f" path="res://scripts/ui_elements/FPS.gd" id="9_ioo17"]
 [ext_resource type="Shader" uid="uid://o2ijdjydc6j4" path="res://shaders/post-processing/kuwahara.gdshader" id="9_q5onr"]
 [ext_resource type="Shader" uid="uid://4oagnohs1oxf" path="res://shaders/post-processing/painterly_canvas.gdshader" id="10_wse8f"]
 

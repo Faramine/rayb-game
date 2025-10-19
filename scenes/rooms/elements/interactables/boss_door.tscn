@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://davgok5lxe6cq"]
 
-[ext_resource type="Script" uid="uid://ikeafo0o8rg3" path="res://scenes/rooms/elements/boss_door.gd" id="1_fdpmv"]
+[ext_resource type="Script" uid="uid://ikeafo0o8rg3" path="res://scripts/rooms/boss_door.gd" id="1_fdpmv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_13tm8"]
 shading_mode = 0

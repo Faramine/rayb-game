@@ -27,3 +27,4 @@ func apply_transition(transition):
 	current_state = new_state
 	current_state.enter()
 	state_changed.emit(current_state.name)
+	print(current_state.name)
