@@ -90,14 +90,14 @@ vec2 project_to_bb(in vec3 p){
 }
 
 vec2 screen_UV_to_bb_coords (vec2 sUV){
-	vec2 factor = (projection_matrix * (vec4(1.0,1.0,0.0,1.0) +  origin_viewspace)).xy;
+	vec2 factor = (projection_matrix * (vec4(1.0,1.0,0.0,1.0) + view_matrix * model_matrix * vec4(0.0,0.0,0.0,1.0))).xy;
 	factor += 1.0;
 	factor *= 0.5;
 	factor *= vec2(1.0,  1.0 / screen_ratio);
 	
 	vec2 bb_coords;
 	bb_coords = sUV - origin_screen_coords;
-	bb_coords /= (factor);
+	bb_coords /= factor - origin_screen_coords;
 	return vec2(bb_coords);
 }
 
@@ -109,11 +109,14 @@ vec2 world_to_screen_UV (vec3 world_coords){
 	return screen;
 }
 
+float mosaic (vec2 coord, float size) {
+    return mod(floor(coord.y / size) + floor(coord.x / size), 2.);
+}
+
 void fragment() {
 	vec2 screen_coords = vec2(SCREEN_UV.x,  SCREEN_UV.y / screen_ratio);
 	float debug;
 
-	
 	vec2 bb_coords = screen_UV_to_bb_coords(screen_coords);
 	
 	vec3 point_world = vec3(0.5,0.0,0.0);
@@ -128,7 +131,7 @@ void fragment() {
 	if(FRONT_FACING) discard; // discard front facing faces
 	ALBEDO = vec3(0.0);
 
-	float noise = map(fbm(screen_coords, 0.15 * animation, 50.0, 8), 0.0, 1.0);
+	float noise = map(fbm(screen_coords, 0.15 * animation, 300.0, 1), -1.0, 1.0);
 	
 	debug = (distance_to_line(segment_point_A,segment_point_B,bb_coords + noise*0.3).y<animation*0.1)?1.0:0.0;
 	
@@ -136,6 +139,6 @@ void fragment() {
 	//debug = (origin_screen_coords.y < 1.0)?1.0:0.0;
 	// debug
 	ALBEDO = vec3(debug);
-	ALBEDO = vec3(bb_coords,0.0);
-	ALBEDO = vec3((int(bb_coords.x*20.0) % 2 == 0)?1.0:0.0,(int(bb_coords.y*20.0) % 2 == 0)?1.0:0.0,0.0);
+	//ALBEDO = vec3(bb_coords,0.0);
+	//ALBEDO = vec3(mosaic(bb_coords, 0.1));
 }
