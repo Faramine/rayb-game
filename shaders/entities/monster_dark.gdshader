@@ -114,6 +114,8 @@ float mosaic (vec2 coord, float size) {
 }
 
 void fragment() {
+	if(FRONT_FACING) discard; // discard front facing faces
+	
 	vec2 screen_coords = vec2(SCREEN_UV.x,  SCREEN_UV.y / screen_ratio);
 	float debug;
 
@@ -128,17 +130,17 @@ void fragment() {
 	vec2 segment_point_A = vec2(0.7, 0.2);
 	vec2 segment_point_B = vec2(0.1, 0.1);
 	
-	if(FRONT_FACING) discard; // discard front facing faces
 	ALBEDO = vec3(0.0);
 
-	float noise = map(fbm(screen_coords, 0.15 * animation, 300.0, 1), -1.0, 1.0);
+	float noise = map(fbm(screen_coords, animation, 300.0, 1), -1.0, 1.0);
+	vec2 distorted_coords = bb_coords + noise * 0.3;
+	float distorted_distance = distance_to_line(segment_point_A,segment_point_B, distorted_coords).y;
+	float max_size = 1.0;
+	float bright_part_size = animation * max_size;
+	float burnt_part_size = animation * max_size - 0.01;
 	
-	debug = (distance_to_line(segment_point_A,segment_point_B,bb_coords + noise*0.3).y<animation*0.1)?1.0:0.0;
-	
-	//debug = (distance(origin_screen_coords,screen_coords) < 0.1)?1.0:0.0;
-	//debug = (origin_screen_coords.y < 1.0)?1.0:0.0;
-	// debug
-	ALBEDO = vec3(debug);
-	//ALBEDO = vec3(bb_coords,0.0);
-	//ALBEDO = vec3(mosaic(bb_coords, 0.1));
+	float bright_mask = map(distorted_distance, bright_part_size, bright_part_size + 0.01);
+	float burnt_mask = map(distorted_distance, burnt_part_size, burnt_part_size + 0.01);
+
+	ALBEDO = vec3(1.0 - bright_mask);
 }
