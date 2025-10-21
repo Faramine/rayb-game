@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://quurwgbpr87c"]
+[gd_scene load_steps=21 format=3 uid="uid://quurwgbpr87c"]
 
 [ext_resource type="Script" uid="uid://cbr8dbdfw7vsn" path="res://scripts/enemies/ranged_enemy.gd" id="1_b6d6m"]
-[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="2_jn5k4"]
+[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/utils/state_machine/state_machine.gd" id="2_jn5k4"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="2_kjvgw"]
 [ext_resource type="PackedScene" uid="uid://8wd7jnwhp2jp" path="res://scenes/rooms/elements/enemies/laser.tscn" id="3_cq84n"]
 [ext_resource type="Script" uid="uid://dlgbnc2atjx1e" path="res://scripts/enemies/ranged/idle_state.gd" id="3_n0ey1"]
@@ -22,6 +22,9 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_lery0"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0najp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cq84n"]
+radius = 5.0
 
 [node name="RangedEnemy" type="CharacterBody3D"]
 script = ExtResource("1_b6d6m")
@@ -49,6 +52,11 @@ shape = SubResource("SphereShape3D_0najp")
 [node name="Laser" parent="." instance=ExtResource("3_cq84n")]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0, 0)
 script = ExtResource("8_cq84n")
+
+[node name="ShockwaveTrigger" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShockwaveTrigger"]
+shape = SubResource("SphereShape3D_cq84n")
 
 [node name="Shockwave" parent="." instance=ExtResource("5_cq84n")]
 
@@ -82,17 +90,39 @@ script = ExtResource("6_8f45k")
 take_hit_state = NodePath("../TakeHit")
 idle_state = NodePath("../IdleState")
 
-[node name="PrepareLaser" type="Node" parent="StateMachine"]
+[node name="PrepareLaser" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "laser_state")]
 script = ExtResource("7_kjvgw")
+take_hit_state = NodePath("../TakeHit")
+laser_state = NodePath("../Laser")
 
-[node name="Laser" type="Node" parent="StateMachine"]
+[node name="LaserLoadingTimer" type="Timer" parent="StateMachine/PrepareLaser"]
+one_shot = true
+
+[node name="Laser" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "idle_state")]
 script = ExtResource("11_yr5wj")
+take_hit_state = NodePath("../TakeHit")
+idle_state = NodePath("../IdleState")
 
-[node name="PrepareBullet" type="Node" parent="StateMachine"]
+[node name="LaserTimer" type="Timer" parent="StateMachine/Laser"]
+one_shot = true
+
+[node name="PrepareBullet" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "bullet_state")]
 script = ExtResource("9_yr5wj")
+take_hit_state = NodePath("../TakeHit")
+bullet_state = NodePath("../Bullet")
 
-[node name="Bullet" type="Node" parent="StateMachine"]
+[node name="BulletLoadingTimer" type="Timer" parent="StateMachine/PrepareBullet"]
+one_shot = true
+
+[node name="Bullet" type="Node" parent="StateMachine" node_paths=PackedStringArray("take_hit_state", "idle_state")]
 script = ExtResource("10_lery0")
+take_hit_state = NodePath("../TakeHit")
+idle_state = NodePath("../IdleState")
+number = 5
+
+[node name="BulletIntervalTimer" type="Timer" parent="StateMachine/Bullet"]
+wait_time = 0.2
+one_shot = true
 
 [node name="Disabled" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
 script = ExtResource("11_0najp")

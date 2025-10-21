@@ -14,7 +14,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
-	fsm.apply_transition("shockwave")
+	pass
 
 func exit():
 	pass

@@ -116,7 +116,7 @@ func open_wall(coords : Array):
 			doorDown.set_collision_layer_value(1,false)
 
 func populate(layout : Room_layout):
-	layout.global_position = self.global_position
+	layout.position = self.global_position
 	add_child(layout)
 	
 	layout.remove_child(layout.godrays)

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_1ob5i"]
 [ext_resource type="Script" uid="uid://cys45mbytwrfs" path="res://scripts/health.gd" id="3_mwbfj"]
 [ext_resource type="Shader" uid="uid://ko3xst0vvm4r" path="res://shaders/entities/monster_dark.gdshader" id="3_xlfao"]
-[ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_jqwtn"]
+[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/utils/state_machine/state_machine.gd" id="4_jqwtn"]
 [ext_resource type="Shader" uid="uid://dx7dqhbvc7upn" path="res://shaders/entities/monster_eyes.gdshader" id="4_wharx"]
 [ext_resource type="Script" uid="uid://belxaiupe7mb3" path="res://scripts/enemies/melee/idle_state.gd" id="5_t1tt7"]
 [ext_resource type="Script" uid="uid://h2fig86rt56o" path="res://scripts/enemies/melee/chase.gd" id="6_t4k0o"]

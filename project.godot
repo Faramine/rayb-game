@@ -33,6 +33,7 @@ project/assembly_name="rayb-game"
 Camera_zone=""
 Enemy=""
 Room=""
+Player=""
 
 [input]
 

@@ -2,7 +2,8 @@ class_name RangedEnemy
 extends Enemy
 
 @onready var state_machine : StateMachine = $StateMachine
-@onready var shockwave = $"Shockwave"
+@onready var shockwave = $Shockwave
+@onready var shockwave_zone = $ShockwaveTrigger
 
 func _ready() -> void:
 	player.godray_entered.connect(_on_player_enter_godray)
@@ -10,7 +11,7 @@ func _ready() -> void:
 	player.dead.connect(_on_player_dead)
 	shockwave.shockwave_ended.connect(on_shockwave_end)
 	state_machine.state_changed.connect(_on_state_changed)
-	
+	shockwave_zone.area_entered.connect(on_shockwave_range)
 	state_machine.init(self)
 	
 func on_room_activated():
@@ -36,6 +37,10 @@ func _on_player_dead():
 
 func _on_state_changed(state_name) -> void:
 	$Label3D.text = state_name
+
+func on_shockwave_range(area3d: Area3D):
+	if area3d.is_in_group("Player"):
+		state_machine.apply_transition("shockwave")
 
 func on_shockwave_end():
 	state_machine.apply_transition("idle")

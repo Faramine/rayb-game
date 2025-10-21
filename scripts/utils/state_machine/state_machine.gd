@@ -1,6 +1,10 @@
 class_name StateMachine
 extends Node
 
+##Basic implementation of a state machine
+##
+##Every states of the machine are to be added in the editor as a [class.State]
+
 signal state_changed
 
 @export var root_state : State

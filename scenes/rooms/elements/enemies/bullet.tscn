@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bibcax4a4p5rf"]
+
+[ext_resource type="Script" uid="uid://qjpip5qasdoe" path="res://bullet.gd" id="1_v7oki"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2r3nq"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_v8qja"]
+material = SubResource("StandardMaterial3D_2r3nq")
+radius = 0.125
+height = 0.25
+
+[node name="bullet" type="RigidBody3D"]
+gravity_scale = 0.0
+script = ExtResource("1_v7oki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_v8qja")
