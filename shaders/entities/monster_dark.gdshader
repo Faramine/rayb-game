@@ -127,20 +127,21 @@ void fragment() {
 	//debug = (abs(bb_coords.x) < 0.001 || abs(bb_coords.y) < 0.001)?1.0:0.0;
 	//debug = (distance(point_bb_coords,bb_coords) < 0.1)?1.0:0.0;
 	
-	vec2 segment_point_A = vec2(0.7, 0.2);
+	vec2 segment_point_A = vec2(0.0, 0.2);
 	vec2 segment_point_B = vec2(0.1, 0.1);
 	
 	ALBEDO = vec3(0.0);
 
-	float noise = map(fbm(screen_coords, animation, 300.0, 1), -1.0, 1.0);
-	vec2 distorted_coords = bb_coords + noise * 0.3;
+	float noise = map(fbm(screen_coords, animation, animation * 400.0, 1), -1.0, 1.0);
+	vec2 distorted_coords = bb_coords + noise * animation * 5.0;
 	float distorted_distance = distance_to_line(segment_point_A,segment_point_B, distorted_coords).y;
-	float max_size = 1.0;
+	float max_size = 8.0;
 	float bright_part_size = animation * max_size;
-	float burnt_part_size = animation * max_size - 0.01;
+	float burnt_part_size = animation * max_size - 0.1;
 	
 	float bright_mask = map(distorted_distance, bright_part_size, bright_part_size + 0.01);
 	float burnt_mask = map(distorted_distance, burnt_part_size, burnt_part_size + 0.01);
 
 	ALBEDO = vec3(1.0 - bright_mask);
+	ALPHA = burnt_mask;
 }
