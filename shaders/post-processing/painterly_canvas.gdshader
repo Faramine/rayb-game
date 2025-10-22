@@ -39,7 +39,7 @@ float noise(vec2 uv) {
 }
 
 float fbm(vec2 uv) {
-    int octaves = 4;
+    int octaves = 1;
     float amplitude = 0.5;
     float frequency = 3.0;
 	float value = 0.0;
@@ -110,7 +110,7 @@ void fragment() {
 
 	vec4 colorSum = vec4(0.0,0.0,0.0,1.0);
 	//colorSum += texture(screen_texture, UV);
-	int passNumber = 10;
+	int passNumber = 3;
 	float global_strength_min = 0.004;
 	float global_strength_max = 0.008;
 	float uv_scaling = 40.0;
@@ -122,7 +122,7 @@ void fragment() {
 		sample_uv.x += noise_value_x*strength;
 		sample_uv.y += noise_value_y*strength;
 		vec4 sample = texture(screen_texture, sample_uv);
-		sample.a *= 0.2;
+		sample.a *= 1.0/float(passNumber);
 		colorSum = blendOver(sample,colorSum);
 
 		COLOR.xyz = vec3(noise_value_x,noise_value_y,0.0);

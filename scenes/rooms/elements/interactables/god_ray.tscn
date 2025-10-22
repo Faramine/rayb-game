@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=3 uid="uid://dye7apdp65ohn"]
 
 [ext_resource type="Shader" uid="uid://cxw4f58inq82m" path="res://shaders/materials/god_ray.gdshader" id="1_3t4on"]
-[ext_resource type="Script" uid="uid://cgs0vj5du68ww" path="res://scenes/rooms/elements/interactables/god_ray.gd" id="1_7idm3"]
+[ext_resource type="Script" uid="uid://cgs0vj5du68ww" path="res://scripts/rooms/god_ray.gd" id="1_7idm3"]
 [ext_resource type="Shader" uid="uid://dvm0nqrkjk5e" path="res://shaders/materials/god_ray2.gdshader" id="1_sykuj"]
 [ext_resource type="Texture2D" uid="uid://yjthraqju1ms" path="res://assets/textures/experimental/Texture_test.png" id="2_ijm52"]
 [ext_resource type="Shader" uid="uid://7l4kd51mlo2" path="res://shaders/materials/decal_test.gdshader" id="3_ospo2"]
-[ext_resource type="Script" uid="uid://c11bkvabhn6gi" path="res://scripts/projector_decal_3d.gd" id="4_sykuj"]
+[ext_resource type="Script" uid="uid://c11bkvabhn6gi" path="res://scripts/rooms/projector_decal_3d.gd" id="4_sykuj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7idm3"]
 render_priority = 0

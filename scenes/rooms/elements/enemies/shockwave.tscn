@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0mcnal57it48"]
+
+[ext_resource type="Texture2D" uid="uid://bafv1x8o1tffl" path="res://assets/textures/placeholder/Illustration.png" id="1_7jrrc"]
+[ext_resource type="Script" uid="uid://dedlwqaj444lj" path="res://scenes/rooms/elements/enemies/shockwave.gd" id="1_tjot6"]
+[ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_4qlcj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4qlcj"]
+transparency = 1
+albedo_texture = ExtResource("1_7jrrc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4qlcj"]
+material = SubResource("StandardMaterial3D_4qlcj")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3m6jb"]
+radius = 1.0
+
+[node name="shockwave" type="Node3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("1_tjot6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_4qlcj")
+
+[node name="HurtBox" type="Area3D" parent="."]
+script = ExtResource("3_4qlcj")
+metadata/_custom_type_script = "uid://b0ai8kql1pq6g"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("SphereShape3D_3m6jb")

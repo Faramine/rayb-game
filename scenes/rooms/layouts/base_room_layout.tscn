@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://3ddnr4pbtihn"]
 
-[ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/base_room_layout.gd" id="1_ws3ja"]
+[ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_ws3ja"]
 
 [node name="Base_room_layout" type="Node3D"]
 script = ExtResource("1_ws3ja")

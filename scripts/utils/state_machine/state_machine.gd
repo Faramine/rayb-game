@@ -1,6 +1,10 @@
 class_name StateMachine
 extends Node
 
+##Basic implementation of a state machine
+##
+##Every states of the machine are to be added in the editor as a [class.State]
+
 signal state_changed
 
 @export var root_state : State
@@ -27,3 +31,4 @@ func apply_transition(transition):
 	current_state = new_state
 	current_state.enter()
 	state_changed.emit(current_state.name)
+	print(current_state.name)

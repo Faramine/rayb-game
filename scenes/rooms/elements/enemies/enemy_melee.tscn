@@ -1,11 +1,11 @@
 [gd_scene load_steps=60 format=4 uid="uid://jwpwxu137g02"]
 
 [ext_resource type="PackedScene" uid="uid://deaeyhn121g0h" path="res://scenes/rooms/elements/enemies/abstract_enemy.tscn" id="1_33gkd"]
-[ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemy_melee.gd" id="2_jnamf"]
+[ext_resource type="Script" uid="uid://sst0qam5mvu2" path="res://scripts/enemies/enemy_melee.gd" id="2_jnamf"]
 [ext_resource type="Script" uid="uid://b0ai8kql1pq6g" path="res://scripts/hurtbox.gd" id="3_1ob5i"]
 [ext_resource type="Script" uid="uid://cys45mbytwrfs" path="res://scripts/health.gd" id="3_mwbfj"]
 [ext_resource type="Shader" uid="uid://ko3xst0vvm4r" path="res://shaders/entities/monster_dark.gdshader" id="3_xlfao"]
-[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/state_machine.gd" id="4_jqwtn"]
+[ext_resource type="Script" uid="uid://4qkt4avd6pu8" path="res://scripts/utils/state_machine/state_machine.gd" id="4_jqwtn"]
 [ext_resource type="Shader" uid="uid://dx7dqhbvc7upn" path="res://shaders/entities/monster_eyes.gdshader" id="4_wharx"]
 [ext_resource type="Script" uid="uid://belxaiupe7mb3" path="res://scripts/enemies/melee/idle_state.gd" id="5_t1tt7"]
 [ext_resource type="Script" uid="uid://h2fig86rt56o" path="res://scripts/enemies/melee/chase.gd" id="6_t4k0o"]
@@ -2129,7 +2129,7 @@ bones/0/name = "hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -3.9935618e-16, 2.3841858e-07, 1.1980686e-15, 1, -3.3500425e-09, -2.3841858e-07, 3.3500425e-09, 1, -0.0022056699, -0.5, -9.845023e-09)
 bones/0/enabled = true
-bones/0/position = Vector3(-0.0022056699, -0.60833967, -1.0570908e-08)
+bones/0/position = Vector3(-0.0022056699, -0.6427645, -1.0801558e-08)
 bones/0/rotation = Quaternion(1.6750212e-09, 1.1920929e-07, 3.9935618e-16, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "spine_0"
@@ -2137,28 +2137,28 @@ bones/1/parent = 0
 bones/1/rest = Transform3D(1, 1.5974248e-15, 1.0702882e-23, -1.5974248e-15, 1, 6.7000854e-09, 7.888609e-31, -6.7000854e-09, 1, 1.5482407e-15, 1.5, 4.440892e-16)
 bones/1/enabled = true
 bones/1/position = Vector3(1.4992348e-15, 1.5, 1.110223e-15)
-bones/1/rotation = Quaternion(-7.510388e-09, -2.430826e-09, -0.008117317, 0.99996716)
+bones/1/rotation = Quaternion(-7.509655e-09, -2.4574938e-09, -0.016148113, 0.9998697)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "spine_1"
 bones/2/parent = 1
 bones/2/rest = Transform3D(1, -1.0587912e-22, -3.5469952e-31, 1.0587912e-22, 1, -4.440894e-16, 3.5469957e-31, 4.440894e-16, 1, -4.9005938e-17, 1.5, 0)
 bones/2/enabled = true
 bones/2/position = Vector3(3.7252903e-09, 1.5000001, 8.881785e-16)
-bones/2/rotation = Quaternion(-4.1600825e-09, -2.4034172e-09, -0.015629694, 0.9998779)
+bones/2/rotation = Quaternion(-4.1604253e-09, -2.4036122e-09, -0.008961602, 0.99995995)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/name = "spine_2"
 bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 1, -1.9025154e-22, 0, 1.9025154e-22, 1, -4.9005938e-17, 1.5, 0)
 bones/3/enabled = true
 bones/3/position = Vector3(7.281502e-16, 1.5000001, -3.330669e-15)
-bones/3/rotation = Quaternion(-4.160007e-09, -2.4033744e-09, -0.016755449, 0.99985963)
+bones/3/rotation = Quaternion(-4.160587e-09, -2.4037057e-09, 0.0015162275, 0.99999887)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/name = "head"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, -1.9025154e-22, 0, 1.9025154e-22, 1, -4.9005938e-17, 1.5, 0)
 bones/4/enabled = true
 bones/4/position = Vector3(1.4901165e-08, 1.500001, 1.2434498e-14)
-bones/4/rotation = Quaternion(-4.160359e-09, -2.4035776e-09, -0.010566026, 0.99994427)
+bones/4/rotation = Quaternion(-4.160317e-09, -2.403556e-09, 0.011465195, 0.9999343)
 bones/4/scale = Vector3(1, 1, 1)
 bones/5/name = "face"
 bones/5/parent = 4

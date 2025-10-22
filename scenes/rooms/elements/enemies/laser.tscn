@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://8wd7jnwhp2jp"]
+
+[ext_resource type="Script" uid="uid://b8ck7mcdjqrs6" path="res://laser.gd" id="1_8yr3r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rh7w0"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_prtoq"]
+material = SubResource("StandardMaterial3D_rh7w0")
+flip_faces = true
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05frj"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_aiheh"]
+material = SubResource("StandardMaterial3D_05frj")
+radius = 0.1
+height = 0.2
+
+[node name="Laser" type="RayCast3D"]
+target_position = Vector3(0, -100, 0)
+script = ExtResource("1_8yr3r")
+
+[node name="BeamMesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CylinderMesh_prtoq")
+
+[node name="EmiterMesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_aiheh")

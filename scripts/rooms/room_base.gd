@@ -26,6 +26,8 @@ var is_cleared : bool = false
 
 var enemy_spawners = []
 var enemy_melee_scene : PackedScene = load("res://scenes/rooms/elements/enemies/enemy_melee.tscn")
+var enemy_ranged_scene : PackedScene = load("res://scenes/rooms/elements/enemies/ranged_enemy.tscn")
+
 @onready var enemies : Array[Enemy] = []
 var enemies_defeated = 0
 
@@ -42,7 +44,7 @@ func spawn_enemies():
 	for enemy_spawner in enemy_spawners as Array[EnemySpawner]:
 		var enemy : Enemy
 		if enemy_spawner.enemyType == 1:
-			enemy = spawn_enemy_melee()
+			enemy = spawn_enemy_ranged()
 		init_enemy(enemy, enemy_spawner)
 		enemies.append(enemy)
 		add_child(enemy)
@@ -51,6 +53,10 @@ func spawn_enemies():
 func spawn_enemy_melee() -> Enemy:
 	var enemy_melee : Enemy = enemy_melee_scene.instantiate()
 	return enemy_melee
+	
+func spawn_enemy_ranged() -> Enemy:
+	var enemy_ranged : Enemy = enemy_ranged_scene.instantiate()
+	return enemy_ranged
 
 func init_enemy(enemy : Enemy, enemy_spawner : EnemySpawner):
 	print(enemy_spawner.position)
@@ -110,7 +116,7 @@ func open_wall(coords : Array):
 			doorDown.set_collision_layer_value(1,false)
 
 func populate(layout : Room_layout):
-	layout.global_position = self.global_position
+	layout.position = self.global_position
 	add_child(layout)
 	
 	layout.remove_child(layout.godrays)
@@ -132,7 +138,7 @@ func populate(layout : Room_layout):
 	for o in layout.obstacles.get_children():
 		layout.obstacles.remove_child(o)
 		nav.add_child(o)
-	nav.bake_navigation_mesh(false)
+	#nav.bake_navigation_mesh(false)
 	enemy_spawners = layout.enemies.get_children()
 	layout.enemies.visible = false
 	remove_child(layout)

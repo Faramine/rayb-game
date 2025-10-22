@@ -20,7 +20,7 @@ config/icon="uid://b60o4bjht5gi3"
 window/size/viewport_width=1700
 window/size/viewport_height=900
 window/stretch/mode="viewport"
-window/vsync/vsync_mode=0
+window/vsync/vsync_mode=2
 mouse_cursor/custom_image="uid://dnrfsosmcwfto"
 mouse_cursor/custom_image_hotspot=Vector2(4, 4)
 
@@ -33,6 +33,7 @@ project/assembly_name="rayb-game"
 Camera_zone=""
 Enemy=""
 Room=""
+Player=""
 
 [input]
 
