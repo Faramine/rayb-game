@@ -14,6 +14,8 @@ var noise = FastNoiseLite.new()
 var hook_grid;
 var hook_velocity_grid;
 var hook_position_grid;
+var hook_global_grid;
+var hook_rest_global_grid;
 const grid_width = 25;
 const grid_height = 9;
 
@@ -49,15 +51,11 @@ func hook_local_rest(hook_id : int):
 	var local_pos : Transform3D = skeleton.get_bone_global_rest(hook_id);
 	return local_pos.origin;
 
-func hook_global(hook_id : int):
-	var local_pos : Transform3D = skeleton.get_bone_global_pose(hook_id);
-	var global_pos : Vector3 = skeleton.to_global(local_pos.origin);
-	return global_pos;
+func hook_global(i : int, j : int):
+	return hook_global_grid[i][j];
 	
-func hook_global_rest(hook_id : int):
-	var local_pos : Transform3D = skeleton.get_bone_global_rest(hook_id);
-	var global_pos : Vector3 = skeleton.to_global(local_pos.origin);
-	return global_pos;
+func hook_global_rest(i : int, j : int):
+	return hook_rest_global_grid[i][j];
 
 func flatten(v : Vector3):
 	return Vector2(v.x,v.z);
@@ -73,17 +71,23 @@ func _ready() -> void:
 	hook_grid = [];
 	hook_velocity_grid = [];
 	hook_position_grid = [];
+	hook_global_grid = [];
+	hook_rest_global_grid = [];
 	
 	for i in grid_width:
-		hook_grid.append([])
-		hook_velocity_grid.append([])
-		hook_position_grid.append([])
+		hook_grid.append([]);
+		hook_velocity_grid.append([]);
+		hook_position_grid.append([]);
+		hook_global_grid.append([]);
+		hook_rest_global_grid.append([]);
 		for j in grid_height:
 			hook_grid[i].append(
 				skeleton.find_bone(str("cape_hook_", i, "_", j))
 			);
+			hook_rest_global_grid[i].append(skeleton.to_global(skeleton.get_bone_global_rest(hook_grid[i][j]).origin));
+			hook_global_grid[i].append(hook_rest_global_grid[i][j]);
 			hook_velocity_grid[i].append(Vector3(0.0,0.0,0.0));
-			hook_position_grid[i].append(hook_global_rest(hook_grid[i][j]));
+			hook_position_grid[i].append(hook_rest_global_grid[i][j]);
 	
 	noise.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC 
 	noise.fractal_octaves = 3
@@ -95,6 +99,12 @@ func _process(bad_delta):
 	var now_time = Time.get_unix_time_from_system();
 	var delta = (now_time - last_time)/1000.0;
 	delta = 0.01;
+	
+	for i in grid_width:
+		for j in grid_height:
+			hook_global_grid[i][j] = skeleton.to_global(skeleton.get_bone_global_pose(hook_grid[i][j]).origin);
+			hook_rest_global_grid[i][j] = skeleton.to_global(skeleton.get_bone_global_rest(hook_grid[i][j]).origin);
+	
 	var new_hook_velocity_grid = [];
 	var new_hook_position_grid = [];
 	for i in grid_width:
@@ -112,8 +122,8 @@ func _process(bad_delta):
 					
 					new_hook_velocity_grid[i][j] = Vector3(0.0, 0.0, 0.0);
 					hook_velocity_grid[i][j] = Vector3(0.0, 0.0, 0.0);
-					new_hook_position_grid[i][j] = hook_global_rest(hook_grid[i][j]);
-					hook_position_grid[i][j] = hook_global_rest(hook_grid[i][j]);
+					new_hook_position_grid[i][j] = hook_global_rest(i,j);
+					hook_position_grid[i][j] = hook_global_rest(i,j);
 					
 					var new_local_pos : Vector3 = skeleton.to_local(new_hook_position_grid[i][j]) ;
 					skeleton.set_bone_pose_position(hook_grid[i][j], new_local_pos);
@@ -153,10 +163,10 @@ func _process(bad_delta):
 					for k in range(i-1,i+1):
 						for l in range(j-1,j+1):
 							if k in range(0,grid_width-1) and l in range(0,grid_height-1):
-								var spring_length : float = hook_global(hook_grid[i][j]).distance_to(hook_global(hook_grid[i][0]));
-								var spring_rest_length : float = hook_global_rest(hook_grid[i][j]).distance_to(hook_global_rest(hook_grid[i][0]));
+								var spring_length : float = hook_global(i,j).distance_to(hook_global(i,0));
+								var spring_rest_length : float = hook_global_rest(i,j).distance_to(hook_global_rest(i,0));
 								var spring_force_magnitude : float = -spring_stiffness * (spring_length - spring_rest_length); 
-								var spring_force_direction : Vector3 = (hook_global(hook_grid[i][j])-hook_global(hook_grid[i][0])).normalized();
+								var spring_force_direction : Vector3 = (hook_global(i,j)-hook_global(i,0)).normalized();
 								var spring_force_vector = spring_force_direction * spring_force_magnitude;
 								
 								spring_force_sum += spring_force_vector;
@@ -165,7 +175,7 @@ func _process(bad_delta):
 						spring_force_sum *= 3;
 					
 					# Computing spring forces between the hook and its original position
-					var shape_force = -shape_stiffness * (- hook_global_rest(hook_grid[i][j]) + hook_global(hook_grid[i][j]));
+					var shape_force = -shape_stiffness * (- hook_global_rest(i,j) + hook_global(i,j));
 					
 					# Computing weight
 					var gravity_force_vector = Vector3(0, -9.81, 0) * hook_weight;
