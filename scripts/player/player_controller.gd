@@ -2,6 +2,8 @@ extends Node3D
 
 @onready var dash_area_indicator = $"../DashAreaIndicator"
 @onready var hitbox_hint = $"../HitBoxHint"
+var camera;
+
 var mouse = Vector2()
 const DIST = 1000
 var player : Player
@@ -28,7 +30,12 @@ func _process(delta: float) -> void:
 		dash_area_indicator.global_position.z = player.global_position.z + cpos.z
 	else:
 		cursor.visible = false
-
+		
+	camera = get_viewport().get_camera_3d();
+	if camera:
+		RenderingServer.global_shader_parameter_set("current_player_position", player.global_position);
+		RenderingServer.global_shader_parameter_set("current_player_screen_position", camera.unproject_position(player.global_position));
+		print(camera.unproject_position(player.global_position))
 func move_vector() -> Vector3:
 	var v_input = Input.get_vector("move_up", "move_down", "move_right", "move_left")
 	return Vector3(v_input.x, 0, v_input.y)

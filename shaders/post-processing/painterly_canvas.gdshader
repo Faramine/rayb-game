@@ -8,7 +8,14 @@ uniform sampler2D NOISE_TEXTURE: repeat_enable;
 uniform vec2 movement_direction = vec2(1, 0);
 uniform float movement_speed: hint_range (0.0, 0.5, 0.01) = 0.1;
 
+global uniform vec3 current_player_position;
+global uniform vec2 current_player_screen_position;
+global uniform mat4 projection_matrix;
+global uniform mat4 view_matrix;
+global uniform vec4 view_matrix_0;
+
 varying vec2 screen_pixel_size; //Initialized in the fragment shader
+varying vec2 player_pixel_position;
 
 float random(vec2 uv) {
     return fract(sin(dot(uv.xy,
@@ -69,7 +76,7 @@ vec2 screen_uv_to_pixel(vec2 uv){
 
 float distance_to_color(vec2 pixel, vec3 color, int range){
 	float min_dist = 100000000.0;
-	
+
 	// TODO : this can be optimized by using a spiral
 	for(int x = int(pixel.x)-range; x<=int(pixel.x)+range; x++ ){
 		for(int y = int(pixel.y)-range; y<=int(pixel.y)+range; y++ ){
@@ -86,7 +93,21 @@ float distance_to_color(vec2 pixel, vec3 color, int range){
 	return min_dist;
 }
 
-void vertex() {}
+float map(float v, float a, float b){
+	return clamp((v-a)/(b-a),0.0,1.0);
+}
+
+void vertex() {
+	// Computing the player's origin position in screen space (pixel coords)
+	//vec2 player_uv_coords = (projection_matrix * view_matrix * vec4(current_player_position,1.0)).xy;
+	mat4 viewMatrix = view_matrix;
+	viewMatrix[3][0] = 0.0;
+	viewMatrix[3][1] = 0.0;
+	viewMatrix[3][2] = 0.0;
+	viewMatrix[3][3] = 1.0;
+	vec2 player_uv_coords = (projection_matrix * viewMatrix * vec4(current_player_position,1.0)).xy +0.5;
+	player_pixel_position = player_uv_coords;
+}
 
 void fragment() {
 	screen_pixel_size = SCREEN_PIXEL_SIZE; //Initialize screen pixel size
@@ -108,6 +129,10 @@ void fragment() {
 	strength_map = distance_to_salient/range;
 	strength_map = clamp(strength_map,0.0,1.0);
 
+	float proximity_radius = 40.0;
+	float proximity_feather = 20.0;
+	float proximity_mask = map(distance(pixel_coords,current_player_screen_position.xy),proximity_radius+proximity_feather,proximity_radius);
+
 	vec4 colorSum = vec4(0.0,0.0,0.0,1.0);
 	//colorSum += texture(screen_texture, UV);
 	int passNumber = 3;
@@ -117,10 +142,17 @@ void fragment() {
 	for (int i = 0; i < passNumber; i++){
 		float noise_value_x = fbm(uv_normalized*uv_scaling + vec2(float(i)*0.1+random(vec2(8582.561+float(i)))*5242.588)) - 0.5;
 		float noise_value_y = fbm(uv_normalized*uv_scaling + vec2(float(i)*0.1+random(vec2(5438.51+float(i))))) - 0.5;
+		//float noise_value_x = texture(NOISE_TEXTURE, uv_normalized*uv_scaling + vec2(float(i)*0.1+random(vec2(8582.561+float(i)))*5242.588)).x - 0.5;
+		//float noise_value_x = 0.0;
+		//float noise_value_y = 0.0;
 		vec2 sample_uv = uv;
 		float strength = global_strength_min + (global_strength_max-global_strength_min)*strength_map;
+		
+		strength = global_strength_min + (global_strength_max-global_strength_min)*(1.0-proximity_mask);
+		
 		sample_uv.x += noise_value_x*strength;
 		sample_uv.y += noise_value_y*strength;
+		
 		vec4 sample = texture(screen_texture, sample_uv);
 		sample.a *= 1.0/float(passNumber);
 		colorSum = blendOver(sample,colorSum);
@@ -130,6 +162,11 @@ void fragment() {
 
 	COLOR.xyz = colorSum.xyz;
 	//COLOR.xyz = vec3(strength_map);
+	
+	//COLOR.xyz = vec3(player_pixel_position,0.0);
+	//COLOR.xyz = vec3(proximity_mask);
+	//COLOR.xyz = vec3((view_matrix_0[0] > 6.0)?1.0:0.0);
+	//COLOR.xyz = vec3(current_player_screen_position.xy,0.0);
 }
 
 //void light() {

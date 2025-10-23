@@ -83,3 +83,27 @@ palette_color_base={
 "type": "color",
 "value": Color(0.1105, 0.13132499, 0.17, 1)
 }
+current_player_position={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+projection_matrix={
+"type": "mat4",
+"value": Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+}
+view_matrix={
+"type": "mat4",
+"value": Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+}
+view_transform={
+"type": "transform",
+"value": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+}
+view_matrix_0={
+"type": "vec4",
+"value": Vector4(7, 0, 0, 0)
+}
+current_player_screen_position={
+"type": "vec2",
+"value": Vector2(0, 0)
+}
