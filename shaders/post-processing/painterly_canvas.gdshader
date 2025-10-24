@@ -147,14 +147,19 @@ void fragment() {
 		//float noise_value_y = 0.0;
 		vec2 sample_uv = uv;
 		float strength = global_strength_min + (global_strength_max-global_strength_min)*strength_map;
-		
+
 		strength = global_strength_min + (global_strength_max-global_strength_min)*(1.0-proximity_mask);
-		
+
 		sample_uv.x += noise_value_x*strength;
 		sample_uv.y += noise_value_y*strength;
-		
+
 		vec4 sample = texture(screen_texture, sample_uv);
-		sample.a *= 1.0/float(passNumber);
+		if(i == 0){
+			sample.a = 1.0;
+		}else{
+			sample.a *= 1.0/float(passNumber);
+		}
+
 		colorSum = blendOver(sample,colorSum);
 
 		COLOR.xyz = vec3(noise_value_x,noise_value_y,0.0);
@@ -162,7 +167,7 @@ void fragment() {
 
 	COLOR.xyz = colorSum.xyz;
 	//COLOR.xyz = vec3(strength_map);
-	
+
 	//COLOR.xyz = vec3(player_pixel_position,0.0);
 	//COLOR.xyz = vec3(proximity_mask);
 	//COLOR.xyz = vec3((view_matrix_0[0] > 6.0)?1.0:0.0);
