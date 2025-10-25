@@ -21,6 +21,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+	parent.animation_tree.laser()
 	laser.emiter_on()
 	laser_loading_timer.start()
 

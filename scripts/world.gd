@@ -20,14 +20,14 @@ var norb = 0
 signal door_opened
 
 func _ready() -> void:
-	generator.generate_map(self)
+	generator._generate_map()
 	minimap.display_map(rooms.keys())
 	minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
 
 func change_room(coords):
 	minimap.change_room(coords)
 	activate_room(rooms.get(coords))
-	camera.track(active_room.camera_posistion)
+	camera.track(active_room.camera_position)
 	
 	# Updating the current room position for all shaders
 	# Useful for the volumic "vignette" effect on environement textures

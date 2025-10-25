@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 	if camera:
 		RenderingServer.global_shader_parameter_set("current_player_position", player.global_position);
 		RenderingServer.global_shader_parameter_set("current_player_screen_position", camera.unproject_position(player.global_position));
-		print(camera.unproject_position(player.global_position))
+		#print(camera.unproject_position(player.global_position))
 func move_vector() -> Vector3:
 	var v_input = Input.get_vector("move_up", "move_down", "move_right", "move_left")
 	return Vector3(v_input.x, 0, v_input.y)

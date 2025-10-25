@@ -40,5 +40,6 @@ func on_interval():
 	if n >= number:
 		n = 0
 		fsm.apply_transition("idle")
+		parent.animation_tree.idle()
 	else:
 		bullet_interval_timer.start()

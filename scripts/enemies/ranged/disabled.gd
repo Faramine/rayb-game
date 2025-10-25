@@ -11,7 +11,7 @@ func apply_transition(transition) -> State:
 	return null
 	
 func enter():
-	pass
+	parent.animation_tree.idle()
 
 func process(delta: float) -> void:
 	pass

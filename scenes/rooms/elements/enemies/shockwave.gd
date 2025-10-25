@@ -1,3 +1,4 @@
+class_name Shockwave
 extends Node3D
 
 signal shockwave_ended

@@ -20,6 +20,7 @@ func enter():
 	if health.is_dead():
 		fsm.apply_transition("dead")
 	fsm.apply_transition("hit_taken")
+	parent.animation_tree.take_hit()
 
 func exit():
 	pass
