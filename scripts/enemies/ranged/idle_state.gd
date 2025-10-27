@@ -10,6 +10,8 @@ var parent : RangedEnemy
 
 @onready var decision_timer : Timer = $DecisionTimer
 
+
+
 func _ready() -> void:
 	decision_timer.timeout.connect(on_decision)
 
@@ -29,6 +31,7 @@ func apply_transition(transition) -> State:
 	
 func enter():
 	decision_timer.start()
+	parent.animation_tree.idle()
 	
 func exit():
 	decision_timer.stop()

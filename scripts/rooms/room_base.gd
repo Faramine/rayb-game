@@ -2,7 +2,7 @@ class_name Room
 extends Node3D
 
 #region Children
-@onready var camera_posistion : Vector3 = $Camera_pos.global_position
+@onready var camera_position : Vector3 = $Camera_pos.global_position
 @onready var ceiling : CSGBox3D = $Ceiling
 @onready var nav = $NavigationRegion3D
 @onready var walldown1 = $NavigationRegion3D/Wall_down
@@ -19,7 +19,7 @@ extends Node3D
 
 var orb_position
 
-var coords = [0,0]
+var coords : Vector2i = Vector2i(0,0)
 var world : World
 var is_active : bool = false
 var is_cleared : bool = false
@@ -59,7 +59,6 @@ func spawn_enemy_ranged() -> Enemy:
 	return enemy_ranged
 
 func init_enemy(enemy : Enemy, enemy_spawner : EnemySpawner):
-	print(enemy_spawner.position)
 	enemy.position = enemy_spawner.position
 	enemy.set_spawn( self.global_position + enemy_spawner.position )
 	enemy.room = self
@@ -95,7 +94,7 @@ func on_enemy_dies():
 	if enemies_defeated == enemies.size():
 		self.is_cleared = true
 
-func open_wall(coords : Array):
+func open_wall(coords : Vector2i):
 	if self.coords[0] == coords[0]:
 		if self.coords[1]+1 == coords[1]:
 			doorLeft.visible = false

@@ -16,10 +16,11 @@ func init(parent: Node) -> void:
 		var state := child as State
 		state.parent = parent
 		state.fsm = self
-
-func _ready() -> void:
 	current_state = root_state
 	root_state.enter()
+
+func _ready() -> void:
+	pass
 
 func process(delta: float) -> void:
 	current_state.process(delta)
@@ -31,4 +32,3 @@ func apply_transition(transition):
 	current_state = new_state
 	current_state.enter()
 	state_changed.emit(current_state.name)
-	print(current_state.name)

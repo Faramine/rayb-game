@@ -15,6 +15,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+	parent.animation_tree.idle()
 	shockwave.launch()
 
 func exit():

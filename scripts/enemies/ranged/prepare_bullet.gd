@@ -21,6 +21,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+	parent.animation_tree.bullet()
 	bullet_loading_timer.start()
 
 func exit():

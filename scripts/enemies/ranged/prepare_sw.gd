@@ -14,7 +14,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
-	pass
+	parent.animation_tree.shockwave()
 
 func exit():
 	pass

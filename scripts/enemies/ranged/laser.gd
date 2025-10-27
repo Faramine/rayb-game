@@ -10,7 +10,7 @@ var parent : RangedEnemy
 @export var idle_state : State
 
 func _ready() -> void:
-	laser_timer.timeout.connect(on_loaded)
+	laser_timer.timeout.connect(on_end)
 
 func apply_transition(transition) -> State:
 	match transition:
@@ -21,6 +21,7 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+	parent.animation_tree.laser_shoot()
 	laser.emiter_on()
 	laser.beam_on()
 	laser_timer.start()
@@ -33,5 +34,6 @@ func exit():
 func process(delta: float) -> void:
 	pass
 
-func on_loaded():
+func on_end():
 	fsm.apply_transition("idle")
+	parent.animation_tree.idle()
