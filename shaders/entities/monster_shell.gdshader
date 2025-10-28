@@ -12,6 +12,8 @@ varying vec3 vertex_position;
 varying vec3 world_position;
 varying vec3 world_normal;
 
+varying mat4 normal_matrix;
+
 varying vec2 reflected_vector;
 
 float random(float v) {
@@ -116,7 +118,10 @@ void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_normal = (MODEL_MATRIX * vec4(NORMAL.xyz, 0.0)).xyz;
 	
-	mat4 normal_matrix = transpose(inverse(MODELVIEW_MATRIX));
+	normal_matrix = transpose(inverse(MODELVIEW_MATRIX));
+}
+
+void fragment() {
 	
 	vec3 to_camera = -normalize(CAMERA_POSITION_WORLD - vertex_position);
 	vec3 reflected = normalize(reflect(to_camera,world_normal));
@@ -131,9 +136,7 @@ void vertex() {
     s = s / (2.0 * PI);
 
     reflected_vector = vec2(s , ((asin(n.y) * -2.0 / PI ) + 1.0) * 0.5);
-}
-
-void fragment() {
+	
 	//vec3 color_dark = vec3(0.059, 0.075, 0.08)*0.8;
 	//vec3 color_dark = vec3(0.145, 0.188, 0.306)*0.5;
 	//vec3 color_base = vec3(0.145, 0.188, 0.306)*0.5;
@@ -206,9 +209,10 @@ void fragment() {
 	}
 
 	//vec3 final_color = overlay(color_base, light_color, global_illumination);
-	vec3 final_color = overlay(color_base, reflected_color, 0.2);
-	final_color = mix(reflected_color, final_color, 0.4);
-	final_color = overlay(final_color, reflected_color, 0.2);
+	vec3 final_color = overlay(color_base, reflected_color, 0.1);
+	final_color = mix(reflected_color, final_color, 0.1);
+	final_color = overlay(final_color, reflected_color, 0.1);
+	//final_color = reflected_color;
 	final_color += glitter;
 	ALBEDO = final_color;
 }
