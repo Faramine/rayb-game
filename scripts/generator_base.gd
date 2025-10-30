@@ -164,6 +164,7 @@ var _room_index : Dictionary
 @onready var _base_layouts = [preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
 					preload("res://scenes/rooms/layouts/test_room_layout_1.tscn"),
 					preload("res://scenes/rooms/layouts/test_room_layout_2.tscn")]
+@onready var _orb_layouts = [preload("res://scenes/rooms/layouts/orb_room_layout.tscn")]
 @onready var _preboss_layouts = [preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")]
 
 @onready var _orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
@@ -292,7 +293,7 @@ func _instanciate_rooms():
 			BASE_ROOM:
 				room_instance.populate(_base_layouts[randi_range(0,_base_layouts.size()-1)].instantiate())
 			ORB_ROOM:
-				room_instance.populate(_base_layouts[randi_range(0,_base_layouts.size()-1)].instantiate())
+				room_instance.populate(_base_layouts[randi_range(0,_orb_layouts.size()-1)].instantiate())
 				var orb = _orb.instantiate()
 				room_instance.add_child(orb)
 				orb.position = room_instance.orb_position

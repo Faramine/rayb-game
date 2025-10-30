@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dd68wnjic5v5p"]
+
+[ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_am2su"]
+[ext_resource type="ArrayMesh" uid="uid://cajb2ffoatp5x" path="res://assets/environment/ruins/rubble_sphere_0.obj" id="2_sfh1s"]
+[ext_resource type="Shader" uid="uid://cjoragffkgxkk" path="res://shaders/materials/brass.gdshader" id="3_faho5"]
+[ext_resource type="Texture2D" uid="uid://dp6xgupm5e8nm" path="res://assets/environment/ruins/rubble_sphere_0.png" id="4_faho5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bq187"]
+render_priority = 0
+shader = ExtResource("3_faho5")
+shader_parameter/NORMAL_TEXTURE = ExtResource("4_faho5")
+
+[node name="Base_room_layout" type="Node3D"]
+script = ExtResource("1_am2su")
+
+[node name="God_rays" type="Node3D" parent="."]
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="RubbleSphere0" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.071564436, 0, -0.036309004)
+mesh = ExtResource("2_sfh1s")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_bq187")
+
+[node name="Orb_position" type="Node3D" parent="."]
