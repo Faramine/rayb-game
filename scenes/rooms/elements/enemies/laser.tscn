@@ -69,9 +69,11 @@ visible = false
 mesh = SubResource("CylinderMesh_8yr3r")
 
 [node name="EmiterMesh" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_aiheh")
 
 [node name="beam_armature" type="Node3D" parent="."]
+visible = false
 
 [node name="Skeleton3D" type="Skeleton3D" parent="beam_armature"]
 bones/0/name = "beam_origin"

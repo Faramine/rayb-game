@@ -30,8 +30,7 @@ func _process(delta: float) -> void:
 		beam.position.y = -50
 
 func emiter_on():
-	#emiter.visible = true
-	pass
+	emiter.visible = true
 
 func beam_on():
 	#beam.visible = true
@@ -39,8 +38,7 @@ func beam_on():
 	
 
 func emiter_off():
-	#emiter.visible = false
-	pass
+	emiter.visible = false
 
 func beam_off():
 	#beam.visible = false
