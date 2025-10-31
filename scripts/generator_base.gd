@@ -1,138 +1,6 @@
 class_name MapGen
 extends Node
 
-#region old
-#@export var map_size = 11
-#@onready var preboss_layout = preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
-#
-#func generate_map(world : World):
-	#var room_list = Array()
-	#var map = Array()
-	#var map_center = map_size/2
-	#
-	#map.resize(map_size)
-	#for i in range(0,map_size):
-		#map[i] = Array()
-		#map[i].resize(map_size)
-		#for j in range(0,map_size):
-			#map[i][j] = 0
-	#
-	#var room_scene = load("res://scenes/rooms/room_base.tscn")
-	#var list
-	#var new_room : Room
-	#var map_closed = false
-	#var map_opened = false
-	#
-	#map[map_center][map_center] = 1
-	#room_list.push_back([map_center,map_center])
-	#
-	#while !map_closed:
-		#map_opened = false
-		#list = room_list.duplicate()
-		#for k in list:
-			#map_opened = verify_room_placements(k,map,list,room_list)
-		#
-		#map_closed = !map_opened
-		#
-	##Placing the rooms
-	#
-	#for k in room_list:
-		#new_room = room_scene.instantiate()
-		#new_room.position.x = 26.5 * (k[0]-map_center)
-		#new_room.position.z = 39 * (k[1]-map_center)
-		#new_room.coords = k
-		#new_room.set_world(world)
-		#world.rooms.set(k, new_room)
-		#add_child(new_room)
-		#for r in room_list:
-			#new_room.open_wall(r)
-	#
-	#world.start_room = world.rooms.get([map_center,map_center])
-	#
-	#var bossable_room = Array()
-	#
-	##placing the boss room
-	#for k in room_list:
-		#if k[0]-1 >= 0 && map[k[0]-1][k[1]] == -1:
-			#bossable_room.push_back(k)
-	#
-	#var preboss = bossable_room[randi_range(0,bossable_room.size()-1)]
-	#world.preboss_room = world.rooms.get(preboss)
-	#room_list.push_back([preboss[0]-1,preboss[1]])
-	#world.preboss_room.open_wall([preboss[0]-1,preboss[1]])
-	#
-	#new_room = room_scene.instantiate()
-	#new_room.position.x = 26.5 * (preboss[0]-1-map_center)
-	#new_room.position.z = 26.5 * (preboss[1]-map_center)
-	#new_room.coords = [preboss[0]-1,preboss[1]]
-	#new_room.set_world(world)
-	#world.rooms.set([preboss[0]-1,preboss[1]], new_room)
-	#world.boss_room = new_room
-	#add_child(new_room)
-	#new_room.open_wall(preboss)
-#
-	##placing the layouts
-	#list = room_list.duplicate()
-	#list.erase(preboss)
-	#list.erase([preboss[0]-1,preboss[1]])
-	#list.erase([map_center,map_center])
-	#
-	#world.start_room.populate(start_layout.instantiate())
-	#world.preboss_room.populate(preboss_layout.instantiate())
-	#
-	#list = room_list.duplicate()
-	#list.erase(preboss)
-	#list.erase([preboss[0]-1,preboss[1]])
-	#list.erase([map_center,map_center])
-	#
-	#for k in list:
-		#world.rooms.get(k).populate(layout[randi_range(0,layout.size()-1)].instantiate())
-	##placing the orbs
-	#list = room_list.duplicate()
-	#list.erase(preboss)
-	#list.erase([preboss[0]-1,preboss[1]])
-	#list.erase([map_center,map_center])
-		#
-	#var key
-	#var room
-	#var orbi : Orb
-	#for i in range(0,3):
-		#key = list[randi_range(0,list.size()-1)]
-		#list.erase(key)
-		#room = world.rooms.get(key)
-		#orbi = orb.instantiate()
-		#orbi.position = room.orb_position
-		#room.add_child(orbi)
-		#world.connect_orb(orbi)
-	#
-#func verify_room_placements(k,map,list,room_list):
-	#var map_opened = false
-	#if k[1]-1 >= 0 && map[k[0]][k[1]-1] == 0:
-		#map_opened = true
-		#if place_room(k[0],k[1]-1,map,list) == 1:
-			#room_list.push_back([k[0],k[1]-1])
-	#if k[1]+1 <= map.size() && map[k[0]][k[1]+1] == 0:
-		#map_opened = true
-		#if place_room(k[0],k[1]+1,map,list) == 1:
-			#room_list.push_back([k[0],k[1]+1])
-	#if k[0]-1 >= 0 && map[k[0]-1][k[1]] == 0:
-		#map_opened = true
-		#if place_room(k[0]-1,k[1],map,list) == 1:
-			#room_list.push_back([k[0]-1,k[1]])
-	#if k[0]+1 <= map.size() && map[k[0]+1][k[1]] == 0:
-		#map_opened = true
-		#if place_room(k[0]+1,k[1],map,list) == 1:
-			#room_list.push_back([k[0]+1,k[1]])
-	#return map_opened
-	#
-#func place_room(x,y,map,list):
-	#if randf() < -float(list.size())/10.0+11.0/10.0:
-		#map[x][y] = 1
-	#else:
-		#map[x][y] = -1
-	#return map[x][y]
-#endregion
-
 const VOID = 0
 const START_ROOM = 1
 const BASE_ROOM = 2
@@ -159,15 +27,23 @@ var _room_index : Dictionary
 @onready var _world : World = $".."
 
 @onready var _room_base = load("res://scenes/rooms/room_base.tscn")
+@onready var _orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
 
 @onready var _start_layouts : Array = [preload("res://scenes/rooms/layouts/start_room_layout_1.tscn")]
-@onready var _base_layouts = [preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
-					preload("res://scenes/rooms/layouts/test_room_layout_1.tscn"),
-					preload("res://scenes/rooms/layouts/test_room_layout_2.tscn")]
-@onready var _orb_layouts = [preload("res://scenes/rooms/layouts/orb_room_layout.tscn")]
-@onready var _preboss_layouts = [preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")]
-
-@onready var _orb = preload("res://scenes/rooms/elements/interactables/orb.tscn")
+@onready var _base_layouts : Array = [
+	preload("res://scenes/rooms/layouts/base_room_layout.tscn"),
+	preload("res://scenes/rooms/layouts/test_room_layout_1.tscn"),
+	preload("res://scenes/rooms/layouts/test_room_layout_2.tscn")
+	]
+@onready var _preboss_layouts : Array = [
+	preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
+	]
+@onready var _orbs_layouts : Array = [
+	preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
+	]
+@onready var _boss_layouts : Array = [
+	preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
+	]
 
 #region Level_Matrix_Generation_Methods
 func _init_level_matrix():
@@ -265,8 +141,11 @@ func _place_orb_rooms():
 #endregion
 
 func _generate_map():
-	_generate_level_matrix()
-	_instanciate_rooms()
+	if DebugTools.debug:
+		_generate_debug_level_matrix()
+	else:
+		_generate_level_matrix()
+		_instanciate_rooms()
 	_update_world()
 
 func _generate_level_matrix():
@@ -277,6 +156,56 @@ func _generate_level_matrix():
 	_generate_room_list()
 	_place_orb_rooms()
 	_place_boss_room()
+
+func _generate_debug_level_matrix():
+	_init_level_matrix()
+	_place_debug_start_room()
+	_place_debug_rooms()
+
+func _place_debug_start_room():
+	_start_room = Vector2i(0,0)
+	_level_matrix[_start_room.x][_start_room.y] = START_ROOM
+
+func _place_debug_rooms():
+	for x in range(1,_dimension.x):
+		for y in range(1,_dimension.y):
+			_level_matrix[x][y] = BASE_ROOM
+	_level_matrix[0][1] = ORB_ROOM
+	_level_matrix[0][2] = ORB_ROOM
+	_level_matrix[0][3] = ORB_ROOM
+	_preboss_room = Vector2i(0,4)
+	_level_matrix[0][4] = PREBOSS_ROOM
+	_boss_room = Vector2i(0,5)
+	_level_matrix[0][5] = BOSS_ROOM
+	_generate_room_list()
+	for room in _room_list:
+		var room_instance : Room = _room_base.instantiate()
+		room_instance.position.x = 26.5 * (room.x-_start_room.x)
+		room_instance.position.z = 39 * (room.y-_start_room.y)
+		room_instance.coords = room
+		_world.add_child(room_instance)
+		room_instance.set_world(_world)
+		match _level_matrix[room.x][room.y]:
+			START_ROOM:
+				room_instance.populate(_start_layouts[0].instantiate())
+			BASE_ROOM:
+				room_instance.populate(_base_layouts[
+					((room.x - 1) + (room.y - 1) * (_dimension.y - 1))% _base_layouts.size()
+					].instantiate())
+			ORB_ROOM:
+				room_instance.populate(_orbs_layouts[room.x % _orbs_layouts.size()].instantiate())
+				var orb = _orb.instantiate()
+				room_instance.add_child(orb)
+				orb.position = room_instance.orb_position
+				_world.connect_orb(orb)
+			PREBOSS_ROOM:
+				room_instance.populate(_preboss_layouts[0].instantiate())
+		room_instance.open_wall(room+Vector2i.UP)
+		room_instance.open_wall(room+Vector2i.DOWN)
+		room_instance.open_wall(room+Vector2i.LEFT)
+		room_instance.open_wall(room+Vector2i.RIGHT)
+		_room_index.set(room,room_instance)
+	
 
 func _instanciate_rooms():
 	_room_index = Dictionary()
@@ -293,7 +222,7 @@ func _instanciate_rooms():
 			BASE_ROOM:
 				room_instance.populate(_base_layouts[randi_range(0,_base_layouts.size()-1)].instantiate())
 			ORB_ROOM:
-				room_instance.populate(_base_layouts[randi_range(0,_orb_layouts.size()-1)].instantiate())
+				room_instance.populate(_base_layouts[randi_range(0,_base_layouts.size()-1)].instantiate())
 				var orb = _orb.instantiate()
 				room_instance.add_child(orb)
 				orb.position = room_instance.orb_position

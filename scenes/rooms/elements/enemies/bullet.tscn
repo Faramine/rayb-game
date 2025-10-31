@@ -1,14 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bibcax4a4p5rf"]
+[gd_scene load_steps=5 format=3 uid="uid://bibcax4a4p5rf"]
 
 [ext_resource type="Script" uid="uid://qjpip5qasdoe" path="res://bullet.gd" id="1_v7oki"]
+[ext_resource type="Shader" uid="uid://dirm41gl4nuqg" path="res://beam_light.gdshader" id="2_pno4u"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2r3nq"]
-shading_mode = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7463j"]
+render_priority = 0
+shader = ExtResource("2_pno4u")
+shader_parameter/animation = 1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_v8qja"]
-material = SubResource("StandardMaterial3D_2r3nq")
-radius = 0.125
-height = 0.25
+material = SubResource("ShaderMaterial_7463j")
+radius = 0.25
+height = 0.5
 
 [node name="bullet" type="RigidBody3D"]
 gravity_scale = 0.0

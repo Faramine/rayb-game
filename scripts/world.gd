@@ -24,6 +24,13 @@ func _ready() -> void:
 	minimap.display_map(rooms.keys())
 	minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
 
+#func start():
+	#print("generating_map")
+	#generator._generate_map()
+	#print("map_generated")
+	#minimap.display_map(rooms.keys())
+	#minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
+
 func change_room(coords):
 	minimap.change_room(coords)
 	activate_room(rooms.get(coords))
