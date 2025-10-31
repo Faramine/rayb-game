@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cajb2ffoatp5x"
+path="res://.godot/imported/rubble_sphere_0.obj-4d663952c6e4112b580b500c6de60b5e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rubble_sphere_0.obj-4d663952c6e4112b580b500c6de60b5e.mesh"]
+
+source_file="res://assets/environment/ruins/rubble_sphere_0.obj"
+dest_files=["res://.godot/imported/rubble_sphere_0.obj-4d663952c6e4112b580b500c6de60b5e.mesh", "res://.godot/imported/rubble_sphere_0.obj-4d663952c6e4112b580b500c6de60b5e.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

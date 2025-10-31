@@ -111,3 +111,7 @@ current_player_screen_position={
 "type": "vec2",
 "value": Vector2(0, 0)
 }
+palette_brass_base={
+"type": "color",
+"value": Color(0.15, 0.097200006, 0.051, 1)
+}
