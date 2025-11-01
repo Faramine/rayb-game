@@ -9,7 +9,8 @@ var parent : RangedEnemy
 @export var take_hit_state : State
 @export var idle_state : State
 
-@export var number : int
+var bullet_amount : int
+var bullet_speed : float
 @onready var n = 0
 
 func _ready() -> void:
@@ -17,14 +18,14 @@ func _ready() -> void:
 
 func apply_transition(transition) -> State:
 	match transition:
-		"take_hit":
+		"got_hit":
 			return take_hit_state
 		"idle":
 			return idle_state
 	return null
 
 func enter():
-	bullet_interval_timer.start()
+	parent.animation_tree.shoot_bullet()
 
 func exit():
 	bullet_interval_timer.stop()
@@ -33,13 +34,12 @@ func process(delta: float) -> void:
 	pass
 
 func on_interval():
-	if n < number:
+	if n < bullet_amount:
 		n = n + 1
 		var direction = parent.global_position.direction_to(parent.player.global_position)
-		Bullet.create_bullet(parent.global_position,direction,parent.room)
-	if n >= number:
+		Bullet.create_bullet(parent.global_position,direction,parent.room,bullet_speed)
+	if n >= bullet_amount:
 		n = 0
-		fsm.apply_transition("idle")
-		parent.animation_tree.idle()
+		parent.animation_tree.stop_bullet()
 	else:
 		bullet_interval_timer.start()

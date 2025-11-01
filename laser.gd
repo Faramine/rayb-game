@@ -17,8 +17,8 @@ func _process(delta: float) -> void:
 	if is_colliding():
 		contactPoint = get_collision_point()
 		
-		beam.mesh.height = contactPoint.y
-		beam.position.y = contactPoint.y/2
+		$HitBox/CollisionShape3D.shape.set_height(abs(to_local(contactPoint).z))
+		$HitBox/CollisionShape3D.position.z = to_local(contactPoint).z/2
 		var bone_target = skeleton.find_bone("beam_target")
 		var bone_origin = skeleton.find_bone("beam_origin")
 		#skeleton.set_bone_pose_position(id,skeleton.to_local(contactPoint))
@@ -43,3 +43,14 @@ func emiter_off():
 func beam_off():
 	#beam.visible = false
 	armature.visible = false
+
+func turn_on():
+	emiter_on()
+	beam_on()
+	$HitBox/CollisionShape3D.disabled = false
+	pass
+
+func turn_off():
+	emiter_off()
+	beam_off()
+	$HitBox/CollisionShape3D.disabled = true

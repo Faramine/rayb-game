@@ -8,15 +8,14 @@ var parent : RangedEnemy
 
 func apply_transition(transition) -> State:
 	match transition:
-		"take_hit":
+		"got_hit":
 			return take_hit_state
 		"idle":
 			return idle_state
 	return null
 
 func enter():
-	parent.animation_tree.idle()
-	shockwave.launch()
+	parent.animation_tree.shoot_shockwave()
 
 func exit():
 	pass

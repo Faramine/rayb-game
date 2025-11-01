@@ -1,8 +1,8 @@
 class_name Orb
 extends Node3D
 
-var position_tween : Tween = create_tween()
-var flashing_tween : Tween = create_tween()
+var position_tween : Tween
+var flashing_tween : Tween
 
 var inv = false
 var dead = false
@@ -27,6 +27,10 @@ func _ready() -> void:
 	animationplayer.play("Orb_floating")
 
 func take_damage(hitbox : HitBox):
+	if position_tween:
+		position_tween.kill() 
+	if flashing_tween:
+		flashing_tween.kill() 
 	position_tween = create_tween()
 	flashing_tween = create_tween()
 	var albedo = outer_mesh.mesh.material.albedo_color

@@ -14,26 +14,21 @@ func _ready() -> void:
 
 func apply_transition(transition) -> State:
 	match transition:
-		"take_hit":
+		"got_hit":
 			return take_hit_state
 		"idle":
 			return idle_state
 	return null
 
 func enter():
-	parent.animation_tree.laser_shoot()
-	laser.emiter_on()
-	laser.beam_on()
-	laser_timer.start()
+	parent.animation_tree.shoot_laser()
 
 func exit():
-	laser.emiter_off()
-	laser.beam_off()
-	laser_timer.stop()
+	pass
 
 func process(delta: float) -> void:
 	pass
 
 func on_end():
-	fsm.apply_transition("idle")
-	parent.animation_tree.idle()
+	laser.turn_off()
+	parent.animation_tree.stop_laser()

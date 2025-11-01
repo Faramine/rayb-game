@@ -17,9 +17,6 @@ func apply_transition(transition) -> State:
 
 func enter():
 	health.take_damage(health.damage_cache)
-	if health.is_dead():
-		fsm.apply_transition("dead")
-		return
 	parent.velocity = Vector3.ZERO
 	parent.mesh.scale = Vector3.ONE
 	$"../../AnimationPlayer".play("hit")
@@ -28,7 +25,8 @@ func exit():
 	pass
 
 func process(delta: float) -> void:
-	pass
+	if health.is_dead():
+		fsm.apply_transition("dead")
 
 func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "hit":

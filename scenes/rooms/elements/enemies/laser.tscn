@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=4 uid="uid://8wd7jnwhp2jp"]
+[gd_scene load_steps=14 format=4 uid="uid://8wd7jnwhp2jp"]
 
 [ext_resource type="Script" uid="uid://b8ck7mcdjqrs6" path="res://laser.gd" id="1_8yr3r"]
 [ext_resource type="Shader" uid="uid://dirm41gl4nuqg" path="res://beam_light.gdshader" id="2_rh7w0"]
+[ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="3_prtoq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rh7w0"]
 shading_mode = 0
@@ -60,6 +61,9 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_05frj"]
 material = SubResource("StandardMaterial3D_prtoq")
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_prtoq"]
+height = 7.0600586
+
 [node name="Laser" type="RayCast3D"]
 target_position = Vector3(0, 0, -100)
 script = ExtResource("1_8yr3r")
@@ -87,7 +91,7 @@ bones/1/name = "beam_target"
 bones/1/parent = -1
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
 bones/1/enabled = true
-bones/1/position = Vector3(100, 0, 0)
+bones/1/position = Vector3(0, 0, 50)
 bones/1/rotation = Quaternion(0, 0, 0, 1)
 bones/1/scale = Vector3(1, 1, 1)
 
@@ -95,7 +99,48 @@ bones/1/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_05frj")
 skin = SubResource("Skin_aiheh")
 
+[node name="LookAtModOrigin" type="LookAtModifier3D" parent="beam_armature/Skeleton3D"]
+target_node = NodePath("../BoneAttachTarget")
+bone_name = "beam_origin"
+bone = 0
+forward_axis = 0
+use_secondary_rotation = false
+origin_from = 1
+origin_bone_name = "beam_origin"
+origin_bone = 0
+
+[node name="LookAtModTarget" type="LookAtModifier3D" parent="beam_armature/Skeleton3D"]
+target_node = NodePath("../BoneAttachOrigin")
+bone_name = "beam_target"
+bone = 1
+forward_axis = 1
+use_secondary_rotation = false
+origin_from = 1
+origin_bone_name = "beam_target"
+origin_bone = 1
+
+[node name="BoneAttachOrigin" type="BoneAttachment3D" parent="beam_armature/Skeleton3D"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 0)
+bone_name = "beam_origin"
+bone_idx = 0
+
+[node name="BoneAttachTarget" type="BoneAttachment3D" parent="beam_armature/Skeleton3D"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 50)
+bone_name = "beam_target"
+bone_idx = 1
+
 [node name="debug" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 top_level = true
 mesh = SubResource("BoxMesh_05frj")
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_prtoq")
+metadata/_custom_type_script = "uid://ct7jbab3yuigr"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(3.932788e-05, 0.0064749704, -0.999979, 0.9999816, -0.00607372, 0, -0.006073592, -0.9999606, -0.0064750896, -0.016682217, -0.03073829, 3.5416439)
+shape = SubResource("CylinderShape3D_prtoq")
+disabled = true

@@ -1,21 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://bibcax4a4p5rf"]
+[gd_scene load_steps=8 format=3 uid="uid://bibcax4a4p5rf"]
 
 [ext_resource type="Script" uid="uid://qjpip5qasdoe" path="res://bullet.gd" id="1_v7oki"]
-[ext_resource type="Shader" uid="uid://dirm41gl4nuqg" path="res://beam_light.gdshader" id="2_pno4u"]
+[ext_resource type="Shader" uid="uid://dx7dqhbvc7upn" path="res://shaders/entities/monster_eyes.gdshader" id="2_pno4u"]
+[ext_resource type="Script" uid="uid://ct7jbab3yuigr" path="res://scripts/hitbox.gd" id="3_7463j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7463j"]
 render_priority = 0
 shader = ExtResource("2_pno4u")
-shader_parameter/animation = 1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_v8qja"]
 material = SubResource("ShaderMaterial_7463j")
-radius = 0.25
-height = 0.5
+radius = 0.125
+height = 0.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pno4u"]
+radius = 0.125
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n2lbl"]
 
 [node name="bullet" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource("1_v7oki")
+speed = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_v8qja")
+
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_pno4u")
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_7463j")
+metadata/_custom_type_script = "uid://ct7jbab3yuigr"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("SphereShape3D_n2lbl")

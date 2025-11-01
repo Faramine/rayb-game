@@ -26,6 +26,8 @@ func dash(dash_target_pos: Vector3):
 		$DashParticles.global_position = player.global_position
 		$DashParticles.restart()
 		player.world.camera.add_trauma(0.25)
+		$"../SwordHitbox".start = player.global_position
+		$"../SwordHitbox".end = player.global_position + dash_target_dir * dash_speed * 0.075
 		player.sword_collisions(true)
 		var tween_greycape = create_tween()
 		tween_greycape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),

@@ -9,21 +9,19 @@ var parent : RangedEnemy
 
 func apply_transition(transition) -> State:
 	match transition:
-		"hit_taken":
+		"idle":
 			return idle_state
 		"dead":
 			return dead_state
 	return null
 
-func enter():
-	health.take_damage(health.damage_cache)
+func process(delta: float) -> void:
 	if health.is_dead():
 		fsm.apply_transition("dead")
-	fsm.apply_transition("hit_taken")
-	parent.animation_tree.take_hit()
+
+func enter():
+	health.take_damage(health.damage_cache)
+	parent.animation_tree.trigger_hit()
 
 func exit():
-	pass
-
-func process(delta: float) -> void:
 	pass

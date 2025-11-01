@@ -21,7 +21,7 @@ const lerp_smoothstep = 10; # Smoothness of the rotation animation on movement d
 
 var is_in_godray = false
 var intent_direction = Vector3(0,1,0)
-var last_position = global_position
+@onready var last_position = global_position
 var is_charged = true : set = _set_charged
 var is_dead = false
 
@@ -114,6 +114,10 @@ func _on_area_3d_area_exited(area: Area3D) -> void:
 	if area.is_in_group("Godray"):
 		is_in_godray = false
 		godray_exited.emit()
+
+func sword_direction(_start : Vector3, _finish : Vector3):
+	$SwordHitbox.start = _start
+	$SwordHitbox.finish = _finish
 
 func sword_collisions(activate):
 	$SwordHitbox/LeftSwordCollision.disabled = !activate

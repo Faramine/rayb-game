@@ -10,7 +10,7 @@ var parent : RangedEnemy
 @export var bullet_state : State
 
 func _ready() -> void:
-	bullet_loading_timer.timeout.connect(on_loaded)
+	parent.animation_tree.animation_started.connect(on_loaded)
 
 func apply_transition(transition) -> State:
 	match transition:
@@ -30,5 +30,6 @@ func exit():
 func process(delta: float) -> void:
 	pass
 
-func on_loaded():
-	fsm.apply_transition("bullet")
+func on_loaded(animation):
+	if(animation == "bullet")
+		fsm.apply_transition("bullet")

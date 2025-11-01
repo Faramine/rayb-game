@@ -200,10 +200,10 @@ func _place_debug_rooms():
 				_world.connect_orb(orb)
 			PREBOSS_ROOM:
 				room_instance.populate(_preboss_layouts[0].instantiate())
-		room_instance.open_wall(room+Vector2i.UP)
-		room_instance.open_wall(room+Vector2i.DOWN)
-		room_instance.open_wall(room+Vector2i.LEFT)
-		room_instance.open_wall(room+Vector2i.RIGHT)
+		for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
+			var roomnext = room + dir
+			if _room_list.has(roomnext):
+				room_instance.open_wall(roomnext)
 		_room_index.set(room,room_instance)
 	
 

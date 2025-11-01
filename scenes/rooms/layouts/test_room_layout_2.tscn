@@ -29,7 +29,7 @@ script = ExtResource("3_gy4np")
 metadata/_custom_type_script = "uid://b8q0rnqoy3ffi"
 
 [node name="EnemyMelee2" type="MeshInstance3D" parent="Enemies" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65308, 1.7941, -2.95754)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65308, 1.1775248, -2.95754)
 mesh = SubResource("CapsuleMesh_ciuo7")
 skeleton = NodePath("../..")
 script = ExtResource("3_gy4np")

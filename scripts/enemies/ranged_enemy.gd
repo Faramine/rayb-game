@@ -11,34 +11,58 @@ extends Enemy
 @onready var state_machine : StateMachine = $StateMachine
 ##[Shockwave] Node used to handle the animation and the logique of the shockwave attack.
 @onready var shockwave : Shockwave = $Shockwave
-##[Area3D] Representing the trigger for the shockwave.
-@onready var shockwave_zone : Area3D = $ShockwaveTrigger
 ##[AnimationTree] of the enemy.
 @onready var animation_tree : AnimationTree = $AnimationTree
 ##[AnimationTree] of the enemy.
 @onready var health : Health = $Health
+##[DecisionParameters] of the enemy.
+@onready var rdparam : RangedDecisionParameters = $DecisionParameters
+##[DecisionParameters] of the enemy.
+@onready var laser : Laser = $Laser
+@onready var armature = $Armature
 #endregion
+
+var laser_rotation : float =  0
 
 #region Node_Tree_References
 func _ready() -> void:
 	player.godray_entered.connect(_on_player_enter_godray)
 	player.godray_exited.connect(_on_player_exit_godray)
 	player.dead.connect(_on_player_dead)
-	shockwave.shockwave_ended.connect(on_shockwave_end)
-	#state_machine.state_changed.connect(_on_state_changed)
-	animation_tree.animation_started.connect(_on_state_changed)
-	shockwave_zone.area_entered.connect(on_shockwave_range)
+	state_machine.state_changed.connect(_on_state_changed)
+	animation_tree.animation_started.connect(on_animation_started)
+	animation_tree.animation_finished.connect(on_animation_ended)
 	state_machine.init(self)
+	rdparam.apply_starting_parameters()
 #endregion
+
+func _process(delta: float) -> void:
+	velocity = Vector3.ZERO
+	state_machine.process(delta)
+	velocity.y = 0
+	armature.rotation_degrees.z = lerp(armature.rotation_degrees.z, laser_rotation, delta * 2)
+	move_and_slide()
 
 #region Control_Methods
 ##Function handling the hurtbox behavior.
 ##
 ##Required by [HurtBox]
 func take_damage(hitbox : HitBox):
-	health.damage_cache = hitbox.damage
-	state_machine.apply_transition("got_hit")
-	print("hurt")
+	if hitbox.owner is Player:
+		health.damage_cache = hitbox.damage
+		state_machine.apply_transition("got_hit")
+
+func move_away_from(target ,_speed, delta):
+	var new_velocity = -(global_position.direction_to(target).normalized()) * _speed
+	velocity = velocity.move_toward(new_velocity, delta * 100)
+
+##Move the enemy toward its [member Enemy.target_node].
+func move_toward_target(_speed, delta):
+	var next_location = nav.get_next_path_position()
+	var current_location = global_transform.origin
+	var new_velocity = (next_location - current_location).normalized() * _speed
+	velocity = velocity.move_toward(new_velocity, delta * 100)
+	
 #endregion
 
 #region Signal_Handlers
@@ -66,12 +90,28 @@ func _on_player_dead():
 func _on_state_changed(state_name) -> void:
 	$Label3D.text = state_name
 	
-##Called upon when the player enter the range of the shockwave.
-func on_shockwave_range(area3d: Area3D):
-	if area3d.is_in_group("Player"):
-		state_machine.apply_transition("shockwave")
-		
-##Called upon when the shockwave animation is over.
-func on_shockwave_end():
-	state_machine.apply_transition("idle")
+func on_animation_ended(animation_name):
+	if	(
+		animation_name == "bullet_stop" or 
+		animation_name == "shockwave_slam" or 
+		animation_name == "laser_stop" or
+		animation_name == "hit_taken"
+	):
+		laser_rotation = 0
+		state_machine.apply_transition("idle")
+	if animation_name == "laser_windup":
+		laser.turn_on()
+		$StateMachine/Laser/LaserTimer.start()
+	if animation_name == "bullet_start":
+		$StateMachine/Bullet.on_interval()
+
+func on_animation_started(animation_name):
+	if animation_name == "shockwave_slam":
+		animation_tree.stop_shockwave()
+		shockwave.launch()
+	if animation_name == "laser_windup":
+		laser_rotation = 45
+	if animation_name == "hit_taken":
+		animation_tree.stop_hit()
+	
 #endregion
