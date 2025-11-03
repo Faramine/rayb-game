@@ -24,7 +24,8 @@ func enter():
 	parent.animation_tree.shoot_laser()
 
 func exit():
-	pass
+	laser_timer.stop()
+	on_end()
 
 func process(delta: float) -> void:
 	pass

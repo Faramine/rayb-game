@@ -4,6 +4,7 @@ var bullet : bool = false
 var shockwave : bool = false
 var laser : bool = false
 var hit : bool = false
+var dead : bool = false
 
 func shoot_bullet():
 	bullet = true

@@ -44,6 +44,8 @@ func spawn_enemies():
 	for enemy_spawner in enemy_spawners as Array[EnemySpawner]:
 		var enemy : Enemy
 		if enemy_spawner.enemyType == 1:
+			enemy = spawn_enemy_ranged()
+		if enemy_spawner.enemyType == 2:
 			enemy = spawn_enemy_melee()
 		init_enemy(enemy, enemy_spawner)
 		enemies.append(enemy)

@@ -29,6 +29,7 @@ func enter():
 
 func exit():
 	bullet_interval_timer.stop()
+	n = 0
 
 func process(delta: float) -> void:
 	pass

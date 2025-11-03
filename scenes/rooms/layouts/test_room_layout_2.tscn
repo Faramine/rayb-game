@@ -10,11 +10,11 @@ albedo_color = Color(0.2, 0, 0, 0)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nh2c8"]
 material = SubResource("StandardMaterial3D_hwfc0")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcpbs"]
-albedo_color = Color(0.2, 0, 0, 0)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f6gvq"]
+albedo_color = Color(0, 0, 1, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ciuo7"]
-material = SubResource("StandardMaterial3D_wcpbs")
+[sub_resource type="BoxMesh" id="BoxMesh_gy4np"]
+material = SubResource("StandardMaterial3D_f6gvq")
 
 [node name="Base_room_layout" instance=ExtResource("1_e6h6v")]
 
@@ -30,7 +30,8 @@ metadata/_custom_type_script = "uid://b8q0rnqoy3ffi"
 
 [node name="EnemyMelee2" type="MeshInstance3D" parent="Enemies" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65308, 1.1775248, -2.95754)
-mesh = SubResource("CapsuleMesh_ciuo7")
+mesh = SubResource("BoxMesh_gy4np")
 skeleton = NodePath("../..")
 script = ExtResource("3_gy4np")
+enemyType = 2
 metadata/_custom_type_script = "uid://b8q0rnqoy3ffi"
