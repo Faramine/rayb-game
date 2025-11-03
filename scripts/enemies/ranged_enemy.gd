@@ -95,7 +95,7 @@ func on_animation_ended(animation_name):
 		animation_name == "bullet_stop" or 
 		animation_name == "shockwave_slam" or 
 		animation_name == "laser_stop" or
-		animation_name == "hit_taken"
+		animation_name == "hit"
 	):
 		laser_rotation = 0
 		state_machine.apply_transition("idle")
@@ -111,7 +111,7 @@ func on_animation_started(animation_name):
 		shockwave.launch()
 	if animation_name == "laser_windup":
 		laser_rotation = 45
-	if animation_name == "hit_taken":
+	if animation_name == "hit":
 		animation_tree.stop_hit()
 	
 #endregion
