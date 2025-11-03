@@ -40,11 +40,11 @@ func set_world(world : World):
 
 func spawn_enemies():
 	if self.is_cleared: return
-	if world.start_room.coords == coords: return
+	if not world.boss_world and world.start_room.coords == coords: return
 	for enemy_spawner in enemy_spawners as Array[EnemySpawner]:
 		var enemy : Enemy
 		if enemy_spawner.enemyType == 1:
-			enemy = spawn_enemy_ranged()
+			enemy = spawn_enemy_melee()
 		init_enemy(enemy, enemy_spawner)
 		enemies.append(enemy)
 		add_child(enemy)

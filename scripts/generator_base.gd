@@ -140,6 +140,37 @@ func _place_orb_rooms():
 		_level_matrix[orb_room.x][orb_room.y] = ORB_ROOM
 #endregion
 
+func _generate_boss_map():
+	var room = Vector2i.ZERO
+	_room_list = [room]
+	var room_instance : Room = _room_base.instantiate()
+	room_instance.position.x = 26.5 * (room.x-_start_room.x)
+	room_instance.position.z = 39 * (room.y-_start_room.y)
+	room_instance.coords = room
+	_world.add_child(room_instance)
+	room_instance.set_world(_world)
+	_world.rooms = {room:room_instance}
+	_world.start_room = room_instance
+	for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
+			var roomnext = room + dir
+			room_instance.open_wall(roomnext)
+
+func _generate_next_boss_map(coords):
+	for n in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
+		var room = n + coords
+		if not _room_list.has(room):
+			_room_list.append(room)
+			var room_instance : Room = _room_base.instantiate()
+			room_instance.position.x = 26.5 * (room.x-_start_room.x)
+			room_instance.position.z = 39 * (room.y-_start_room.y)
+			room_instance.coords = room
+			_world.add_child(room_instance)
+			room_instance.set_world(_world)
+			_world.rooms.set(room, room_instance)
+			for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
+				var roomnext = room + dir
+				room_instance.open_wall(roomnext)
+
 func _generate_map():
 	if DebugTools.debug:
 		_generate_debug_level_matrix()
