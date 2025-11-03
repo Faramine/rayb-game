@@ -1,16 +1,41 @@
-[gd_scene load_steps=6 format=3 uid="uid://dd68wnjic5v5p"]
+[gd_scene load_steps=15 format=3 uid="uid://dd68wnjic5v5p"]
 
 [ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_am2su"]
 [ext_resource type="ArrayMesh" uid="uid://cajb2ffoatp5x" path="res://assets/environment/ruins/rubble_sphere_0.obj" id="2_sfh1s"]
-[ext_resource type="Shader" path="res://shaders/materials/brass.gdshader" id="3_faho5"]
-[ext_resource type="Texture2D" uid="uid://dp6xgupm5e8nm" path="res://assets/environment/ruins/rubble_sphere_0.png" id="4_faho5"]
+[ext_resource type="Shader" uid="uid://cjoragffkgxkk" path="res://shaders/materials/brass.gdshader" id="3_faho5"]
+[ext_resource type="Texture2D" uid="uid://doeoeuaxue2mn" path="res://assets/textures/envmaps/brass_reflection_env.png" id="4_rdd4i"]
+[ext_resource type="ArrayMesh" uid="uid://chvkrvap2cax3" path="res://assets/environment/orb/pedestal.obj" id="5_bq187"]
+[ext_resource type="Texture2D" uid="uid://bc4g8e2hkjdp" path="res://assets/environment/orb/pedestal.png" id="6_22fgm"]
+[ext_resource type="Shader" uid="uid://daeep773ty80g" path="res://shaders/materials/floor_patch.gdshader" id="7_22fgm"]
+[ext_resource type="Texture2D" uid="uid://24rw7x7ewbr6" path="res://assets/environment/patches/patch_spiral.png" id="8_22fgm"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_22fgm"]
+load_path = "res://.godot/imported/rubble_sphere_0.png-dfe2fc7a56a5b5aa28f4bb3d3988c78a.s3tc.ctex"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bq187"]
 render_priority = 0
 shader = ExtResource("3_faho5")
-shader_parameter/NORMAL_TEXTURE = ExtResource("4_faho5")
+shader_parameter/NORMAL_TEXTURE = SubResource("CompressedTexture2D_22fgm")
+shader_parameter/ENV_TEXTURE = ExtResource("4_rdd4i")
 
-[node name="Base_room_layout" type="Node3D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nra1f"]
+render_priority = 0
+shader = ExtResource("3_faho5")
+shader_parameter/NORMAL_TEXTURE = ExtResource("6_22fgm")
+shader_parameter/ENV_TEXTURE = ExtResource("4_rdd4i")
+
+[sub_resource type="SphereMesh" id="SphereMesh_faho5"]
+radius = 4.0
+height = 8.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_k5vu3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5yp6"]
+render_priority = 0
+shader = ExtResource("7_22fgm")
+shader_parameter/MASK_TEXTURE = ExtResource("8_22fgm")
+
+[node name="Base_room_layout2" type="Node3D"]
 script = ExtResource("1_am2su")
 
 [node name="God_rays" type="Node3D" parent="."]
@@ -18,13 +43,29 @@ script = ExtResource("1_am2su")
 [node name="Obstacles" type="Node3D" parent="."]
 
 [node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019545555, 0, 0)
 
 [node name="Decor" type="Node3D" parent="."]
 
 [node name="RubbleSphere0" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05372429, 0, -10.6988735)
+transform = Transform3D(3.3045428, 0, -5.3733473, 2.1193724, 5.796749, 1.303388, 4.937724, -2.4880834, 3.03664, -12.150634, 1.6266518, -17.762405)
 mesh = ExtResource("2_sfh1s")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_bq187")
+
+[node name="Pedestal" type="MeshInstance3D" parent="Decor"]
+mesh = ExtResource("5_bq187")
+surface_material_override/0 = SubResource("ShaderMaterial_nra1f")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.6536455, 0)
+mesh = SubResource("SphereMesh_faho5")
+
+[node name="FloorPatch0" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(23.958378, 0, 0, 0, -1.0472539e-06, 23.958378, 0, -23.958378, -1.0472539e-06, 0, 0.2477889, 0)
+mesh = SubResource("QuadMesh_k5vu3")
+skeleton = NodePath("../RubbleSphere0")
+surface_material_override/0 = SubResource("ShaderMaterial_e5yp6")
 
 [node name="Orb_position" type="Node3D" parent="."]
