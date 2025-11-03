@@ -2,12 +2,14 @@ shader_type spatial;
 render_mode unshaded;
 
 uniform sampler2D NORMAL_TEXTURE: source_color;
+uniform sampler2D ENV_TEXTURE: source_color;
 varying vec3 world_position;
 varying vec3 world_normal;
 
 // Global inputs
 global uniform vec3 current_room_position;
 global uniform vec4 palette_brass_base;
+global uniform vec4 palette_brass_light;
 
 float random(float v) {
     return fract(sin(dot(vec2(v),
@@ -176,12 +178,28 @@ void fragment() {
 
 	vec3 to_camera = -normalize(CAMERA_POSITION_WORLD - world_position);
 	vec3 reflected = normalize(reflect(to_camera,world_normal));
+	
+	vec3 n = reflected;
+    float len = sqrt (n.x *n.x + n.z*n.z);
+    float s = acos( n.x / len);
+
+    if (n.z < 0.0) {
+        s = 2.0 * PI - s;
+    }
+
+    s = s / (2.0 * PI);
+
+    vec2 reflected_vector = vec2(s , ((asin(n.y) * -2.0 / PI ) + 1.0) * 0.5);
+	float reflected_light = texture(ENV_TEXTURE, reflected_vector).x;
+	
 	float specular = clamp(dot(reflected,light_drection),0.0,1.0);
 	specular *= specular;
 	specular *= specular;
 	specular *= specular;
 	specular *= specular;
 	specular = clamp(specular,0.0,1.0);
+
+	specular = reflected_light;
 
 	float z_mask = world_position.y + 1.0;
 	z_mask = clamp(z_mask,0.0,1.0);
@@ -209,8 +227,7 @@ void fragment() {
 	}
 
 	vec3 final_color = overlay(color, light_color, global_illumination);
-	final_color = overlay(final_color, light_color, specular);
-	final_color += glitter;
+	final_color = mix(final_color, palette_brass_light.xyz, specular*0.3);
 	final_color *= 1.0-level_bounds_mask;
 	final_color *= z_mask;
 	ALBEDO = final_color;

@@ -147,7 +147,7 @@ void fragment() {
 	float global_illumination = 0.0;
 	vec3 light_color = vec3(1.0,1.0,1.0);
 
-	vec3 final_color = palette_color_base.xyz;
+	vec3 final_color = palette_color_dark.xyz;
 	ALBEDO = final_color;
 	ALPHA = final_alpha;
 	//ALBEDO = vec3(illumination);
