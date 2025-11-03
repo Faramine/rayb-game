@@ -1,21 +1,24 @@
 extends Node
 
-var thread = Thread.new()
 @onready var game = $".."
+var world : World
+@onready var camera : = %Camera
 
 var world_scene = preload("res://scenes/world.tscn")
 
 func _ready():
-	load_world()
+	load_world(false)
+	world.boss_room_entered.connect(boss_world)
 
-func _process(delta):
-	if thread.is_started() and not thread.is_alive():
-		thread.wait_to_finish()
+func load_world(boss_world : bool):
+	world = world_scene.instantiate()
+	world.boss_world = boss_world
+	world.camera = camera
+	game.add_child.call_deferred(world)
 
-func load_world():
-	thread.start(threaded_load)
+func boss_world():
+	unload_world()
+	load_world(true)
 
-func threaded_load():
-	var world = world_scene.instantiate()
-	world.start()
-	game.add_child.call_deferred()
+func unload_world():
+	world.queue_free()

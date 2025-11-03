@@ -1,11 +1,14 @@
 class_name World
 extends Node3D
 
+signal boss_room_entered
+
 @export var minimap : Control
 @export var generator : MapGen
 
 @onready var player : Player = $Player
-@onready var camera : Camera = $Camera
+var camera : Camera
+var boss_world : bool
 @onready var cursor : Node3D = $Cursor
 
 # Dictionnaire Coord/Room
@@ -20,9 +23,13 @@ var norb = 0
 signal door_opened
 
 func _ready() -> void:
-	generator._generate_map()
-	minimap.display_map(rooms.keys())
-	minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
+	if boss_world:
+		generator._generate_boss_map()
+	else:
+		generator._generate_map()
+		minimap.display_map(rooms.keys())
+		minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
+		print("hahaha")
 
 #func start():
 	#print("generating_map")
@@ -32,13 +39,19 @@ func _ready() -> void:
 	#minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
 
 func change_room(coords):
-	minimap.change_room(coords)
-	activate_room(rooms.get(coords))
-	camera.track(active_room.camera_position)
+	if not boss_world and coords == boss_room.coords: 
+		boss_room_entered.emit()
+	else:
+		if boss_world:
+			generator._generate_next_boss_map(coords)
+		else:
+			minimap.change_room(coords)
+		activate_room(rooms.get(coords))
+		camera.track(active_room.camera_position)
 	
-	# Updating the current room position for all shaders
-	# Useful for the volumic "vignette" effect on environement textures
-	RenderingServer.global_shader_parameter_set("current_room_position", active_room.global_position);
+		# Updating the current room position for all shaders
+		# Useful for the volumic "vignette" effect on environement textures
+		RenderingServer.global_shader_parameter_set("current_room_position", active_room.global_position);
 	
 func activate_room(next_room : Room):
 	if(self.active_room): self.active_room.deactivate_room()

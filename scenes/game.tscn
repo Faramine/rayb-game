@@ -1,8 +1,54 @@
-[gd_scene load_steps=2 format=3 uid="uid://cp5uf7qt1qtn0"]
+[gd_scene load_steps=11 format=3 uid="uid://cp5uf7qt1qtn0"]
 
+[ext_resource type="Shader" uid="uid://drnhlu474v28b" path="res://shaders/materials/sky.gdshader" id="1_lnu2h"]
 [ext_resource type="Script" uid="uid://cfhqmpixj1eyv" path="res://world_loader.gd" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://brf30g1julw1q" path="res://scripts/camera_3d.gd" id="2_lbhrr"]
+
+[sub_resource type="Gradient" id="Gradient_iywne"]
+offsets = PackedFloat32Array(0, 0.698113, 0.962264)
+colors = PackedColorArray(0.41328, 0.0882, 0.63, 1, 0.0905541, 0.0193296, 0.138563, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p57ef"]
+noise_type = 3
+frequency = 0.0901
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_u5sy4"]
+noise = SubResource("FastNoiseLite_p57ef")
+color_ramp = SubResource("Gradient_iywne")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gee14"]
+shader = ExtResource("1_lnu2h")
+shader_parameter/noise = SubResource("NoiseTexture3D_u5sy4")
+
+[sub_resource type="Sky" id="Sky_0tnpc"]
+sky_material = SubResource("ShaderMaterial_gee14")
+
+[sub_resource type="Environment" id="Environment_vtaks"]
+background_mode = 1
+sky = SubResource("Sky_0tnpc")
+ambient_light_source = 1
+ambient_light_color = Color(0.867917, 0.827773, 1, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.4
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvpfn"]
+noise_type = 0
+frequency = 0.05
+fractal_octaves = 4
+fractal_gain = 0.8
 
 [node name="Game" type="Node3D"]
+
+[node name="Camera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, -0.7071068, 0.7071068, 0, 0.7071068, 0.7071068, -1, 3.090863e-08, -3.090863e-08, 12.5, 12.5, 0)
+environment = SubResource("Environment_vtaks")
+fov = 10.0
+size = 25.0
+near = 70.0
+far = 200.0
+script = ExtResource("2_lbhrr")
+noise = SubResource("FastNoiseLite_kvpfn")
 
 [node name="WorldLoader" type="Node" parent="."]
 script = ExtResource("1_uwrxv")
@@ -12,3 +58,26 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="GameMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VFlowContainer" type="VFlowContainer" parent="GameMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="GameMenu/VFlowContainer"]
+layout_mode = 2
+text = "PLAY"
