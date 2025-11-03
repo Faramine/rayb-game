@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc4g8e2hkjdp"
-path.s3tc="res://.godot/imported/pedestal.png-2da1afd2ce5ab909fbbf64d8ca8f6a87.s3tc.ctex"
+uid="uid://b25ph6qbt675"
+path.s3tc="res://.godot/imported/rubble_stele_0.png-b3f813090d3e900e5d8870b00323af60.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/environment/orb/pedestal.png"
-dest_files=["res://.godot/imported/pedestal.png-2da1afd2ce5ab909fbbf64d8ca8f6a87.s3tc.ctex"]
+source_file="res://assets/environment/ruins/rubble_stele_0.png"
+dest_files=["res://.godot/imported/rubble_stele_0.png-b3f813090d3e900e5d8870b00323af60.s3tc.ctex"]
 
 [params]
 

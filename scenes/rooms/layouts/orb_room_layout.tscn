@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dd68wnjic5v5p"]
+[gd_scene load_steps=22 format=3 uid="uid://dd68wnjic5v5p"]
 
 [ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_am2su"]
 [ext_resource type="ArrayMesh" uid="uid://cajb2ffoatp5x" path="res://assets/environment/ruins/rubble_sphere_0.obj" id="2_sfh1s"]
@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://bc4g8e2hkjdp" path="res://assets/environment/orb/pedestal.png" id="6_22fgm"]
 [ext_resource type="Shader" uid="uid://daeep773ty80g" path="res://shaders/materials/floor_patch.gdshader" id="7_22fgm"]
 [ext_resource type="Texture2D" uid="uid://24rw7x7ewbr6" path="res://assets/environment/patches/patch_spiral.png" id="8_22fgm"]
+[ext_resource type="ArrayMesh" uid="uid://bdgxekxdvheru" path="res://assets/environment/ruins/rubble_stele_0.obj" id="9_k5vu3"]
+[ext_resource type="Texture2D" uid="uid://b25ph6qbt675" path="res://assets/environment/ruins/rubble_stele_0.png" id="10_e5yp6"]
+[ext_resource type="ArrayMesh" uid="uid://j3hbnyqxsmps" path="res://assets/environment/rocks/rock_cube_0.obj" id="11_xf8eu"]
+[ext_resource type="Shader" uid="uid://nuyokq2ngvjx" path="res://shaders/materials/rock.gdshader" id="12_4otuo"]
+[ext_resource type="Texture2D" uid="uid://cpgbq4bfxp614" path="res://assets/environment/rocks/rock_cube_0.png" id="13_wtruu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_22fgm"]
 load_path = "res://.godot/imported/rubble_sphere_0.png-dfe2fc7a56a5b5aa28f4bb3d3988c78a.s3tc.ctex"
@@ -34,6 +39,17 @@ height = 8.0
 render_priority = 0
 shader = ExtResource("7_22fgm")
 shader_parameter/MASK_TEXTURE = ExtResource("8_22fgm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8p83p"]
+render_priority = 0
+shader = ExtResource("3_faho5")
+shader_parameter/NORMAL_TEXTURE = ExtResource("10_e5yp6")
+shader_parameter/ENV_TEXTURE = ExtResource("4_rdd4i")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5l5a"]
+render_priority = 0
+shader = ExtResource("12_4otuo")
+shader_parameter/NORMAL_TEXTURE = ExtResource("13_wtruu")
 
 [node name="Base_room_layout2" type="Node3D"]
 script = ExtResource("1_am2su")
@@ -67,5 +83,17 @@ transform = Transform3D(23.958378, 0, 0, 0, -1.0472539e-06, 23.958378, 0, -23.95
 mesh = SubResource("QuadMesh_k5vu3")
 skeleton = NodePath("../RubbleSphere0")
 surface_material_override/0 = SubResource("ShaderMaterial_e5yp6")
+
+[node name="RubbleStele0" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1.4509616, -0.22671305, 0.43867683, 0.37932354, 1.3834811, -0.5396471, -0.31614858, 0.6194405, 1.3658218, -9.601158, 1.0931897, 15.210802)
+mesh = ExtResource("9_k5vu3")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_8p83p")
+
+[node name="Rock4" type="CSGMesh3D" parent="Decor"]
+transform = Transform3D(0.27076194, 3.064705, 0.28700176, -0.2030337, -0.26970077, 3.0715036, 3.0714107, -0.2879992, 0.1777391, -15.478237, 1.8472638, 15.47196)
+use_collision = true
+mesh = ExtResource("11_xf8eu")
+material = SubResource("ShaderMaterial_t5l5a")
 
 [node name="Orb_position" type="Node3D" parent="."]
