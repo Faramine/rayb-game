@@ -6,6 +6,5 @@ func _ready() -> void:
 
 func _on_area_entered(hitbox: Area3D) -> void:
 	if hitbox == null or not (hitbox is HitBox): return
-	print("td",hitbox.owner)
 	if owner.has_method("take_damage"):
 		owner.take_damage(hitbox)

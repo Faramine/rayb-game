@@ -145,4 +145,4 @@ metadata/_custom_type_script = "uid://ct7jbab3yuigr"
 transform = Transform3D(3.932788e-05, 0.0064749704, -0.999979, 0.9999816, -0.00607372, 0, -0.006073592, -0.9999606, -0.0064750896, -0.016682217, -0.03073829, 3.5416439)
 shape = SubResource("CylinderShape3D_prtoq")
 disabled = true
-debug_color = Color(0.8, 0, 0.01333313, 0.7764706)
+debug_color = Color(0, 0.4192771, 0.22307509, 0.7764706)

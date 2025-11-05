@@ -47,10 +47,9 @@ func beam_off():
 func turn_on():
 	emiter_on()
 	beam_on()
-	$HitBox/CollisionShape3D.disabled = false
-	pass
+	$HitBox.monitorable  = true
 
 func turn_off():
 	emiter_off()
 	beam_off()
-	$HitBox/CollisionShape3D.disabled = true
+	$HitBox.monitorable  = false

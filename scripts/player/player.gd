@@ -84,6 +84,7 @@ func process_move(delta):
 	
 
 func take_damage(hitbox : HitBox):
+	print(hitbox)
 	if not $DamageCooldown.is_stopped(): return
 	$Health.take_damage(1)
 	if $Health.is_dead():
