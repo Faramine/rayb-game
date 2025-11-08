@@ -20,9 +20,9 @@ func _process(delta: float) -> void:
 		global_position = global_position.lerp(target_position,30*delta)
 	process_shake(delta)
 
-func track(position: Vector3) -> void:
+func track(_position: Vector3) -> void:
 	tracking = true
-	target_position = position
+	target_position = _position
 
 func process_shake(delta):
 	time += delta

@@ -13,5 +13,5 @@ func apply_transition(transition) -> State:
 func enter():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass

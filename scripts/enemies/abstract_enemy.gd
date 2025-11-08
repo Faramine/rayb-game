@@ -8,6 +8,7 @@ extends CharacterBody3D
 
 #region Signals
 ##Signal called on enemy death.
+@warning_ignore("unused_signal")
 signal dead
 #endregion
 
@@ -44,10 +45,10 @@ func on_room_deactivated():
 
 #region Control_Methods
 ##Move the enemy toward its [member Enemy.target_node].
-func move_toward_target(speed, delta):
+func move_toward_target(_speed, delta):
 	var next_location = nav.get_next_path_position()
 	var current_location = global_transform.origin
-	var new_velocity = (next_location - current_location).normalized() * speed
+	var new_velocity = (next_location - current_location).normalized() * _speed
 	velocity = velocity.move_toward(new_velocity, delta * 100)
 	#velocity = new_velocity * delta * 270
 	self.rotation.y = lerp_angle(self.rotation.y, new_velocity.signed_angle_to(Vector3(0,0,1),Vector3(0,-1,0)), 25 * delta);
@@ -60,6 +61,6 @@ func update_target_position(target : Vector3):
 
 #region Initialization_Methods
 ##Set the spawn point(Used when the enemy is initially placed in a room).
-func set_spawn(spawn_point : Vector3):
-	self.spawn_point = spawn_point
+func set_spawn(_spawn_point : Vector3):
+	self.spawn_point = _spawn_point
 #endregion

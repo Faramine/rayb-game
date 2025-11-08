@@ -3,8 +3,6 @@ extends State
 var parent : EnemyMelee
 
 # Armature and animation nodes
-@onready var armature = $Armature;
-@onready var skeleton = $Armature/Skeleton3D;
 @onready var animationTree = get_parent().get_parent().get_node("AnimationTree");
 
 @export var load_attack_state : State
@@ -30,6 +28,7 @@ func enter():
 	animationTree["parameters/conditions/is_idle"] = false;
 	animationTree["parameters/conditions/is_bracing"] = false;
 	animationTree["parameters/conditions/is_slamming"] = false;
+	parent.animationTree2.walk()
 
 	if parent.player.is_in_godray:
 		fsm.apply_transition("godray_entered")
@@ -48,7 +47,7 @@ func follow_player(speed, delta):
 	parent.update_target_position(target_position)
 	parent.move_toward_target(speed, delta)
 	
-func check_attack_range(range):
+func check_attack_range(_range):
 	var distance = parent.global_position.distance_to(parent.player.global_position)
-	if distance < range:
+	if distance < _range:
 		fsm.apply_transition("within_attack_range")

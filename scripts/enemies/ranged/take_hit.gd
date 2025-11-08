@@ -15,7 +15,7 @@ func apply_transition(transition) -> State:
 			return dead_state
 	return null
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	if health.is_dead():
 		fsm.apply_transition("dead")
 

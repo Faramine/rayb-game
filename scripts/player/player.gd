@@ -95,7 +95,7 @@ func take_damage(hitbox : HitBox):
 		dead.emit()
 		$SubViewport/Control/Label.text = "Dead"
 		is_in_godray = true
-		self.process_mode = Node.PROCESS_MODE_DISABLED
+		set_deferred("process_mode",Node.PROCESS_MODE_DISABLED)
 	else:
 		is_charged = false
 		$"Armature/Skeleton3D/Cylinder_002".get_active_material(0).emission = Color.from_rgba8(100,100,100)

@@ -106,6 +106,8 @@ func on_animation_ended(animation_name):
 		$StateMachine/Bullet.on_interval()
 
 func on_animation_started(animation_name):
+	if animation_name == "death":
+		laser_rotation = 0
 	if animation_name == "shockwave_slam":
 		animation_tree.stop_shockwave()
 		shockwave.launch()

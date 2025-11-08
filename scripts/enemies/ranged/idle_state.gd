@@ -88,6 +88,7 @@ func move(delta):
 		parent.velocity += noise_mouvement * speed * 10 * delta
 
 func on_decision():
+	print(shockwave_bias, " ",laser_bias, " ",bullet_bias)
 	match decide():
 		0:
 			fsm.apply_transition("shockwave")
@@ -114,9 +115,6 @@ func decide() -> int:
 		return 1
 	else:
 		return 2
-	shockwave_bias = shockwave_base_bias
-	laser_bias = laser_base_bias 
-	bullet_bias = bullet_base_bias
 
 func update_bias_attack():
 	var _shockwave_bias = shockwave_base_bias
@@ -130,7 +128,7 @@ func update_bias_attack():
 	var is_aproaching = (distance > next_distance)
 		
 	_shockwave_bias *= shockwave_player_bias * (
-		(1.0 if distance < shockwave_range else 0.1) *
+		(2.0 if distance < shockwave_range else 0.1) *
 		(1.0 if is_aproaching else 0.1)
 	)
 	

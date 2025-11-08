@@ -3,7 +3,7 @@ extends Node
 
 var fsm : StateMachine
 
-func apply_transition(transition) -> State:
+func apply_transition(_transition) -> State:
 	return null
 
 func enter():
@@ -12,5 +12,5 @@ func enter():
 func exit():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass

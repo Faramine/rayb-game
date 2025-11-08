@@ -31,7 +31,7 @@ func exit():
 	bullet_interval_timer.stop()
 	n = 0
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass
 
 func on_interval():

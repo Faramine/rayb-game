@@ -9,8 +9,8 @@ var damage_cache = 0
 
 signal out_of_health
 
-func heal(heal):
-	current_health += heal
+func heal(_heal):
+	current_health += _heal
 	if current_health > max_health:
 		current_health = max_health
 

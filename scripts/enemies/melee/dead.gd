@@ -4,7 +4,7 @@ var parent : EnemyMelee
 
 @export var chase_state : State
 
-func apply_transition(transition) -> State:
+func apply_transition(_transition) -> State:
 	return null
 
 func enter():
@@ -14,11 +14,12 @@ func enter():
 	parent.add_collision_exception_with(parent.player)
 	$"../../AnimationPlayer".play("dead")
 	parent.remove_child($"../../BodyHitBox")
+	parent.animationTree2.death()
 	
 func exit():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass
 
 func _on_animation_finished(anim_name: StringName) -> void:

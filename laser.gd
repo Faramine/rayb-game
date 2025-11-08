@@ -9,7 +9,7 @@ extends RayCast3D
 func _ready() -> void:
 	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var contactPoint
 	
 	force_raycast_update()
@@ -20,8 +20,6 @@ func _process(delta: float) -> void:
 		$HitBox/CollisionShape3D.shape.set_height(abs(to_local(contactPoint).z))
 		$HitBox/CollisionShape3D.position.z = to_local(contactPoint).z/2
 		var bone_target = skeleton.find_bone("beam_target")
-		var bone_origin = skeleton.find_bone("beam_origin")
-		#skeleton.set_bone_pose_position(id,skeleton.to_local(contactPoint))
 		skeleton.set_bone_pose_position(bone_target,skeleton.to_local(contactPoint))
 		debug_contact.global_position = contactPoint
 		
@@ -47,9 +45,9 @@ func beam_off():
 func turn_on():
 	emiter_on()
 	beam_on()
-	$HitBox.monitorable  = true
+	$HitBox.set_deferred("monitorable", true)
 
 func turn_off():
 	emiter_off()
 	beam_off()
-	$HitBox.monitorable  = false
+	$HitBox.set_deferred("monitorable", false)

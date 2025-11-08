@@ -41,7 +41,7 @@ func _ready() -> void:
 	
 	pass;
 	
-func _process(delta):
+func _physics_process(_delta: float) -> void:
 	# Registering the player's current position into the buffer 
 	#var player_position : Vector3 = player.global_position;
 	var player_position : Vector3 = player.to_global(Vector3(0.0,0.0,0.0));
@@ -78,18 +78,18 @@ func _process(delta):
 			
 			var buffer_i = (trajectory_buffer_current_i - i) % trajectory_buffer_size;
 			var buffer_prev_i = (trajectory_buffer_current_i - 1 - i) % trajectory_buffer_size;
-			var position = trajectory_buffer[buffer_i]
+			var _position = trajectory_buffer[buffer_i]
 			var position_prev =  trajectory_buffer[buffer_prev_i]
-			if position and position_prev:
+			if _position and position_prev:
 				
-				var O_pos_screen : Vector2 = to_viewport(position)
+				var O_pos_screen : Vector2 = to_viewport(_position)
 				var Oprev_pos_screen : Vector2 = to_viewport(position_prev)
 				var tangent_screen = (O_pos_screen - Oprev_pos_screen).normalized();
 				var normal_screen = tangent_screen.rotated(PI/2.0).normalized();
 				var A_pos_screen : Vector2 = O_pos_screen + normal_screen * width/2.0;
 				var B_pos_screen : Vector2 = O_pos_screen - normal_screen * width/2.0;
-				var vertex_A_position : Vector3 = to_world(A_pos_screen,position);
-				var vertex_B_position : Vector3 = to_world(B_pos_screen,position);
+				var vertex_A_position : Vector3 = to_world(A_pos_screen,_position);
+				var vertex_B_position : Vector3 = to_world(B_pos_screen,_position);
 				verts.append(vertex_A_position);
 				uvs.append(Vector2(float(i)/float(trajectory_buffer_size),0.0));
 				normals.append(Vector3(0.0,1.0,0.0));
@@ -118,8 +118,9 @@ func _process(delta):
 		surface_array[Mesh.ARRAY_TEX_UV] = uvs;
 		surface_array[Mesh.ARRAY_NORMAL] = normals;
 		surface_array[Mesh.ARRAY_INDEX] = indices;
-
-		ribbon_mesh.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
+		
+		if verts.size():
+			ribbon_mesh.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
 		var surface = ribbon_mesh.get_instance();
 		RenderingServer.instance_set_surface_override_material(surface, 0, load("res://scenes/player_controller.tscn::ShaderMaterial_sdupd"))
 		# increment the trajectory buffer
