@@ -15,7 +15,7 @@ func _ready() -> void:
 	player = $".."
 	cursor = player.world.cursor
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var cpos
 	if not cursor: 
 		cursor = player.world.cursor
@@ -56,10 +56,10 @@ func _input(event: InputEvent) -> void:
 			if cursor_pos:
 				player.dash(cursor_pos)
 
-func get_mouse_world_pos(mouse: Vector2):
+func get_mouse_world_pos(_mouse: Vector2):
 	var space = get_world_3d().direct_space_state
-	var start = get_viewport().get_camera_3d().project_ray_origin(mouse)
-	var end = get_viewport().get_camera_3d().project_position(mouse, DIST)
+	var start = get_viewport().get_camera_3d().project_ray_origin(_mouse)
+	var end = get_viewport().get_camera_3d().project_position(_mouse, DIST)
 	var params = PhysicsRayQueryParameters3D.new()
 	params.collision_mask = 128
 	params.from = start

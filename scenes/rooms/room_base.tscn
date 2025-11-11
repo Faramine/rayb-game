@@ -1,12 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://i001x1ob48oq"]
+[gd_scene load_steps=7 format=3 uid="uid://i001x1ob48oq"]
 
 [ext_resource type="Script" uid="uid://5o5tyt3njhv5" path="res://scripts/rooms/room_base.gd" id="1_k3jq5"]
-[ext_resource type="Texture2D" uid="uid://dkjgv2gx4odvd" path="res://assets/textures/Cobbled_floor.png" id="2_mfgdg"]
 [ext_resource type="Shader" uid="uid://nuyokq2ngvjx" path="res://shaders/materials/rock.gdshader" id="3_t4afj"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pr5m"]
-albedo_color = Color(0.06356, 0.0126, 0.14, 1)
-albedo_texture = ExtResource("2_mfgdg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c8or3"]
 size = Vector3(25, 25, 37.5)
@@ -26,12 +21,6 @@ albedo_color = Color(0.21616, 0.1736, 0.28, 1)
 [node name="Room_base" type="Node3D" groups=["Room"]]
 script = ExtResource("1_k3jq5")
 
-[node name="Ceiling" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-visible = false
-size = Vector3(25, 0.1, 25)
-material = SubResource("StandardMaterial3D_5pr5m")
-
 [node name="Camera_pos" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 100, 100, 0)
 
@@ -49,60 +38,70 @@ navigation_mesh = SubResource("NavigationMesh_k3jq5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 use_collision = true
 collision_layer = 129
+collision_mask = 0
 size = Vector3(25, 0.1, 37.5)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_left" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_left2" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_left" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_right" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_right2" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(11, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_right" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -18.75)
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 4, 1)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_up" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 10.05)
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Wall_up2" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, -10.005)
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
 [node name="Door_up" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 2, 0)
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 3)
 material = SubResource("ShaderMaterial_jk031")
 
@@ -110,6 +109,7 @@ material = SubResource("ShaderMaterial_jk031")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 10.05)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
@@ -117,6 +117,7 @@ material = SubResource("ShaderMaterial_jk031")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, -10.05)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 17.25)
 material = SubResource("ShaderMaterial_jk031")
 
@@ -124,6 +125,7 @@ material = SubResource("ShaderMaterial_jk031")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2, 0)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(1, 4, 3)
 material = SubResource("ShaderMaterial_jk031")
 
@@ -131,6 +133,7 @@ material = SubResource("ShaderMaterial_jk031")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
@@ -138,6 +141,7 @@ material = SubResource("StandardMaterial3D_t4afj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.25)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
@@ -145,6 +149,7 @@ material = SubResource("StandardMaterial3D_t4afj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 
@@ -152,6 +157,7 @@ material = SubResource("StandardMaterial3D_t4afj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.25)
 visible = false
 use_collision = true
+collision_mask = 0
 size = Vector3(3, 0.1, 3)
 material = SubResource("StandardMaterial3D_t4afj")
 

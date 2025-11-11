@@ -20,5 +20,5 @@ func enter():
 func exit():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass

@@ -94,7 +94,7 @@ func _ready() -> void:
 	
 	last_time = Time.get_unix_time_from_system();
 	
-func _process(bad_delta):		
+func _process(_bad_delta):		
 	var noise_time = Time.get_unix_time_from_system() - noise_time_start;
 	var now_time = Time.get_unix_time_from_system();
 	var delta = (now_time - last_time)/1000.0;
@@ -155,7 +155,7 @@ func _process(bad_delta):
 							hook_position_grid[i][j] = skeleton.to_global(corrected_position_local);
 					
 					if flatten(skeleton.to_local(hook_position_grid[i][j])).length() < reaction_radius and fail_cases:
-						var debug = flatten(skeleton.to_local(hook_position_grid[i][j])).length();
+						var _debug = flatten(skeleton.to_local(hook_position_grid[i][j])).length();
 						breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 					
 					# Computing spring forces between neighboring hooks
@@ -230,7 +230,7 @@ func _process(bad_delta):
 						var intersection_param : float;
 						
 						if flatten(starting_position_local).length() < reaction_radius and fail_cases:
-								var debug = flatten(starting_position_local).length();
+								var _debug = flatten(starting_position_local).length();
 								breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 						
 						var cylinder_intersection_result : PackedVector3Array = Geometry3D.segment_intersects_cylinder(
@@ -255,7 +255,7 @@ func _process(bad_delta):
 								var intersection_normal : Vector3 = unflatten(intersection_normal_flattened,Vector3(0.0,0.0,0.0))
 								cylinder_intersection_result = PackedVector3Array([intersection_point,intersection_normal]);
 								if not approx(intersection_point_flattened.length(), reaction_radius, 0.1) and fail_cases:
-									var debug = intersection_point_flattened.length();
+									var _debug = intersection_point_flattened.length();
 									breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 						
 						if cylinder_intersection_result.is_empty():
@@ -269,7 +269,7 @@ func _process(bad_delta):
 							var intersection_normal : Vector3 = cylinder_intersection_result[1];
 							
 							if not approx(intersection_point_flattened.length(), reaction_radius, 0.1) and fail_cases:
-								var debug = intersection_point_flattened.length();
+								var _debug = intersection_point_flattened.length();
 								breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 							
 							var reflected_direction : Vector3 = velocity_direction.normalized() - (2.0 * intersection_normal.normalized().dot(velocity_direction.normalized()) * intersection_normal.normalized());
@@ -282,7 +282,7 @@ func _process(bad_delta):
 							var new_end_position_local = intersection_point + reflected_vector;
 							
 							if flatten(intersection_point + reflected_vector).length() < reaction_radius and fail_cases:
-								var debug = flatten(intersection_point + reflected_vector).length();
+								var _debug = flatten(intersection_point + reflected_vector).length();
 								breakpoint; #Failure case: The intersection point is supposed to be on the surface of the cylinder
 							 
 							if false:

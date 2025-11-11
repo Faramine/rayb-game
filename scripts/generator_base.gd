@@ -55,6 +55,7 @@ func _init_level_matrix():
 	_branch_candidates = Array()
 
 func _place_start_room():
+	@warning_ignore("integer_division")
 	_start_room = Vector2i(_dimension.x/2, _dimension.y/2)
 	_level_matrix[_start_room.x][_start_room.y] = START_ROOM
 

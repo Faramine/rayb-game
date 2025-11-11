@@ -3,8 +3,6 @@ extends State
 var parent : EnemyMelee
 
 # Armature and animation nodes
-@onready var armature = $Armature;
-@onready var skeleton = $Armature/Skeleton3D;
 @onready var animationTree = get_parent().get_parent().get_node("AnimationTree");
 
 @export var chase_state : State
@@ -27,9 +25,10 @@ func enter():
 	animationTree["parameters/conditions/is_idle"] = true;
 	animationTree["parameters/conditions/is_bracing"] = false;
 	animationTree["parameters/conditions/is_slamming"] = false;
+	parent.animationTree2.idle()
 
 func exit():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass

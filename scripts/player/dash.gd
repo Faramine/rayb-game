@@ -10,8 +10,8 @@ var dash_speed = 150
 var dash_time = 0
 var dash_target_dir = Vector3()
 
-var tween_whitecape : Tween = create_tween()
-var tween_lightboom : Tween = create_tween()
+var tween_whitecape : Tween
+var tween_lightboom : Tween
 
 func _ready():
 	prejuice_timer.wait_time = dash_cooldown.wait_time - $DashRecoverParticles.lifetime - 0.25
@@ -62,12 +62,16 @@ func end_dash_juice():
 	
 func recover_dash_prejuice():
 	$DashRecoverParticles.restart()
+	if tween_whitecape:
+		tween_whitecape.kill()
 	tween_whitecape = create_tween()
 	tween_whitecape.set_ease(Tween.EASE_OUT)
 	tween_whitecape.tween_property($"../Armature/Skeleton3D/Cylinder_002".get_active_material(0),
 	 "emission", Color.WHITE, 0.5)
 
 func recover_dash_juice():
+	if tween_lightboom:
+		tween_lightboom.kill()
 	tween_lightboom = create_tween()
 	tween_lightboom.tween_property($"../OmniLight3D", "light_energy", 30, 0.05)
 	tween_lightboom.parallel().tween_property($"../OmniLight3D", "omni_range", 10, 0.05)

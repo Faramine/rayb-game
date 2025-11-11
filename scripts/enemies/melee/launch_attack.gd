@@ -3,8 +3,6 @@ extends State
 var parent : EnemyMelee
 
 # Armature and animation nodes
-@onready var armature = $Armature;
-@onready var skeleton = $Armature/Skeleton3D;
 @onready var animationTree = get_parent().get_parent().get_node("AnimationTree");
 
 @export var chase_state : State
@@ -25,6 +23,7 @@ func enter():
 	animationTree["parameters/conditions/is_idle"] = false;
 	animationTree["parameters/conditions/is_bracing"] = false;
 	animationTree["parameters/conditions/is_slamming"] = true;
+	parent.animationTree2.slam()
 	
 	var tween = create_tween()
 	tween.tween_property(parent.mesh, "scale", Vector3.ONE, 0.05)
@@ -34,7 +33,7 @@ func exit():
 	launch_attack_duration.stop()
 	impact_stun_duration.stop()
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	#$Target.global_position = launch_target
 	var weight = (launch_attack_duration.wait_time - launch_attack_duration.time_left)/launch_attack_duration.wait_time
 	parent.global_position = lerp(parent.launch_origin, parent.launch_target, weight)

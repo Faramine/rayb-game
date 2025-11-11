@@ -24,7 +24,7 @@ func enter():
 func exit():
 	pass
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	if health.is_dead():
 		fsm.apply_transition("dead")
 

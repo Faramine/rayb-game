@@ -10,9 +10,9 @@ func _ready():
 	load_world(false)
 	world.boss_room_entered.connect(boss_world)
 
-func load_world(boss_world : bool):
+func load_world(_boss_world : bool):
 	world = world_scene.instantiate()
-	world.boss_world = boss_world
+	world.boss_world = _boss_world
 	world.camera = camera
 	game.add_child.call_deferred(world)
 

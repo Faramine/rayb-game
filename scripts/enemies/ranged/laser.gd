@@ -27,7 +27,7 @@ func exit():
 	laser_timer.stop()
 	on_end()
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	pass
 
 func on_end():

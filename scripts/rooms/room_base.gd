@@ -1,42 +1,57 @@
 class_name Room
 extends Node3D
 
-#region Children
-@onready var camera_position : Vector3 = $Camera_pos.global_position
-@onready var ceiling : CSGBox3D = $Ceiling
-@onready var nav = $NavigationRegion3D
-@onready var walldown1 = $NavigationRegion3D/Wall_down
-@onready var walldown2 = $NavigationRegion3D/Wall_down2
-@onready var doorUp = $NavigationRegion3D/Door_up
-@onready var doorDown = $NavigationRegion3D/Door_down
-@onready var doorLeft = $NavigationRegion3D/Door_left
-@onready var doorRight = $NavigationRegion3D/Door_right
-@onready var doorMatUp = $NavigationRegion3D/Doormat_up
-@onready var doorMatDown = $NavigationRegion3D/Doormat_down
-@onready var doorMatLeft = $NavigationRegion3D/Doormat_left
-@onready var doorMatRight = $NavigationRegion3D/Doormat_right
+#region Room_State_Parameters
+##Coordinate of the room on the generated 2d map.
+var coords : Vector2i
+##Reference to the current world.
+var world : World
+##Boolean indicating if the player is in this room.
+var is_active : bool = false
+##Boolean indicating if every enemies have been killed.
+var is_cleared : bool = false
 #endregion
 
-var orb_position
-
-var coords : Vector2i = Vector2i(0,0)
-var world : World
-var is_active : bool = false
-var is_cleared : bool = false
-
+#region Enemy_Handling_Parameters
 var enemy_spawners = []
-var enemy_melee_scene : PackedScene = load("res://scenes/rooms/elements/enemies/enemy_melee.tscn")
-var enemy_ranged_scene : PackedScene = load("res://scenes/rooms/elements/enemies/ranged_enemy.tscn")
-
-@onready var enemies : Array[Enemy] = []
+var enemies : Array[Enemy] = []
 var enemies_defeated = 0
+static var enemy_melee_scene : PackedScene = preload("res://scenes/rooms/elements/enemies/enemy_melee.tscn")
+static var enemy_ranged_scene : PackedScene = preload("res://scenes/rooms/elements/enemies/ranged_enemy.tscn")
+#endregion
+
+#region Room_Population_Parameters
+var orb_position : Vector3
+#endregion
+
+#region Children_References
+##Position of the camera
+@onready var camera_position : Vector3 = $Camera_pos.global_position
+##Navigation region
+@onready var nav : NavigationRegion3D = $NavigationRegion3D
+##Up door CSGBox
+@onready var doorUp : CSGBox3D = $NavigationRegion3D/Door_up
+##Down door CSGBox
+@onready var doorDown : CSGBox3D = $NavigationRegion3D/Door_down
+##Left door CSGBox
+@onready var doorLeft : CSGBox3D = $NavigationRegion3D/Door_left
+##Right door CSGBox
+@onready var doorRight : CSGBox3D = $NavigationRegion3D/Door_right
+##Up door mat CSGBox
+@onready var doorMatUp : CSGBox3D = $NavigationRegion3D/Doormat_up
+##Down door mat CSGBox
+@onready var doorMatDown : CSGBox3D = $NavigationRegion3D/Doormat_down
+##Left door mat CSGBox
+@onready var doorMatLeft : CSGBox3D = $NavigationRegion3D/Doormat_left
+##Right door mat CSGBox
+@onready var doorMatRight : CSGBox3D = $NavigationRegion3D/Doormat_right
+#endregion
 
 func _ready():
-	ceiling.visible = true
 	self.visible = false
 	
-func set_world(world : World):
-	self.world = world
+func set_world(_world : World):
+	self.world = _world
 
 func spawn_enemies():
 	if self.is_cleared: return
@@ -69,9 +84,6 @@ func init_enemy(enemy : Enemy, enemy_spawner : EnemySpawner):
 
 func activate_room():
 	is_active = true
-	ceiling.visible = false
-	#walldown1.material.albedo_color.a = 0.5
-	#walldown2.material.albedo_color.a = 0.5
 	self.visible = true
 	for o in nav.get_children():
 		o.use_collision = true
@@ -79,9 +91,6 @@ func activate_room():
 
 func deactivate_room():
 	is_active = false
-	ceiling.visible = true
-	#walldown1.material.albedo_color.a = 1.0
-	#walldown2.material.albedo_color.a = 1.0
 	self.visible = false
 	for enemy in enemies:
 		enemy.on_room_deactivated()
@@ -96,26 +105,30 @@ func on_enemy_dies():
 	if enemies_defeated == enemies.size():
 		self.is_cleared = true
 
-func open_wall(coords : Vector2i):
-	if self.coords[0] == coords[0]:
-		if self.coords[1]+1 == coords[1]:
+
+#region Generation_Methods
+##Open the wall between this room and room of coordinates _coords.
+func open_wall(_coords : Vector2i):
+	if self.coords[0] == _coords[0]:
+		if self.coords[1]+1 == _coords[1]:
 			doorLeft.visible = false
 			doorMatLeft.visible = true
 			doorLeft.set_collision_layer_value(1,false)
-		elif self.coords[1]-1 == coords[1]:
+		elif self.coords[1]-1 == _coords[1]:
 			doorRight.visible = false
 			doorMatRight.visible = true
 			doorRight.set_collision_layer_value(1,false)
-	elif self.coords[1] == coords[1]:
-		if self.coords[0]-1 == coords[0]:
+	elif self.coords[1] == _coords[1]:
+		if self.coords[0]-1 == _coords[0]:
 			doorUp.visible = false
 			doorMatUp.visible = true
 			doorUp.set_collision_layer_value(1,false)
-		elif self.coords[0]+1 == coords[0]:
+		elif self.coords[0]+1 == _coords[0]:
 			doorDown.visible = false
 			doorMatDown.visible = true
 			doorDown.set_collision_layer_value(1,false)
 
+##Integrate layout to the room.
 func populate(layout : Room_layout):
 	layout.position = self.global_position
 	add_child(layout)
@@ -143,3 +156,4 @@ func populate(layout : Room_layout):
 	enemy_spawners = layout.enemies.get_children()
 	layout.enemies.visible = false
 	remove_child(layout)
+#endregion

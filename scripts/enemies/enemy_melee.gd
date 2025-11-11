@@ -12,12 +12,12 @@ extends Enemy
 
 # Armature nodes
 ##Enemy's armature node, contains the [MeshInstance3D] and [Skeleton3D] of the enemy.
-@onready var armature : Node3D = $Armature;
+@onready var armature : Node3D = $armature;
 ##[Skeleton3D] of the enemy.
-@onready var skeleton : Skeleton3D = $Armature/Skeleton3D;
+@onready var skeleton : Skeleton3D = $armature/Skeleton3D;
 ##[AnimationTree] of the enemy.
 @onready var animationTree : AnimationTree = $AnimationTree;
-
+@onready var animationTree2 : AnimationTree = $AnimationTree2;
 #Debug Nodes
 ##Debug [MeshInstance3D]
 @onready var mesh : MeshInstance3D = $Mesh
@@ -57,8 +57,8 @@ func take_damage(hitbox : HitBox):
 	state_machine.apply_transition("got_hit")
 
 ##Move the enemy toward its [member Enemy.target_node], defined in [Enemy].
-func move_toward_target(speed, delta):
-	super.move_toward_target(speed, delta);
+func move_toward_target(_speed, delta):
+	super.move_toward_target(_speed, delta);
 #endregion
 
 #region Signal_Handlers
@@ -84,5 +84,5 @@ func _on_player_dead():
 	
 ##Called upon when the state machine changes state, used for debug.
 func _on_state_changed(state_name) -> void:
-	$SubViewport/Control/Label.text = state_name
+	$Label3D.text = state_name
 #endregion
