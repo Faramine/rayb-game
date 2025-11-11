@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dd68wnjic5v5p"]
+[gd_scene load_steps=21 format=3 uid="uid://dd68wnjic5v5p"]
 
 [ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_am2su"]
 [ext_resource type="ArrayMesh" uid="uid://cajb2ffoatp5x" path="res://assets/environment/ruins/rubble_sphere_0.obj" id="2_sfh1s"]
@@ -28,10 +28,6 @@ render_priority = 0
 shader = ExtResource("3_faho5")
 shader_parameter/NORMAL_TEXTURE = ExtResource("6_22fgm")
 shader_parameter/ENV_TEXTURE = ExtResource("4_rdd4i")
-
-[sub_resource type="SphereMesh" id="SphereMesh_faho5"]
-radius = 4.0
-height = 8.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_k5vu3"]
 
@@ -73,10 +69,6 @@ surface_material_override/0 = SubResource("ShaderMaterial_bq187")
 mesh = ExtResource("5_bq187")
 surface_material_override/0 = SubResource("ShaderMaterial_nra1f")
 metadata/_edit_group_ = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.6536455, 0)
-mesh = SubResource("SphereMesh_faho5")
 
 [node name="FloorPatch0" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(23.958378, 0, 0, 0, -1.0472539e-06, 23.958378, 0, -23.958378, -1.0472539e-06, 0, 0.2477889, 0)
