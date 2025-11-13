@@ -45,11 +45,67 @@ var orb_position : Vector3
 @onready var doorMatLeft : CSGBox3D = $NavigationRegion3D/Doormat_left
 ##Right door mat CSGBox
 @onready var doorMatRight : CSGBox3D = $NavigationRegion3D/Doormat_right
+
+@onready var ground : CSGBox3D = $NavigationRegion3D/Ground
+@onready var wall_left : CSGBox3D = $NavigationRegion3D/Wall_left
+@onready var wall_left2 : CSGBox3D = $NavigationRegion3D/Wall_left2
+@onready var wall_right : CSGBox3D = $NavigationRegion3D/Wall_right
+@onready var wall_right2 : CSGBox3D = $NavigationRegion3D/Wall_right2
+@onready var wall_up : CSGBox3D = $NavigationRegion3D/Wall_up
+@onready var wall_up2 : CSGBox3D = $NavigationRegion3D/Wall_up2
+@onready var wall_down : CSGBox3D = $NavigationRegion3D/Wall_down
+@onready var wall_down2 : CSGBox3D = $NavigationRegion3D/Wall_down2
+
+@onready var camera_trigger : CollisionShape3D = $Camera_pos/Camera_zone/CollisionShape3D
 #endregion
 
 func _ready():
 	self.visible = false
 	
+
+func resize(x:float,z:float):
+	ground.size.x = x
+	ground.size.z = z
+	wall_left.size.x = (x - 3.0) / 2.0
+	wall_left.position.x = (wall_left.size.x / 2.0) + 1.5
+	wall_left.position.z = z / 2.0
+	wall_left2.size.x = (x - 3.0) / 2.0
+	wall_left2.position.x = -((wall_left.size.x / 2.0) + 1.5)
+	wall_left2.position.z = z / 2.0
+	
+	wall_right.size.x = (x - 3.0) / 2.0
+	wall_right.position.x = (wall_left.size.x / 2.0) + 1.5
+	wall_right.position.z = -z / 2.0
+	wall_right2.size.x = (x - 3.0) / 2.0
+	wall_right2.position.x = -((wall_left.size.x / 2.0) + 1.5)
+	wall_right2.position.z = -z / 2.0
+	
+	wall_up.size.z = (z - 3.0) / 2.0
+	wall_up.position.z = (wall_up.size.z / 2.0) + 1.5
+	wall_up.position.x = -x / 2.0
+	wall_up2.size.z = (z - 3.0) / 2.0
+	wall_up2.position.z = -((wall_up.size.z / 2.0) + 1.5)
+	wall_up2.position.x = -x / 2.0
+	
+	wall_down.size.z = (z - 3.0) / 2.0
+	wall_down.position.z = (wall_up.size.z / 2.0) + 1.5
+	wall_down.position.x = x / 2.0
+	wall_down2.size.z = (z - 3.0) / 2.0
+	wall_down2.position.z = -((wall_up.size.z / 2.0) + 1.5)
+	wall_down2.position.x = x / 2.0
+	
+	doorUp.position.x = wall_up.position.x
+	doorDown.position.x = wall_down.position.x
+	doorLeft.position.z = wall_left.position.z
+	doorRight.position.z = wall_right.position.z
+	
+	doorMatUp.position.x = wall_up.position.x
+	doorMatDown.position.x = wall_down.position.x
+	doorMatLeft.position.z = wall_left.position.z
+	doorMatRight.position.z = wall_right.position.z
+	
+	camera_trigger.shape.size = Vector3(x,25,z)
+
 func set_world(_world : World):
 	self.world = _world
 

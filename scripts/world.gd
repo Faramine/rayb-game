@@ -10,6 +10,7 @@ signal boss_room_entered
 var camera : Camera
 var boss_world : bool
 @onready var cursor : Node3D = $Cursor
+@onready var boss = preload("res://scenes/rooms/elements/enemies/boss.tscn")
 
 # Dictionnaire Coord/Room
 var rooms : Dictionary = Dictionary() #room
@@ -25,6 +26,9 @@ signal door_opened
 func _ready() -> void:
 	if boss_world:
 		generator._generate_boss_map()
+		var boss_instance = boss.instantiate()
+		add_child(boss_instance)
+		boss_instance.target = camera.boss_pos
 	else:
 		generator._generate_map()
 		minimap.display_map(rooms.keys())

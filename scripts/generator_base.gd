@@ -15,6 +15,8 @@ const BOSS_ROOM = 5
 @export var _branch_path_length : int = 4
 @export var _orb_room_number : int = 3
 
+@export var boss_room_size : Vector2i = Vector2i(25,25)
+
 var _start_room : Vector2i
 var _preboss_room : Vector2i
 var _boss_room : Vector2i
@@ -145,10 +147,13 @@ func _generate_boss_map():
 	var room = Vector2i.ZERO
 	_room_list = [room]
 	var room_instance : Room = _room_base.instantiate()
-	room_instance.position.x = 26.5 * (room.x-_start_room.x)
-	room_instance.position.z = 39 * (room.y-_start_room.y)
+	var x = boss_room_size.x
+	var z = boss_room_size.y
+	room_instance.position.x = 0
+	room_instance.position.z = 0
 	room_instance.coords = room
 	_world.add_child(room_instance)
+	room_instance.resize(x,z)
 	room_instance.set_world(_world)
 	_world.rooms = {room:room_instance}
 	_world.start_room = room_instance
@@ -162,10 +167,13 @@ func _generate_next_boss_map(coords):
 		if not _room_list.has(room):
 			_room_list.append(room)
 			var room_instance : Room = _room_base.instantiate()
-			room_instance.position.x = 26.5 * (room.x-_start_room.x)
-			room_instance.position.z = 39 * (room.y-_start_room.y)
+			var x = boss_room_size.x
+			var z = boss_room_size.y
+			room_instance.position.x = (x+1.5) * (room.x-_start_room.x)
+			room_instance.position.z = (z+1.5) * (room.y-_start_room.y)
 			room_instance.coords = room
 			_world.add_child(room_instance)
+			room_instance.resize(x,z)
 			room_instance.set_world(_world)
 			_world.rooms.set(room, room_instance)
 			for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:

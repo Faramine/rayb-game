@@ -7,8 +7,8 @@
 size = Vector3(25, 25, 37.5)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_k3jq5"]
-vertices = PackedVector3Array(-1.25, 0.4, -25.75, -1.25, 0.4, -23.25, 1.25, 0.4, -23.25, 1.25, 0.4, -25.75, -12.25, 4.4, 19, 12.25, 4.4, 19, 12.25, 4.4, 18.5, -12.25, 4.4, 18.25, -12.75, 4.4, 18.5, -12.75, 4.4, -18.5, -12.25, 4.4, -18.25, -12.25, 4.4, -19, 12.25, 4.4, -18.5, 12.25, 4.4, -19, 12.25, 0.4, 18, 12.25, 0.4, 13, 11.75, 0.4, 12.75, -11.5, 0.4, 18, 11.75, 0.4, -12.5, 12.25, 0.4, -12.75, 12.25, 0.4, -17.75, -11.5, 0.4, -17.75, 12.25, 4.4, 12.25, 12.75, 4.4, 12.25, 13, 4.4, 1.5, 12.75, 4.4, -12.25, 12.25, 4.4, -12.25, -1.25, 0.4, 23.25, -1.25, 0.4, 25.75, 1.25, 0.4, 25.75, 1.25, 0.4, 23.25)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(8, 7, 4), PackedInt32Array(4, 7, 6), PackedInt32Array(4, 6, 5), PackedInt32Array(10, 7, 9), PackedInt32Array(9, 7, 8), PackedInt32Array(9, 11, 10), PackedInt32Array(10, 11, 12), PackedInt32Array(12, 11, 13), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(19, 18, 20), PackedInt32Array(20, 18, 21), PackedInt32Array(18, 16, 21), PackedInt32Array(21, 16, 17), PackedInt32Array(23, 22, 24), PackedInt32Array(24, 22, 25), PackedInt32Array(25, 22, 26), PackedInt32Array(30, 29, 27), PackedInt32Array(27, 29, 28)]
+vertices = PackedVector3Array(-12.25, 4.4, -19, -12.75, 4.4, -18.5, -12.25, 4.4, -18.25, 12.25, 4.4, -18.25, 12.25, 4.4, -19, 12.25, 4.4, 19, 12.75, 4.4, 18.5, 13, 4.4, 1.5, 12.25, 4.4, 18.25, 12.75, 4.4, -18.5, -12.25, 4.4, 19, -12.25, 4.4, 18.25, -12.75, 4.4, 18.5, -11.5, 0.4, -17.75, -11.5, 0.4, 18, 11.75, 0.4, 18, 11.75, 0.4, -17.75)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3), PackedInt32Array(5, 8, 6), PackedInt32Array(6, 8, 7), PackedInt32Array(4, 9, 3), PackedInt32Array(3, 9, 7), PackedInt32Array(12, 11, 10), PackedInt32Array(10, 11, 8), PackedInt32Array(10, 8, 5), PackedInt32Array(2, 11, 1), PackedInt32Array(1, 11, 12), PackedInt32Array(8, 3, 7), PackedInt32Array(16, 15, 13), PackedInt32Array(13, 15, 14)]
 agent_radius = 0.25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jk031"]
@@ -22,13 +22,13 @@ albedo_color = Color(0.21616, 0.1736, 0.28, 1)
 script = ExtResource("1_k3jq5")
 
 [node name="Camera_pos" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 100, 100, 0)
+transform = Transform3D(-4.37114e-08, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 3.09086e-08, -3.09086e-08, 100, 103.5, 0)
 
 [node name="Camera_zone" type="Area3D" parent="Camera_pos" groups=["Camera_zone"]]
-transform = Transform3D(1, 2.1316282e-14, -2.1316282e-14, 0, 1, -9.553416e-16, 0, -9.553416e-16, 1, 0, 0, 0)
+transform = Transform3D(1, 3.5527137e-14, -3.5527137e-14, 0, 1, -9.553411e-16, 0, -9.553411e-16, 1, -4.5474735e-13, -2.4748611, -2.4748688)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera_pos/Camera_zone"]
-transform = Transform3D(-4.37114e-08, 0, -1, -0.707107, 0.707107, 3.0908602e-08, 0.707107, 0.707107, -3.0908602e-08, 4.3711316e-06, 0, -141.42133)
+transform = Transform3D(-4.37114e-08, 0, -1, -0.707107, 0.707107, 3.0908605e-08, 0.707107, 0.707107, -3.0908605e-08, 4.3711316e-06, 1.4055613e-20, -141.42134)
 shape = SubResource("BoxShape3D_c8or3")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]

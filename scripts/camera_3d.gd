@@ -14,6 +14,7 @@ var tracking = false
 var trauma := 0.0
 var time := 0.0
 @onready var initial_rotation := self.rotation_degrees as Vector3
+@onready var boss_pos = %BossPos
 
 func _process(delta: float) -> void:
 	if tracking:
