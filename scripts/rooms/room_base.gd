@@ -151,6 +151,8 @@ func activate_room():
 	for o in nav.get_children():
 		o.use_collision = true
 	spawn_enemies()
+	if world.boss_world:
+		hide_walls()
 
 func deactivate_room():
 	is_active = false
@@ -190,6 +192,10 @@ func open_wall(_coords : Vector2i):
 			doorDown.visible = false
 			doorMatDown.visible = true
 			doorDown.set_collision_layer_value(1,false)
+
+func hide_walls():
+	for node in [wall_down,wall_down2,wall_left,wall_left2,wall_right,wall_right2,wall_up,wall_up2]:
+		node.visible = false
 
 ##Integrate layout to the room.
 func populate(layout : Room_layout):
