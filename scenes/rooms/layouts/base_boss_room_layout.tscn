@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx2hinfsgaxi"]
+
+[ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_2xuro"]
+
+[node name="Base_boss_room_layout" type="Node3D"]
+script = ExtResource("1_2xuro")
+
+[node name="God_rays" type="Node3D" parent="."]
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Orb_position" type="Node3D" parent="."]

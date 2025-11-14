@@ -16,6 +16,10 @@ func _create_mesh():
 		mesh = BoxMesh.new()
 		mesh.material = StandardMaterial3D.new()
 		mesh.material.albedo_color = Color(0.0,0.0,1.0,1.0)
+	elif(enemyType == 3):
+		mesh = BoxMesh.new()
+		mesh.material = StandardMaterial3D.new()
+		mesh.material.albedo_color = Color(1.0, 1.0, 1.0, 1.0)
 	else:
 		mesh = BoxMesh.new()
 		mesh.material = StandardMaterial3D.new()

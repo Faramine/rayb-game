@@ -44,7 +44,7 @@ var _room_index : Dictionary
 	preload("res://scenes/rooms/layouts/orb_room_layout.tscn")
 	]
 @onready var _boss_layouts : Array = [
-	preload("res://scenes/rooms/layouts/base_preboss_room_layout.tscn")
+	preload("res://scenes/rooms/layouts/base_boss_room_layout.tscn")
 	]
 
 #region Level_Matrix_Generation_Methods
@@ -160,6 +160,7 @@ func _generate_boss_map():
 	for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
 			var roomnext = room + dir
 			room_instance.open_wall(roomnext)
+	room_instance.populate(_boss_layouts[randi_range(0,_boss_layouts.size()-1)].instantiate())
 
 func _generate_next_boss_map(coords):
 	for n in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
@@ -179,6 +180,7 @@ func _generate_next_boss_map(coords):
 			for dir in [Vector2i.UP,Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN]:
 				var roomnext = room + dir
 				room_instance.open_wall(roomnext)
+			room_instance.populate(_boss_layouts[randi_range(0,_boss_layouts.size()-1)].instantiate())
 
 func _generate_map():
 	if DebugTools.debug:
