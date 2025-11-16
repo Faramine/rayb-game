@@ -62,7 +62,8 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_prtoq")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_prtoq"]
-height = 7.0600586
+height = 0.5
+radius = 0.25
 
 [node name="Laser" type="RayCast3D"]
 target_position = Vector3(0, 0, -100)
@@ -138,11 +139,11 @@ mesh = SubResource("BoxMesh_05frj")
 [node name="HitBox" type="Area3D" parent="."]
 collision_layer = 4
 collision_mask = 0
+monitorable = false
 script = ExtResource("3_prtoq")
 metadata/_custom_type_script = "uid://ct7jbab3yuigr"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
 transform = Transform3D(3.932788e-05, 0.0064749704, -0.999979, 0.9999816, -0.00607372, 0, -0.006073592, -0.9999606, -0.0064750896, -0.016682217, -0.03073829, 3.5416439)
 shape = SubResource("CylinderShape3D_prtoq")
-disabled = true
-debug_color = Color(0, 0.4192771, 0.22307509, 0.7764706)
+debug_color = Color(0.6397348, 0, 0.32601643, 0.7764706)

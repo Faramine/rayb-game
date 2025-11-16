@@ -14,8 +14,9 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
+	parent.health.take_damage(parent.health.damage_cache)
 	if parent.health.is_dead():
-		apply_transition(dead)
+		fsm.apply_transition("dead")
 	else :
 		parent.animation_tree.get_hit()
 

@@ -49,6 +49,7 @@ func take_damage(hitbox : HitBox):
 	if hitbox.owner is Player:
 		health.damage_cache = hitbox.damage
 		state_machine.apply_transition("got_hit")
+		print(health.current_health)
 
 func move_away_from(target ,_speed, delta):
 	var new_velocity = -(global_position.direction_to(target).normalized()) * _speed

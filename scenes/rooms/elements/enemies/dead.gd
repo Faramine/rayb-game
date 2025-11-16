@@ -7,6 +7,7 @@ func apply_transition(_transition) -> State:
 
 func enter():
 	parent.animation_tree.die()
+	parent.dead.emit()
 
 func exit():
 	pass
