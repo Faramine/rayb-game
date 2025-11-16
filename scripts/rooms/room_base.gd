@@ -117,9 +117,9 @@ func spawn_enemies():
 		var enemy : Enemy
 		if enemy_spawner.enemyType == 1:
 			enemy = spawn_enemy_ranged()
-		if enemy_spawner.enemyType == 3:
-			enemy = spawn_enemy_melee()
 		if enemy_spawner.enemyType == 2:
+			enemy = spawn_enemy_melee()
+		if enemy_spawner.enemyType == 3:
 			enemy = spawn_enemy_tentacle()
 		init_enemy(enemy, enemy_spawner)
 		enemies.append(enemy)
@@ -194,7 +194,7 @@ func open_wall(_coords : Vector2i):
 			doorDown.set_collision_layer_value(1,false)
 
 func hide_walls():
-	for node in [wall_down,wall_down2,wall_left,wall_left2,wall_right,wall_right2,wall_up,wall_up2]:
+	for node in [ground,wall_down,wall_down2,wall_left,wall_left2,wall_right,wall_right2,wall_up,wall_up2]:
 		node.visible = false
 
 ##Integrate layout to the room.

@@ -6,7 +6,7 @@ func apply_transition(_transition) -> State:
 	return null
 
 func enter():
-	pass
+	parent.animation_tree.die()
 
 func exit():
 	pass

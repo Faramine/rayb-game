@@ -44,7 +44,7 @@ var _room_index : Dictionary
 	preload("res://scenes/rooms/layouts/orb_room_layout.tscn")
 	]
 @onready var _boss_layouts : Array = [
-	preload("res://scenes/rooms/layouts/base_boss_room_layout.tscn")
+	preload("res://scenes/rooms/layouts/boss_room_layout1.tscn")
 	]
 
 #region Level_Matrix_Generation_Methods

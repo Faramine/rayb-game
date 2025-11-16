@@ -95,14 +95,14 @@ func _on_state_changed(state_name) -> void:
 	$Label3D.text = state_name
 	
 func on_animation_started(animation_name):
-	if	(
-		animation_name == "Slam-hit"
-		):
-		state_machine.apply_transition("idle")
-		animation_tree.idle()
-		print(animation_name)
+	pass
 
 func on_animation_ended(animation_name):
-	pass
+	if	(
+		animation_name == "Slam-hit" or
+		animation_name == "Hit"
+		):
+		state_machine.apply_transition("idle")
+		print(animation_name)
 	
 #endregion
