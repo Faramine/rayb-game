@@ -14,10 +14,14 @@ func apply_transition(transition) -> State:
 	return null
 
 func enter():
-	pass
+	parent.health.take_damage(parent.health.damage_cache)
+	if parent.health.is_dead():
+		fsm.apply_transition("dead")
+	else :
+		parent.animation_tree.get_hit()
 
 func exit():
-	pass
+	parent.animation_tree.idle()
 
 func process(_delta: float) -> void:
 	pass

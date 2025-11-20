@@ -1,8 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0h1x2p3h54f3"]
+[gd_scene load_steps=5 format=3 uid="uid://d0h1x2p3h54f3"]
 
 [ext_resource type="Script" uid="uid://du880un5vwpdl" path="res://boss.gd" id="1_xg88e"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg88e"]
+render_priority = 1
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+stencil_reference = 2
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y67i3"]
+next_pass = SubResource("StandardMaterial3D_xg88e")
+stencil_mode = 2
+stencil_flags = 2
+stencil_reference = 2
+stencil_color = Color(1, 1, 1, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_xg88e"]
+material = SubResource("StandardMaterial3D_y67i3")
 
 [node name="Boss" type="Node3D"]
 script = ExtResource("1_xg88e")

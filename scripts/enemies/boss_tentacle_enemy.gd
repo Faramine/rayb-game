@@ -49,6 +49,7 @@ func take_damage(hitbox : HitBox):
 	if hitbox.owner is Player:
 		health.damage_cache = hitbox.damage
 		state_machine.apply_transition("got_hit")
+		print(health.current_health)
 
 func move_away_from(target ,_speed, delta):
 	var new_velocity = -(global_position.direction_to(target).normalized()) * _speed
@@ -95,14 +96,14 @@ func _on_state_changed(state_name) -> void:
 	$Label3D.text = state_name
 	
 func on_animation_started(animation_name):
-	if	(
-		animation_name == "Slam-hit"
-		):
-		state_machine.apply_transition("idle")
-		animation_tree.idle()
-		print(animation_name)
+	pass
 
 func on_animation_ended(animation_name):
-	pass
+	if	(
+		animation_name == "Slam-hit" or
+		animation_name == "Hit"
+		):
+		state_machine.apply_transition("idle")
+		print(animation_name)
 	
 #endregion

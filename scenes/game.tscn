@@ -54,7 +54,7 @@ noise = SubResource("FastNoiseLite_kvpfn")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, -9.553434e-16, 0, -9.553434e-16, 1, 0, 10, -175)
 
-[node name="WorldLoader" type="Node" parent="."]
+[node name="WorldLoader" type="Node3D" parent="."]
 script = ExtResource("1_uwrxv")
 
 [node name="WaitingScreen" type="Control" parent="WorldLoader"]
@@ -63,7 +63,10 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GameMenu" type="Control" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="GameMenu" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,16 +74,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VFlowContainer" type="VFlowContainer" parent="GameMenu"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GameMenu"]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 0.63529414)
 
-[node name="Button" type="Button" parent="GameMenu/VFlowContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameMenu/MarginContainer"]
 layout_mode = 2
-text = "PLAY"
+
+[node name="StartButton" type="Button" parent="CanvasLayer/GameMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[connection signal="pressed" from="CanvasLayer/GameMenu/MarginContainer/VBoxContainer/StartButton" to="WorldLoader" method="start"]

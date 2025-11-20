@@ -1,6 +1,8 @@
 class_name Room
 extends Node3D
 
+signal room_cleared(is_boss_room : bool)
+
 #region Room_State_Parameters
 ##Coordinate of the room on the generated 2d map.
 var coords : Vector2i
@@ -16,6 +18,7 @@ var is_cleared : bool = false
 var enemy_spawners = []
 var enemies : Array[Enemy] = []
 var enemies_defeated = 0
+var contains_boss = false
 static var enemy_melee_scene : PackedScene = preload("res://scenes/rooms/elements/enemies/enemy_melee.tscn")
 static var enemy_ranged_scene : PackedScene = preload("res://scenes/rooms/elements/enemies/ranged_enemy.tscn")
 static var enemy_tentacle_scene : PackedScene = preload("res://scenes/rooms/elements/enemies/boss_tentacle_enemy.tscn")
@@ -117,9 +120,9 @@ func spawn_enemies():
 		var enemy : Enemy
 		if enemy_spawner.enemyType == 1:
 			enemy = spawn_enemy_ranged()
-		if enemy_spawner.enemyType == 3:
-			enemy = spawn_enemy_melee()
 		if enemy_spawner.enemyType == 2:
+			enemy = spawn_enemy_melee()
+		if enemy_spawner.enemyType == 3:
 			enemy = spawn_enemy_tentacle()
 		init_enemy(enemy, enemy_spawner)
 		enemies.append(enemy)
@@ -135,6 +138,7 @@ func spawn_enemy_ranged() -> Enemy:
 	return enemy_ranged
 
 func spawn_enemy_tentacle() -> Enemy:
+	contains_boss = true
 	var enemy_tentacle : Enemy = enemy_tentacle_scene.instantiate()
 	return enemy_tentacle
 
@@ -169,6 +173,7 @@ func on_enemy_dies():
 	enemies_defeated += 1
 	if enemies_defeated == enemies.size():
 		self.is_cleared = true
+		room_cleared.emit(contains_boss)
 
 
 #region Generation_Methods
@@ -194,7 +199,7 @@ func open_wall(_coords : Vector2i):
 			doorDown.set_collision_layer_value(1,false)
 
 func hide_walls():
-	for node in [wall_down,wall_down2,wall_left,wall_left2,wall_right,wall_right2,wall_up,wall_up2]:
+	for node in [ground,wall_down,wall_down2,wall_left,wall_left2,wall_right,wall_right2,wall_up,wall_up2]:
 		node.visible = false
 
 ##Integrate layout to the room.

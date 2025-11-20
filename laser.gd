@@ -17,8 +17,7 @@ func _process(_delta: float) -> void:
 	if is_colliding():
 		contactPoint = get_collision_point()
 		
-		$HitBox/CollisionShape3D.shape.set_height(abs(to_local(contactPoint).z))
-		$HitBox/CollisionShape3D.position.z = to_local(contactPoint).z/2
+		$HitBox/CollisionShape3D.position = to_local(contactPoint)
 		var bone_target = skeleton.find_bone("beam_target")
 		skeleton.set_bone_pose_position(bone_target,skeleton.to_local(contactPoint))
 		debug_contact.global_position = contactPoint

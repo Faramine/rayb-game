@@ -2,6 +2,7 @@ class_name World
 extends Node3D
 
 signal boss_room_entered
+signal player_died
 
 @export var minimap : Control
 @export var generator : MapGen
@@ -34,6 +35,7 @@ func _ready() -> void:
 		minimap.display_map(rooms.keys())
 		minimap.display_special_rooms(start_room.coords,preboss_room.coords,boss_room.coords)
 		print("hahaha")
+	player.dead.connect(player_died.emit)
 
 #func start():
 	#print("generating_map")

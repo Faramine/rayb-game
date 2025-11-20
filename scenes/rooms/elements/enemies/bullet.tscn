@@ -29,7 +29,7 @@ speed = 10
 mesh = SubResource("SphereMesh_v8qja")
 
 [node name="LifeTime" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 2.0
 one_shot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

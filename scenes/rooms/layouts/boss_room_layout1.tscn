@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://na4hs0ul5wmi"]
+
+[ext_resource type="Script" uid="uid://d3ugjl86tfkut" path="res://scripts/rooms/base_room_layout.gd" id="1_yd40k"]
+[ext_resource type="Script" uid="uid://b8q0rnqoy3ffi" path="res://scripts/enemies/enemy_spawner.gd" id="2_dm7ir"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rofxo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_821nm"]
+material = SubResource("StandardMaterial3D_rofxo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dm7ir"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+grow = true
+grow_amount = 0.1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y6chu"]
+next_pass = SubResource("StandardMaterial3D_dm7ir")
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_821nm"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.1
+
+[node name="Base_boss_room_layout" type="Node3D"]
+script = ExtResource("1_yd40k")
+
+[node name="God_rays" type="Node3D" parent="."]
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="EnemySpawner" type="MeshInstance3D" parent="Enemies"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.484642, 0, -10)
+mesh = SubResource("BoxMesh_821nm")
+script = ExtResource("2_dm7ir")
+enemyType = 3
+metadata/_custom_type_script = "uid://b8q0rnqoy3ffi"
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Decor"]
+size = Vector3(20, 0.05, 25)
+material = SubResource("StandardMaterial3D_y6chu")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Decor"]
+size = Vector3(50, 0.01, 50)
+material = SubResource("StandardMaterial3D_821nm")
+
+[node name="Orb_position" type="Node3D" parent="."]
