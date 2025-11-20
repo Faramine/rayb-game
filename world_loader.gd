@@ -7,7 +7,7 @@ var world : World
 var world_scene = preload("res://scenes/world.tscn")
 
 func _ready():
-	load_world(false)
+	load_world(true)
 	world.boss_room_entered.connect(boss_world)
 
 func load_world(_boss_world : bool):

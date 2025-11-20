@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bi0jvmbt5j3am"]
+
+[ext_resource type="Shader" uid="uid://dpgu3c1mpv4ur" path="res://assets/environment/boss/boss_eyelid.gdshader" id="1_7wuqq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7wuqq")

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dfh0drvjq44fg"]
+
+[ext_resource type="Shader" uid="uid://bwvg7tjn8jjwx" path="res://shaders/environment/boss_room_walls.gdshader" id="1_dec5e"]
+[ext_resource type="Texture2D" uid="uid://dixjf6sx7dk3n" path="res://assets/environment/boss/boss_walls.png" id="2_ndhmb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_dec5e")
+shader_parameter/TEXTURE = ExtResource("2_ndhmb")
+shader_parameter/speed = 1.0
