@@ -222,6 +222,11 @@ func populate(layout : Room_layout):
 	add_child(layout.enemies)
 	add_child(layout.decor)
 	add_child(layout.orb_position)
+	
+	for decor in layout.decor.get_children():
+		if decor.has_method("connect_room"):
+			decor.connect_room(self)
+	
 	orb_position = layout.orb_position.position
 	for o in layout.obstacles.get_children():
 		layout.obstacles.remove_child(o)
